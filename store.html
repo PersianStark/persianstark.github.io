@@ -1,383 +1,517 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0c0d12">
-  <title>فروشگاه اسکین CS2 | PERSIAN STARK</title>
-  <meta name="description" content="ویترین اسکین‌های Counter-Strike 2 در PERSIAN STARK">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b10">
+<title>فروشگاه PERSIAN STARK | اسکین CS2</title>
+<meta name="description" content="ویترین اسکین‌های Counter-Strike 2 در فروشگاه PERSIAN STARK">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #090b10;
+  --panel: #11151e;
+  --line: #252d3b;
+  --text: #f4f6fb;
+  --muted: #9ba6b8;
+  --lime: #c6f36b;
+}
 
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0c0d12;
-      --panel: #151720;
-      --panel2: #1c1f2a;
-      --border: #2b2e3a;
-      --text: #f4f5fa;
-      --muted: #a1a6b6;
-      --accent: #b9f34b;
-      --danger: #ff7474;
-    }
+* { box-sizing: border-box; }
 
-    * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-    body {
-      margin: 0;
-      background:
-        radial-gradient(ellipse at top, #1b2030 0%, transparent 55%),
-        var(--bg);
-      color: var(--text);
-      font-family: Tahoma, Arial, sans-serif;
-      min-height: 100vh;
-    }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 50% -15%, #27331e 0, transparent 42%), var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+  min-height: 100vh;
+}
 
-    a { color: inherit; text-decoration: none; }
-    button, input, select { font: inherit; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
 
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
+.container {
+  width: min(1240px, 92%);
+  margin: auto;
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(12,13,18,.94);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid var(--border);
-    }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #090b10ef;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+}
 
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
+.nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
 
-    .brand {
-      font-weight: 900;
-      letter-spacing: .5px;
-      font-size: 19px;
-    }
+.brand {
+  font-weight: 1000;
+  font-size: 19px;
+  white-space: nowrap;
+}
 
-    .brand span { color: var(--accent); }
+.brand span, .accent { color: var(--lime); }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 13px;
-    }
+.nav-right, .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
 
-    .nav-links a:hover { color: var(--accent); }
+.nav-links {
+  font-size: 12px;
+  color: var(--muted);
+}
 
-    .hero {
-      padding: 52px 0 32px;
-    }
+.nav-links a:hover { color: var(--lime); }
 
-    .eyebrow {
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+.account-link {
+  border: 1px solid #465335;
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-size: 12px;
+  color: var(--lime);
+  white-space: nowrap;
+}
 
-    h1 {
-      font-size: clamp(27px, 5vw, 46px);
-      margin: 14px 0;
-      line-height: 1.5;
-    }
+.hero { padding: 46px 0 28px; }
 
-    .hero p {
-      color: var(--muted);
-      line-height: 2;
-      max-width: 650px;
-      font-size: 14px;
-    }
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #303a2a;
+  border-radius: 24px;
+  padding: clamp(24px, 5vw, 54px);
+  background: linear-gradient(115deg, #151d13, #111720 52%, #121522);
+}
 
-    .hero-note {
-      display: inline-block;
-      padding: 10px 14px;
-      margin-top: 8px;
-      border: 1px solid #42492c;
-      background: #202619;
-      border-radius: 10px;
-      color: #d9f8a1;
-      font-size: 12px;
-    }
+.hero-panel:after {
+  content: "CS2";
+  position: absolute;
+  left: 2%;
+  bottom: -42px;
+  font-size: clamp(90px, 19vw, 220px);
+  font-weight: 1000;
+  color: #ffffff08;
+  pointer-events: none;
+}
 
-    .toolbar {
-      display: grid;
-      grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(120px, 1fr));
-      gap: 10px;
-      margin: 22px 0;
-    }
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--lime);
+  font-weight: bold;
+}
 
-    .field {
-      width: 100%;
-      min-width: 0;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      color: var(--text);
-      padding: 13px;
-      outline: none;
-    }
+.hero h1 {
+  font-size: clamp(27px, 4.5vw, 47px);
+  line-height: 1.65;
+  margin: 14px 0 8px;
+  max-width: 760px;
+}
 
-    .field:focus { border-color: var(--accent); }
+.hero p {
+  color: #b0b8c7;
+  font-size: 13px;
+  line-height: 2.2;
+  max-width: 690px;
+  margin: 0;
+}
 
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin: 28px 0 16px;
-    }
+.hero-bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 23px;
+}
 
-    .section-head h2 { font-size: 19px; margin: 0; }
+.pill-note, .stat-pill {
+  font-size: 11px;
+  border: 1px solid #3a4530;
+  border-radius: 999px;
+  padding: 9px 13px;
+  color: #d9efb7;
+  background: #1b2518;
+}
 
-    #resultCount {
-      color: var(--muted);
-      font-size: 12px;
-    }
+.stat-pill {
+  color: #c4ccda;
+  border-color: var(--line);
+  background: #ffffff06;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      padding-bottom: 55px;
-    }
+.toolbar-wrap {
+  margin: 16px 0 27px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: #10141c;
+}
 
-    .card {
-      min-width: 0;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: linear-gradient(160deg, #1b1e29, #12141b);
-      transition: transform .2s, border-color .2s;
-    }
+.toolbar-label {
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0 0 12px;
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: #68763d;
-    }
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(125px, 1fr));
+  gap: 10px;
+}
 
-    .product-image {
-      width: 100%;
-      height: 190px;
-      object-fit: contain;
-      padding: 12px;
-      background:
-        radial-gradient(ellipse, #303548 0%, #1b1e29 58%, #171923 100%);
-      display: block;
-    }
+.field {
+  width: 100%;
+  min-width: 0;
+  background: #0b0e14;
+  border: 1px solid #2a3241;
+  border-radius: 10px;
+  color: var(--text);
+  padding: 13px;
+  outline: none;
+}
 
-    .image-placeholder {
-      height: 190px;
-      display: grid;
-      place-items: center;
-      background: var(--panel2);
-      color: var(--muted);
-      font-size: 13px;
-    }
+.field:focus { border-color: var(--lime); }
+.field::placeholder { color: #7d8798; }
 
-    .card-body { padding: 14px; }
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 25px 0 17px;
+}
 
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
+.section-head h2 {
+  font-size: 20px;
+  margin: 0 0 5px;
+}
 
-    .badge {
-      border-radius: 6px;
-      background: #292d3a;
-      color: #d6d9e5;
-      font-size: 10px;
-      padding: 5px 7px;
-    }
+.section-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
 
-    .badge.site {
-      background: #25331a;
-      color: #d7ff9e;
-    }
+#resultCount {
+  color: var(--lime);
+  font-size: 12px;
+  white-space: nowrap;
+}
 
-    .badge.user {
-      background: #263143;
-      color: #b6d5ff;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding-bottom: 54px;
+}
 
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 15px;
-      line-height: 1.8;
-      overflow-wrap: anywhere;
-    }
+.card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: linear-gradient(160deg, #171d27, #10131b);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
 
-    .details {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 2;
-      min-height: 48px;
-    }
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #667d3e;
+  box-shadow: 0 14px 35px #0005;
+}
 
-    .price {
-      color: var(--accent);
-      font-size: 18px;
-      font-weight: bold;
-      margin: 13px 0;
-      direction: ltr;
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
+.image-wrap {
+  height: 205px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse, #2b3442 0, #171d28 55%, #121620);
+  border-bottom: 1px solid #ffffff08;
+}
 
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      border: 0;
-      border-radius: 9px;
-      padding: 12px;
-      background: var(--accent);
-      color: #11140c;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  display: block;
+}
 
-    .btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
+.image-placeholder {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  color: #8994a7;
+  font-size: 12px;
+  background: radial-gradient(ellipse, #222b36, #141923);
+}
 
-    .btn.secondary {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
+.image-placeholder span {
+  display: block;
+  text-align: center;
+  line-height: 2;
+}
 
-    .state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 45px 15px;
-      border: 1px dashed var(--border);
-      border-radius: 14px;
-      color: var(--muted);
-      line-height: 2;
-    }
+.image-placeholder b {
+  display: block;
+  font-size: 30px;
+  color: #64744a;
+  margin-bottom: 4px;
+}
 
-    .error { color: var(--danger); }
+.card-body { padding: 15px; }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      background: rgba(0,0,0,.78);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-    }
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
 
-    .modal-backdrop.open { display: flex; }
+.badge {
+  border-radius: 6px;
+  background: #252d3b;
+  color: #cbd3e0;
+  font-size: 10px;
+  padding: 5px 7px;
+}
 
-    .modal {
-      width: min(470px, 100%);
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 22px;
-      max-height: 90vh;
-      overflow: auto;
-    }
+.badge.site {
+  background: #26341c;
+  color: #d9f7a9;
+}
 
-    .modal h2 { font-size: 20px; }
-    .modal p { color: var(--muted); line-height: 2; font-size: 13px; }
+.badge.user {
+  background: #1e2d43;
+  color: #b9d7ff;
+}
 
-    .modal .field { margin: 7px 0 12px; }
-    .modal-actions { display: grid; gap: 9px; margin-top: 12px; }
+.card h3 {
+  margin: 0 0 7px;
+  font-size: 15px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
 
-    #modalMessage {
-      font-size: 12px;
-      line-height: 2;
-      overflow-wrap: anywhere;
-    }
+.details {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 2;
+  min-height: 43px;
+}
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 25px 0;
-      color: var(--muted);
-      text-align: center;
-      font-size: 12px;
-      line-height: 2;
-    }
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 15px 0 13px;
+}
 
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
+.price {
+  color: var(--lime);
+  font-size: 19px;
+  font-weight: 900;
+  direction: ltr;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
 
-    @media (max-width: 600px) {
-      .nav { min-height: 62px; }
-      .nav-links { gap: 10px; font-size: 11px; }
-      .brand { font-size: 15px; }
-      .hero { padding-top: 34px; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .product-image, .image-placeholder { height: 135px; }
-      .card-body { padding: 10px; }
-      .card h3 { font-size: 13px; }
-      .price { font-size: 15px; }
-      .details { font-size: 11px; }
-    }
+.currency-label {
+  color: #a9b2c1;
+  font-size: 11px;
+}
 
-    @media (max-width: 360px) {
-      .grid { grid-template-columns: 1fr; }
-      .product-image, .image-placeholder { height: 190px; }
-    }
-  </style>
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--lime);
+  color: #11150b;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.btn:hover { background: #d5ff86; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn.secondary {
+  background: #171d28;
+  border-color: #30394a;
+  color: var(--text);
+}
+
+.state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 15px;
+  border: 1px dashed #343d4c;
+  border-radius: 15px;
+  color: var(--muted);
+  line-height: 2;
+  font-size: 13px;
+  background: #ffffff03;
+}
+
+.error { color: #ff8585; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 11px;
+  line-height: 2.3;
+}
+
+footer strong { color: var(--text); }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: #000c;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  width: min(480px, 100%);
+  background: #111620;
+  border: 1px solid #30394a;
+  border-radius: 18px;
+  padding: 23px;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 25px 90px #0009;
+}
+
+.modal h2 { font-size: 19px; margin: 0 0 10px; }
+
+.modal p {
+  color: var(--muted);
+  line-height: 2;
+  font-size: 12px;
+}
+
+.modal .field {
+  margin: 7px 0 12px;
+  resize: vertical;
+}
+
+.modal-actions {
+  display: grid;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+#modalMessage {
+  font-size: 12px;
+  line-height: 2;
+  overflow-wrap: anywhere;
+  min-height: 20px;
+}
+
+.signed-in { color: var(--lime); }
+
+@media(max-width:1000px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media(max-width:650px) {
+  .nav { min-height: 62px; }
+  .nav-links { gap: 11px; font-size: 10px; }
+  .brand { font-size: 15px; }
+  .account-link { padding: 8px; font-size: 10px; }
+  .nav-right { gap: 10px; }
+  .hero { padding-top: 25px; }
+  .hero-panel { border-radius: 17px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .image-wrap { height: 150px; }
+  .card-body { padding: 10px; }
+  .card h3 { font-size: 13px; }
+  .price { font-size: 16px; }
+  .details { font-size: 10px; }
+  .toolbar-wrap { padding: 10px; }
+  .field { padding: 11px; font-size: 12px; }
+  .section-head h2 { font-size: 17px; }
+}
+
+@media(max-width:390px) {
+  .nav-links a:nth-child(2) { display: none; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .image-wrap { height: 125px; }
+  .hero h1 { font-size: 25px; }
+}
+</style>
 </head>
 
 <body>
 <header>
   <div class="container nav">
     <a class="brand" href="./index.html">PERSIAN <span>STARK</span></a>
-    <nav class="nav-links">
-      <a href="./index.html">صفحه اصلی</a>
-      <a href="./subtitles.html">زیرنویس‌ها</a>
-      <a href="./store.html">فروشگاه CS2</a>
-    </nav>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="ناوبری اصلی">
+        <a href="./index.html">صفحه اصلی</a>
+        <a href="./subtitles.html">زیرنویس‌ها</a>
+        <a href="./store.html" aria-current="page">فروشگاه CS2</a>
+      </nav>
+      <a class="account-link" id="accountLink" href="./index.html">ورود / ثبت‌نام</a>
+    </div>
   </div>
 </header>
 
 <main class="container">
   <section class="hero">
-    <div class="eyebrow">COUNTER-STRIKE 2 MARKETPLACE</div>
-    <h1>بازار اسکین‌های <span style="color:var(--accent)">CS2</span></h1>
-    <p>
-      اسکین موردعلاقه‌ات رو پیدا کن، مشخصاتش رو ببین و درخواست خرید ثبت کن.
-      در این نسخه، سفارش‌ها فقط درخواست اولیه هستند و پرداخت آنلاین فعال نیست.
-    </p>
-    <div class="hero-note">
-      ثبت درخواست به معنی تأیید موجودی یا نهایی‌شدن معامله نیست.
+    <div class="hero-panel">
+      <div class="eyebrow">PERSIAN STARK · CS2 MARKETPLACE</div>
+      <h1>به فروشگاه <span class="accent">PERSIAN STARK</span> خوش آمدید</h1>
+      <p>
+        بازار اسکین‌های Counter-Strike 2؛ مشخصات آیتم‌ها را بررسی کن،
+        جست‌وجو کن و برای خرید درخواست بفرست. ساده، مرتب و مخصوص پلیرها.
+      </p>
+      <div class="hero-bottom">
+        <span class="pill-note">پرداخت آنلاین فعلاً غیرفعال است</span>
+        <span class="stat-pill">فقط آگهی‌های فعال نمایش داده می‌شوند</span>
+      </div>
     </div>
   </section>
 
-  <section aria-label="فیلتر محصولات">
+  <section class="toolbar-wrap" aria-label="جست‌وجو و فیلتر محصولات">
+    <p class="toolbar-label">اسکین موردنظرت رو پیدا کن</p>
     <div class="toolbar">
-      <input id="searchInput" class="field"
-        type="search" placeholder="جست‌وجوی اسکین یا سلاح..."
-        aria-label="جست‌وجو">
+      <input id="searchInput" class="field" type="search"
+        placeholder="جست‌وجوی نام اسکین یا سلاح..." aria-label="جست‌وجو">
 
       <select id="wearFilter" class="field" aria-label="وضعیت ظاهری">
-        <option value="">تمام وضعیت‌ها</option>
+        <option value="">همه وضعیت‌ها</option>
         <option>Factory New</option>
         <option>Minimal Wear</option>
         <option>Field-Tested</option>
@@ -388,7 +522,7 @@
       </select>
 
       <select id="sourceFilter" class="field" aria-label="نوع فروشنده">
-        <option value="">تمام فروشنده‌ها</option>
+        <option value="">همه فروشنده‌ها</option>
         <option value="site">موجودی سایت</option>
         <option value="user">فروشنده کاربر</option>
       </select>
@@ -403,35 +537,39 @@
   </section>
 
   <div class="section-head">
-    <h2>اسکین‌های موجود</h2>
-    <span id="resultCount">در حال دریافت اطلاعات...</span>
+    <div>
+      <h2>ویترین اسکین‌ها</h2>
+      <p>آیتمت رو انتخاب کن و جزئیاتش رو ببین.</p>
+    </div>
+    <span id="resultCount">در حال بارگذاری…</span>
   </div>
 
   <section id="productGrid" class="grid" aria-live="polite">
-    <div class="state">در حال بارگذاری فروشگاه...</div>
+    <div class="state">در حال آماده‌سازی فروشگاه…</div>
   </section>
 </main>
 
 <footer>
   <div class="container">
-    PERSIAN STARK · فروشگاه مستقل اسکین CS2<br>
-    این نسخه فقط درخواست خرید ثبت می‌کند؛ پرداخت آنلاین فعال نیست.
+    <strong>PERSIAN STARK</strong> · فروشگاه اسکین CS2<br>
+    ثبت درخواست به معنی تأیید موجودی یا نهایی‌شدن معامله نیست.
+    پرداخت آنلاین و انتقال خودکار آیتم فعال نیست.
   </div>
 </footer>
 
 <div id="orderModal" class="modal-backdrop" role="dialog"
-     aria-modal="true" aria-labelledby="modalTitle">
+  aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
     <h2 id="modalTitle">درخواست خرید اسکین</h2>
     <p id="selectedProduct"></p>
     <p>
-      با ارسال درخواست، سفارش برای بررسی ثبت می‌شود.
-      پیش از تأیید فروشنده، پرداخت یا انتقال آیتمی انجام نده.
+      درخواست فقط برای بررسی ثبت می‌شود. تا پیش از تأیید شرایط معامله،
+      پرداخت یا انتقال آیتمی انجام نده.
     </p>
 
     <label for="orderNote">توضیحات (اختیاری)</label>
     <textarea id="orderNote" class="field" rows="3" maxlength="1500"
-      placeholder="توضیحات تکمیلی..."></textarea>
+      placeholder="توضیحات تکمیلی…"></textarea>
 
     <div id="modalMessage" role="status"></div>
 
@@ -458,6 +596,7 @@
   const modal = document.getElementById("orderModal");
   const modalMessage = document.getElementById("modalMessage");
   const submitOrder = document.getElementById("submitOrder");
+  const accountLink = document.getElementById("accountLink");
 
   let db = null;
   let listings = [];
@@ -477,26 +616,49 @@
     count.textContent = "۰ اسکین";
   }
 
+  function currencyLabel(currency) {
+    const labels = {
+      IRT: "تومان",
+      IRR: "ریال",
+      EUR: "یورو",
+      USD: "دلار",
+      TRY: "لیر",
+      AZN: "منات"
+    };
+
+    return labels[String(currency || "").toUpperCase()]
+      || String(currency || "واحد نامشخص");
+  }
+
   function formatPrice(price, currency) {
     const amount = Number(price);
+
     if (!Number.isFinite(amount)) return "قیمت نامشخص";
+
+    const code = String(currency || "").toUpperCase();
+    const digits = code === "IRT" || code === "IRR" ? 0 : 2;
+
     try {
       return new Intl.NumberFormat("fa-IR", {
-        maximumFractionDigits: 2
-      }).format(amount) + " " + currency;
+        maximumFractionDigits: digits,
+        minimumFractionDigits: 0
+      }).format(amount);
     } catch {
-      return `${amount} ${currency}`;
+      return amount.toLocaleString("en-US");
     }
   }
 
   function safeImageURL(value) {
     if (!value) return "";
+
     try {
       const url = new URL(value);
+
       if (url.protocol === "https:" || url.protocol === "http:") {
         return url.href;
       }
     } catch {}
+
     return "";
   }
 
@@ -507,30 +669,39 @@
     const sort = sortFilter.value;
 
     let items = listings.filter(item => {
-      const haystack = `${item.title} ${item.weapon} ${item.skin_name} ${item.rarity}`
-        .toLocaleLowerCase();
+      const haystack =
+        `${item.title} ${item.weapon} ${item.skin_name} ${item.rarity}`
+          .toLocaleLowerCase();
 
       return (!query || haystack.includes(query))
         && (!wear || item.wear === wear)
         && (!source || item.source === source);
     });
 
-    if (sort === "price-asc") items.sort((a, b) => Number(a.price) - Number(b.price));
-    else if (sort === "price-desc") items.sort((a, b) => Number(b.price) - Number(a.price));
-    else if (sort === "name") items.sort((a, b) => a.title.localeCompare(b.title));
-    else items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    if (sort === "price-asc") {
+      items.sort((a, b) => Number(a.price) - Number(b.price));
+    } else if (sort === "price-desc") {
+      items.sort((a, b) => Number(b.price) - Number(a.price));
+    } else if (sort === "name") {
+      items.sort((a, b) => String(a.title).localeCompare(String(b.title), "fa"));
+    } else {
+      items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
 
     count.textContent = `${items.length.toLocaleString("fa-IR")} اسکین`;
 
     if (!items.length) {
-      setState(listings.length
-        ? "اسکینی با این فیلترها پیدا نشد."
-        : "هنوز اسکین فعالی در فروشگاه ثبت نشده است.");
+      setState(
+        listings.length
+          ? "اسکینی با این فیلترها پیدا نشد."
+          : "هنوز اسکین فعالی در فروشگاه ثبت نشده است."
+      );
       return;
     }
 
     grid.innerHTML = items.map(item => {
       const image = safeImageURL(item.image_url);
+
       const badge = item.source === "site"
         ? '<span class="badge site">موجودی سایت</span>'
         : '<span class="badge user">فروشنده کاربر</span>';
@@ -539,35 +710,54 @@
         ? ""
         : ` · Float: ${escapeHTML(item.float_value)}`;
 
+      const imageHTML = image
+        ? `<div class="image-wrap">
+            <img class="product-image"
+              src="${escapeHTML(image)}"
+              alt="${escapeHTML(item.title)}"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              onerror="this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><span><b>◇</b>تصویر در دسترس نیست</span></div>'">
+          </div>`
+        : `<div class="image-wrap">
+            <div class="image-placeholder">
+              <span><b>◇</b>تصویر اسکین ثبت نشده</span>
+            </div>
+          </div>`;
+
       return `
         <article class="card">
-          ${image
-            ? `<img class="product-image" src="${escapeHTML(image)}"
-                    alt="${escapeHTML(item.title)}" loading="lazy"
-                    referrerpolicy="no-referrer"
-                    onerror="this.outerHTML='<div class=&quot;image-placeholder&quot;>تصویر موجود نیست</div>'">`
-            : '<div class="image-placeholder">تصویر اسکین ثبت نشده</div>'}
+          ${imageHTML}
           <div class="card-body">
             <div class="badges">
               ${badge}
               <span class="badge">${escapeHTML(item.wear)}</span>
-              ${item.stattrak ? '<span class="badge">StatTrak™</span>' : ''}
+              ${item.stattrak ? '<span class="badge">StatTrak™</span>' : ""}
             </div>
+
             <h3>${escapeHTML(item.title)}</h3>
+
             <div class="details">
               ${escapeHTML(item.weapon)} · ${escapeHTML(item.rarity)}
               ${floatText}
             </div>
-            <div class="price">${escapeHTML(formatPrice(item.price, item.currency))}</div>
+
+            <div class="price-row">
+              <span class="price">${escapeHTML(formatPrice(item.price, item.currency))}</span>
+              <span class="currency-label">${escapeHTML(currencyLabel(item.currency))}</span>
+            </div>
+
             <button class="btn" type="button"
-              data-order-id="${Number(item.id)}">درخواست خرید</button>
+              data-order-id="${escapeHTML(item.id)}">
+              درخواست خرید
+            </button>
           </div>
         </article>`;
     }).join("");
   }
 
   async function loadListings() {
-    setState("در حال دریافت اسکین‌ها...");
+    setState("در حال دریافت اسکین‌ها…");
 
     try {
       const { data, error } = await db
@@ -583,6 +773,7 @@
       render();
     } catch (error) {
       console.error("Store loading error:", error);
+
       setState(
         "دریافت فروشگاه انجام نشد. اتصال Supabase و سیاست‌های RLS را بررسی کن.",
         true
@@ -590,20 +781,44 @@
     }
   }
 
+  async function updateAccountLink() {
+    try {
+      const { data } = await db.auth.getUser();
+
+      if (data?.user) {
+        accountLink.textContent = "حساب کاربری";
+        accountLink.href = "./index.html";
+        accountLink.classList.add("signed-in");
+        accountLink.title = "وارد حساب شده‌اید";
+      } else {
+        accountLink.textContent = "ورود / ثبت‌نام";
+        accountLink.href = "./index.html";
+        accountLink.classList.remove("signed-in");
+      }
+    } catch {
+      accountLink.textContent = "ورود / ثبت‌نام";
+      accountLink.href = "./index.html";
+    }
+  }
+
   function openOrder(id) {
-    selectedListing = listings.find(item => Number(item.id) === Number(id));
+    selectedListing = listings.find(item => String(item.id) === String(id));
+
     if (!selectedListing) return;
 
     document.getElementById("selectedProduct").textContent =
-      `${selectedListing.title} — ${formatPrice(selectedListing.price, selectedListing.currency)}`;
+      `${selectedListing.title} — ${formatPrice(selectedListing.price, selectedListing.currency)} ${currencyLabel(selectedListing.currency)}`;
 
     document.getElementById("orderNote").value = "";
     modalMessage.textContent = "";
+    submitOrder.disabled = false;
+    submitOrder.textContent = "ثبت درخواست";
     modal.classList.add("open");
   }
 
   function closeOrder() {
     if (busy) return;
+
     modal.classList.remove("open");
     selectedListing = null;
   }
@@ -613,14 +828,14 @@
 
     busy = true;
     submitOrder.disabled = true;
-    modalMessage.textContent = "در حال بررسی حساب کاربری...";
+    modalMessage.textContent = "در حال بررسی حساب کاربری…";
 
     try {
       const { data: authData, error: authError } = await db.auth.getUser();
 
       if (authError || !authData.user) {
         modalMessage.textContent =
-          "برای ثبت درخواست، ابتدا از طریق صفحه ورود سایت وارد حساب کاربری شو.";
+          "برای ثبت درخواست، ابتدا از صفحه اصلی سایت وارد حساب کاربری شو یا ثبت‌نام کن.";
         return;
       }
 
@@ -638,19 +853,25 @@
       if (error) throw error;
 
       modalMessage.textContent =
-        "درخواست ثبت شد. این درخواست پرداخت یا انتقال اسکین را انجام نمی‌دهد.";
+        "درخواست ثبت شد. این کار هیچ پرداخت یا انتقال اسکینی انجام نمی‌دهد.";
+
       submitOrder.textContent = "ثبت شد";
       submitOrder.disabled = true;
     } catch (error) {
       console.error("Order request error:", error);
-      modalMessage.textContent =
-        error?.code === "23505"
-          ? "این درخواست قبلاً ثبت شده است."
-          : "ثبت درخواست موفق نبود. لطفاً ورود حساب و سیاست‌های RLS را بررسی کن.";
+
+      modalMessage.textContent = error?.code === "23505"
+        ? "این درخواست قبلاً ثبت شده است."
+        : "ثبت درخواست موفق نبود. ورود حساب و سیاست‌های RLS را بررسی کن.";
     } finally {
       busy = false;
-      if (!modal.classList.contains("open")) return;
-      if (submitOrder.textContent !== "ثبت شد") submitOrder.disabled = false;
+
+      if (
+        modal.classList.contains("open")
+        && submitOrder.textContent !== "ثبت شد"
+      ) {
+        submitOrder.disabled = false;
+      }
     }
   }
 
@@ -661,6 +882,7 @@
 
   grid.addEventListener("click", event => {
     const button = event.target.closest("[data-order-id]");
+
     if (button) openOrder(button.dataset.orderId);
   });
 
@@ -689,6 +911,8 @@
     }
   });
 
+  updateAccountLink();
+  db.auth.onAuthStateChange(() => updateAccountLink());
   loadListings();
 })();
 </script>
