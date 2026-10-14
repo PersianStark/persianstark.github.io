@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>مدیریت فروشگاه | PERSIAN STARK</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --bg:#07111f;
+  --card:#0d1b2d;
+  --card2:#12243a;
+  --text:#f4f8ff;
+  --muted:#9eafc4;
+  --line:rgba(255,255,255,.1);
+  --accent:#00c8ff;
+  --green:#18e0c1;
+  --red:#ff5577;
+  --orange:#ffb454;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Tahoma,Arial,sans-serif;
+}
+button,input,select,textarea { font:inherit; }
+button { cursor:pointer; }
+a { color:inherit; text-decoration:none; }
+.container { width:min(1250px,calc(100% - 28px)); margin:auto; }
+header {
+  padding:18px 0;
+  background:#091626;
+  border-bottom:1px solid var(--line);
+}
+.header-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.brand { font-size:19px; font-weight:900; }
+.brand span { color:var(--accent); }
+.header-actions { display:flex; gap:8px; flex-wrap:wrap; }
+main { padding:28px 0 60px; }
+h1 { font-size:clamp(23px,4vw,34px); margin:0 0 10px; }
+h2 { font-size:19px; margin:0 0 18px; }
+.muted { color:var(--muted); line-height:1.9; font-size:13px; }
+.panel {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:22px;
+  margin-top:20px;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:22px;
+}
+.stat {
+  padding:16px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+}
+.stat-label { color:var(--muted); font-size:12px; }
+.stat-value { font-size:25px; font-weight:900; margin-top:9px; }
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+}
+.field label {
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+.field input,.field select,.field textarea {
+  display:block;
+  width:100%;
+  color:var(--text);
+  background:var(--card2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px;
+  outline:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus {
+  border-color:var(--accent);
+}
+.field textarea { min-height:100px; resize:vertical; }
+.field select option { background:var(--card2); }
+.full { grid-column:1/-1; }
+.check-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  min-height:44px;
+}
+.check-row input { width:18px; height:18px; accent-color:var(--accent); }
+.btn {
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px 15px;
+  color:var(--text);
+  background:var(--card2);
+}
+.btn-primary {
+  background:linear-gradient(135deg,var(--accent),var(--green));
+  color:#03121c;
+  border:0;
+  font-weight:900;
+}
+.btn-danger { color:var(--red); }
+.btn:disabled { opacity:.55; cursor:not-allowed; }
+.form-actions { display:flex; gap:9px; flex-wrap:wrap; margin-top:18px; }
+.notice {
+  display:none;
+  padding:13px;
+  margin-top:15px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.9;
+  overflow-wrap:anywhere;
+}
+.notice.show { display:block; }
+.notice.error { color:#ff91a8; background:#3b1725; }
+.notice.success { color:#6ff3d5; background:#10352f; }
+.toolbar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.toolbar input,.toolbar select {
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--line);
+  padding:11px;
+  border-radius:10px;
+  min-width:160px;
+}
+.toolbar input { flex:1; }
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:780px; }
+th,td {
+  padding:13px 10px;
+  text-align:right;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  vertical-align:middle;
+}
+th { color:var(--muted); font-weight:700; }
+.product-cell { display:flex; align-items:center; gap:10px; min-width:180px; }
+.product-image {
+  width:55px;
+  height:43px;
+  border-radius:8px;
+  object-fit:contain;
+  background:#07111f;
+}
+.product-name { font-weight:800; }
+.product-sub { color:var(--muted); margin-top:5px; }
+.status {
+  display:inline-block;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:5px 9px;
+  white-space:nowrap;
+}
+.status-active { color:var(--green); }
+.status-sold { color:var(--orange); }
+.status-rejected { color:var(--red); }
+.row-actions { display:flex; gap:6px; flex-wrap:wrap; }
+.row-actions .btn { padding:7px 9px; }
+.empty { padding:35px 10px; text-align:center; color:var(--muted); }
+#app { display:none; }
+#gate {
+  width:min(550px,calc(100% - 28px));
+  margin:70px auto;
+  padding:25px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  text-align:center;
+  line-height:2;
+}
+footer {
+  text-align:center;
+  padding:25px;
+  color:var(--muted);
+  font-size:12px;
+  border-top:1px solid var(--line);
+}
+@media(max-width:700px) {
+  .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .form-grid { grid-template-columns:1fr; }
+  .full { grid-column:auto; }
+  .panel { padding:15px; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="gate">
+  <h2 id="gateTitle">در حال بررسی دسترسی...</h2>
+  <p class="muted" id="gateMessage">
+    لطفاً چند لحظه صبر کنید.
+  </p>
+  <button class="btn btn-primary" id="loginButton" hidden>
+    ورود به حساب
+  </button>
+  <a class="btn" href="./store.html">رفتن به فروشگاه</a>
+</div>
+
+<div id="app">
+  <header>
+    <div class="container header-row">
+      <a href="./store.html" class="brand">
+        PERSIAN <span>STARK</span> | مدیریت فروشگاه
+      </a>
+      <div class="header-actions">
+        <a class="btn" href="./store.html">مشاهده فروشگاه</a>
+        <a class="btn" href="./index.html">صفحه اصلی</a>
+        <button class="btn btn-danger" id="logoutButton">خروج</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>مدیریت اسکین‌های فروشگاه</h1>
+    <p class="muted">
+      ثبت و ویرایش محصولات فروشگاه CS2.
+      پرداخت آنلاین در این پنل فعال نیست.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">کل محصولات دریافت‌شده</div>
+        <div class="stat-value" id="totalCount">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">محصولات فعال</div>
+        <div class="stat-value" id="activeCount">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">در انتظار بررسی</div>
+        <div class="stat-value" id="pendingCount">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">فروخته‌شده</div>
+        <div class="stat-value" id="soldCount">—</div>
+      </div>
+    </div>
+
+    <section class="panel" id="editor">
+      <h2 id="formTitle">ثبت محصول جدید</h2>
+
+      <form id="productForm">
+        <input type="hidden" id="productId">
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="title">عنوان محصول *</label>
+            <input id="title" maxlength="180" required
+              placeholder="مثلاً Desert Eagle | Tilted">
+          </div>
+
+          <div class="field">
+            <label for="weapon">نام سلاح *</label>
+            <input id="weapon" maxlength="100" required
+              placeholder="مثلاً Desert Eagle">
+          </div>
+
+          <div class="field">
+            <label for="skinName">نام اسکین</label>
+            <input id="skinName" maxlength="120"
+              placeholder="مثلاً Tilted">
+          </div>
+
+          <div class="field">
+            <label for="wear">وضعیت ظاهری</label>
+            <select id="wear">
+              <option value="">نامشخص</option>
+              <option value="Factory New">Factory New</option>
+              <option value="Minimal Wear">Minimal Wear</option>
+              <option value="Field-Tested">Field-Tested</option>
+              <option value="Well-Worn">Well-Worn</option>
+              <option value="Battle-Scarred">Battle-Scarred</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="floatValue">Float</label>
+            <input id="floatValue" type="number"
+              min="0" max="1" step="0.00000001"
+              placeholder="مثلاً 0.245678">
+          </div>
+
+          <div class="field">
+            <label for="rarity">کمیابی</label>
+            <select id="rarity">
+              <option value="">نامشخص</option>
+              <option value="Consumer Grade">Consumer Grade</option>
+              <option value="Industrial Grade">Industrial Grade</option>
+              <option value="Mil-Spec">Mil-Spec</option>
+              <option value="Restricted">Restricted</option>
+              <option value="Classified">Classified</option>
+              <option value="Covert">Covert</option>
+              <option value="Contraband">Contraband</option>
+              <option value="Extraordinary">Extraordinary</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="price">قیمت *</label>
+            <input id="price" type="number" min="0"
+              step="any" required placeholder="مثلاً 200000">
+          </div>
+
+          <div class="field">
+            <label for="currency">واحد پول *</label>
+            <select id="currency" required>
+              <option value="IRT">تومان (IRT)</option>
+              <option value="IRR">ریال (IRR)</option>
+              <option value="USD">دلار (USD)</option>
+              <option value="EUR">یورو (EUR)</option>
+              <option value="TRY">لیر ترکیه (TRY)</option>
+              <option value="AZN">منات آذربایجان (AZN)</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="imageUrl">آدرس تصویر محصول</label>
+            <input id="imageUrl" type="url" maxlength="2000"
+              placeholder="https://example.com/skin.png">
+          </div>
+
+          <div class="field full">
+            <label for="inspectUrl">لینک Steam Inspect</label>
+            <input id="inspectUrl" type="url" maxlength="2000"
+              placeholder="steam://... یا لینک Inspect">
+          </div>
+
+          <div class="field">
+            <label for="status">وضعیت آگهی</label>
+            <select id="status">
+              <option value="draft">پیش‌نویس</option>
+              <option value="pending_review">در انتظار بررسی</option>
+              <option value="active">فعال</option>
+              <option value="reserved">رزروشده</option>
+              <option value="sold">فروخته‌شده</option>
+              <option value="rejected">ردشده</option>
+              <option value="hidden">مخفی</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>ویژگی محصول</label>
+            <div class="check-row">
+              <input id="stattrak" type="checkbox">
+              <label for="stattrak">دارای StatTrak</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="description">توضیحات</label>
+            <textarea id="description" maxlength="5000"
+              placeholder="توضیحات محصول..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" id="saveButton" type="submit">
+            ثبت محصول
+          </button>
+          <button class="btn" id="resetButton" type="button">
+            پاک‌کردن فرم
+          </button>
+        </div>
+
+        <div class="notice" id="formNotice" role="status"></div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>محصولات فروشگاه</h2>
+
+      <div class="toolbar">
+        <input id="searchInput" type="search"
+          placeholder="جست‌وجوی نام محصول یا سلاح...">
+
+        <select id="filterStatus">
+          <option value="">تمام وضعیت‌ها</option>
+          <option value="draft">پیش‌نویس</option>
+          <option value="pending_review">در انتظار بررسی</option>
+          <option value="active">فعال</option>
+          <option value="reserved">رزروشده</option>
+          <option value="sold">فروخته‌شده</option>
+          <option value="rejected">ردشده</option>
+          <option value="hidden">مخفی</option>
+        </select>
+
+        <button class="btn" id="refreshButton" type="button">
+          تازه‌سازی
+        </button>
+      </div>
+
+      <div class="notice" id="listNotice" role="status"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>محصول</th>
+              <th>قیمت</th>
+              <th>وضعیت</th>
+              <th>تاریخ ثبت</th>
+              <th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="productRows">
+            <tr><td colspan="5" class="empty">در حال دریافت محصولات...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>PERSIAN STARK · پنل مستقل مدیریت فروشگاه</footer>
+</div>
+
+<script>
+"use strict";
+
+const { createClient } = supabase;
+
+const db = createClient(
+  "https://jmdoxofcyoxdrtxvvuiu.supabase.co",
+  "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74",
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storageKey: "persian-stark-auth"
+    }
+  }
+);
+
+const $ = id => document.getElementById(id);
+
+let currentUser = null;
+let products = [];
+let busy = false;
+
+const allowedStatuses = [
+  "draft", "pending_review", "active", "reserved",
+  "sold", "rejected", "hidden"
+];
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+
+function showNotice(id, message, type = "error") {
+  const el = $(id);
+  el.textContent = message;
+  el.className = "notice show " + type;
+}
+
+function clearNotice(id) {
+  const el = $(id);
+  el.textContent = "";
+  el.className = "notice";
+}
+
+function setGate(title, message, showLogin = false) {
+  $("gateTitle").textContent = title;
+  $("gateMessage").textContent = message;
+  $("loginButton").hidden = !showLogin;
+}
+
+function showApp() {
+  $("gate").style.display = "none";
+  $("app").style.display = "block";
+}
+
+async function checkAdmin() {
+  const { data: sessionData, error: sessionError } =
+    await db.auth.getSession();
+
+  if (sessionError) throw sessionError;
+
+  currentUser = sessionData.session?.user || null;
+
+  if (!currentUser) {
+    setGate(
+      "ورود به پنل مدیریت",
+      "برای دسترسی به این صفحه ابتدا با حساب ادمین وارد سایت شوید.",
+      true
+    );
+    return false;
+  }
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(
+      "بررسی دسترسی مدیر انجام نشد. اتصال و دسترسی خواندن پروفایل را بررسی کنید."
+    );
+  }
+
+  if (profile?.is_admin !== true) {
+    setGate(
+      "دسترسی غیرمجاز",
+      "این صفحه فقط برای حساب‌هایی است که در جدول profiles مقدار is_admin آن‌ها true است."
+    );
+    return false;
+  }
+
+  return true;
+}
+
+function formatPrice(price, currency) {
+  const amount = Number(price);
+  if (!Number.isFinite(amount)) return "—";
+
+  const formatted = amount.toLocaleString("fa-IR", {
+    maximumFractionDigits: 2
+  });
+
+  const units = {
+    IRT: "تومان",
+    IRR: "ریال",
+    USD: "دلار",
+    EUR: "یورو",
+    TRY: "لیر",
+    AZN: "منات"
+  };
+
+  return formatted + " " + (units[currency] || currency || "");
+}
+
+function statusLabel(status) {
+  const labels = {
+    draft: "پیش‌نویس",
+    pending_review: "در انتظار بررسی",
+    active: "فعال",
+    reserved: "رزروشده",
+    sold: "فروخته‌شده",
+    rejected: "ردشده",
+    hidden: "مخفی"
+  };
+  return labels[status] || status || "نامشخص";
+}
+
+function updateStats() {
+  $("totalCount").textContent = products.length.toLocaleString("fa-IR");
+  $("activeCount").textContent = products.filter(p => p.status === "active").length.toLocaleString("fa-IR");
+  $("pendingCount").textContent = products.filter(p => p.status === "pending_review").length.toLocaleString("fa-IR");
+  $("soldCount").textContent = products.filter(p => p.status === "sold").length.toLocaleString("fa-IR");
+}
+
+function renderProducts() {
+  const search = $("searchInput").value.trim().toLocaleLowerCase();
+  const status = $("filterStatus").value;
+
+  const filtered = products.filter(product => {
+    const searchable = [
+      product.title,
+      product.weapon,
+      product.skin_name
+    ].join(" ").toLocaleLowerCase();
+
+    return (!search || searchable.includes(search)) &&
+      (!status || product.status === status);
+  });
+
+  const rows = $("productRows");
+
+  if (!filtered.length) {
+    rows.innerHTML =
+      '<tr><td colspan="5" class="empty">محصولی مطابق جست‌وجو پیدا نشد.</td></tr>';
+    return;
+  }
+
+  rows.innerHTML = filtered.map(product => {
+    const image = /^https?:\/\//i.test(product.image_url || "")
+      ? escapeHtml(product.image_url)
+      : "";
+
+    const date = product.created_at
+      ? new Date(product.created_at).toLocaleDateString("fa-IR")
+      : "—";
+
+    const statusClass =
+      product.status === "active" ? "status-active" :
+      product.status === "sold" ? "status-sold" :
+      product.status === "rejected" ? "status-rejected" : "";
+
+    return `
+      <tr>
+        <td>
+          <div class="product-cell">
+            ${image
+              ? `<img class="product-image" src="${image}" alt=""
+                   loading="lazy" referrerpolicy="no-referrer"
+                   onerror="this.style.visibility='hidden'">`
+              : `<div class="product-image"></div>`
+            }
+            <div>
+              <div class="product-name">${escapeHtml(product.title)}</div>
+              <div class="product-sub">${escapeHtml(product.weapon || "")}</div>
+            </div>
+          </div>
+        </td>
+        <td>${escapeHtml(formatPrice(product.price, product.currency))}</td>
+        <td><span class="status ${statusClass}">${escapeHtml(statusLabel(product.status))}</span></td>
+        <td>${escapeHtml(date)}</td>
+        <td>
+          <div class="row-actions">
+            <button class="btn" data-action="edit" data-id="${escapeHtml(product.id)}">ویرایش</button>
+            <button class="btn btn-danger" data-action="delete" data-id="${escapeHtml(product.id)}">حذف</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function loadProducts() {
+  clearNotice("listNotice");
+  $("productRows").innerHTML =
+    '<tr><td colspan="5" class="empty">در حال دریافت محصولات...</td></tr>';
+
+  const { data, error } = await db
+    .from("store_listings")
+    .select("id,owner_id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,steam_inspect_url,created_at,updated_at")
+    .order("created_at", { ascending: false })
+    .limit(500);
+
+  if (error) {
+    products = [];
+    updateStats();
+    renderProducts();
+    showNotice(
+      "listNotice",
+      "دریافت محصولات ناموفق بود. احتمال دارد سیاست‌های RLS اجازه خواندن این فهرست را به ادمین ندهند. جزئیات: " + error.message
+    );
+    return;
+  }
+
+  products = data || [];
+  updateStats();
+  renderProducts();
+}
+
+function resetForm() {
+  $("productForm").reset();
+  $("productId").value = "";
+  $("currency").value = "IRT";
+  $("status").value = "active";
+  $("formTitle").textContent = "ثبت محصول جدید";
+  $("saveButton").textContent = "ثبت محصول";
+  clearNotice("formNotice");
+}
+
+function editProduct(id) {
+  const product = products.find(p => String(p.id) === String(id));
+  if (!product) {
+    showNotice("listNotice", "محصول موردنظر پیدا نشد.");
+    return;
+  }
+
+  $("productId").value = product.id;
+  $("title").value = product.title || "";
+  $("weapon").value = product.weapon || "";
+  $("skinName").value = product.skin_name || "";
+  $("wear").value = product.wear || "";
+  $("floatValue").value = product.float_value ?? "";
+  $("rarity").value = product.rarity || "";
+  $("price").value = product.price ?? "";
+  $("currency").value = product.currency || "IRT";
+  $("imageUrl").value = product.image_url || "";
+  $("inspectUrl").value = product.steam_inspect_url || "";
+  $("status").value = allowedStatuses.includes(product.status)
+    ? product.status
+    : "draft";
+  $("stattrak").checked = product.stattrak === true;
+  $("description").value = product.description || "";
+
+  $("formTitle").textContent = "ویرایش محصول";
+  $("saveButton").textContent = "ذخیره تغییرات";
+  clearNotice("formNotice");
+
+  $("editor").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function validOptionalUrl(value, allowSteam = false) {
+  if (!value) return true;
+
+  try {
+    const url = new URL(value);
+    if (allowSteam && url.protocol === "steam:") return true;
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+$("productForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (busy) return;
+
+  clearNotice("formNotice");
+
+  if (!currentUser) {
+    showNotice("formNotice", "نشست ورود پیدا نشد؛ دوباره وارد شوید.");
+    return;
+  }
+
+  const title = $("title").value.trim();
+  const weapon = $("weapon").value.trim();
+  const price = Number($("price").value);
+  const floatRaw = $("floatValue").value.trim();
+  const floatValue = floatRaw === "" ? null : Number(floatRaw);
+  const imageUrl = $("imageUrl").value.trim();
+  const inspectUrl = $("inspectUrl").value.trim();
+  const status = $("status").value;
+
+  if (!title || !weapon) {
+    showNotice("formNotice", "عنوان محصول و نام سلاح الزامی است.");
+    return;
+  }
+
+  if (!Number.isFinite(price) || price < 0) {
+    showNotice("formNotice", "قیمت باید عددی معتبر و غیرمنفی باشد.");
+    return;
+  }
+
+  if (floatValue !== null &&
+      (!Number.isFinite(floatValue) || floatValue < 0 || floatValue > 1)) {
+    showNotice("formNotice", "Float باید بین صفر و یک باشد.");
+    return;
+  }
+
+  if (!validOptionalUrl(imageUrl)) {
+    showNotice("formNotice", "آدرس تصویر باید یک لینک HTTP یا HTTPS معتبر باشد.");
+    return;
+  }
+
+  if (!validOptionalUrl(inspectUrl, true)) {
+    showNotice("formNotice", "لینک Inspect معتبر نیست.");
+    return;
+  }
+
+  if (!allowedStatuses.includes(status)) {
+    showNotice("formNotice", "وضعیت انتخاب‌شده معتبر نیست.");
+    return;
+  }
+
+  const id = $("productId").value;
+
+  const payload = {
+    title,
+    weapon,
+    skin_name: $("skinName").value.trim() || null,
+    wear: $("wear").value || null,
+    float_value: floatValue,
+    rarity: $("rarity").value || null,
+    stattrak: $("stattrak").checked,
+    price,
+    currency: $("currency").value,
+    image_url: imageUrl || null,
+    steam_inspect_url: inspectUrl || null,
+    description: $("description").value.trim() || null,
+    status,
+    updated_at: new Date().toISOString()
+  };
+
+  busy = true;
+  $("saveButton").disabled = true;
+  $("saveButton").textContent = "در حال ذخیره...";
+
+  try {
+    let result;
+
+    if (id) {
+      result = await db
+        .from("store_listings")
+        .update(payload)
+        .eq("id", id)
+        .select("id")
+        .maybeSingle();
+    } else {
+      result = await db
+        .from("store_listings")
+        .insert({
+          ...payload,
+          owner_id: null,
+          source: "site"
+        })
+        .select("id")
+        .single();
+    }
+
+    if (result.error) throw result.error;
+
+    if (!result.data) {
+      throw new Error(
+        "هیچ محصولی تغییر نکرد. ممکن است سیاست RLS اجازه این عملیات را ندهد."
+      );
+    }
+
+    showNotice(
+      "formNotice",
+      id ? "تغییرات محصول ذخیره شد." : "محصول جدید ثبت شد.",
+      "success"
+    );
+
+    resetForm();
+    await loadProducts();
+
+  } catch (error) {
+    console.error("Save listing:", error);
+    showNotice(
+      "formNotice",
+      "ذخیره محصول انجام نشد. ممکن است سیاست‌های RLS یا محدودیت‌های دیتابیس مانع عملیات شده باشند. جزئیات: " +
+      (error.message || "خطای نامشخص")
+    );
+  } finally {
+    busy = false;
+    $("saveButton").disabled = false;
+    $("saveButton").textContent =
+      $("productId").value ? "ذخیره تغییرات" : "ثبت محصول";
+  }
+});
+
+async function deleteProduct(id) {
+  const product = products.find(p => String(p.id) === String(id));
+  if (!product) return;
+
+  const approved = confirm(
+    `محصول «${product.title}» حذف شود؟ این عملیات قابل بازگشت نیست.`
+  );
+
+  if (!approved || busy) return;
+
+  busy = true;
+
+  try {
+    const { data, error } = await db
+      .from("store_listings")
+      .delete()
+      .eq("id", id)
+      .select("id");
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      throw new Error(
+        "محصول حذف نشد؛ احتمالاً سیاست RLS اجازه حذف این محصول را نمی‌دهد."
+      );
+    }
+
+    if (String($("productId").value) === String(id)) resetForm();
+
+    showNotice("listNotice", "محصول حذف شد.", "success");
+    await loadProducts();
+
+  } catch (error) {
+    console.error("Delete listing:", error);
+    showNotice(
+      "listNotice",
+      "حذف محصول انجام نشد. جزئیات: " + (error.message || "خطای نامشخص")
+    );
+  } finally {
+    busy = false;
+  }
+}
+
+$("productRows").addEventListener("click", event => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const id = button.dataset.id;
+
+  if (button.dataset.action === "edit") editProduct(id);
+  if (button.dataset.action === "delete") deleteProduct(id);
+});
+
+$("searchInput").addEventListener("input", renderProducts);
+$("filterStatus").addEventListener("change", renderProducts);
+$("refreshButton").addEventListener("click", loadProducts);
+$("resetButton").addEventListener("click", resetForm);
+
+$("loginButton").addEventListener("click", () => {
+  window.location.href = "./index.html";
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    alert("خروج انجام نشد: " + error.message);
+    return;
+  }
+
+  window.location.reload();
+});
+
+(async function init() {
+  try {
+    const allowed = await checkAdmin();
+
+    if (!allowed) return;
+
+    showApp();
+    await loadProducts();
+
+  } catch (error) {
+    console.error("Admin access check:", error);
+    setGate(
+      "بررسی دسترسی ناموفق بود",
+      error.message || "اتصال به Supabase یا دسترسی پروفایل را بررسی کنید."
+    );
+  }
+})();
+</script>
+</body>
+</html>
