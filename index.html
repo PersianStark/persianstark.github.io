@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -63,6 +62,22 @@ header{
 .nav-link:hover{background:var(--card2);color:var(--text)}
 .nav-link.subtitle-link{color:var(--accent)}
 .nav-link.subtitle-link:hover{color:var(--text)}
+
+/* STORE NAVIGATION */
+.nav-link.store-nav-link{
+    color:var(--accent2);
+    font-weight:900;
+}
+.nav-link.store-nav-link:hover{
+    color:var(--text);
+    background:rgba(24,224,193,.10);
+}
+.mobile-store-link{
+    display:none;
+    flex-shrink:0;
+    color:var(--accent2);
+    font-size:20px;
+}
 .nav-actions{display:flex;align-items:center;gap:8px}
 .icon-btn{
     width:42px;height:42px;border:1px solid var(--line);background:var(--card);
@@ -242,14 +257,18 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-a
 }
 @media(max-width:1050px){
     .nav-center{display:none}
+    .mobile-store-link{display:grid}
     .posts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:700px){
     .container{width:min(calc(100% - 20px),var(--max))}
-    .nav{min-height:68px}
-    .logo{font-size:16px}
-    .logo-mark{width:37px;height:37px}
-    .auth-btn{padding:9px 11px;font-size:12px}
+    .nav{min-height:68px;gap:8px}
+    .logo{font-size:14px;gap:6px}
+    .logo-mark{width:34px;height:34px;font-size:17px}
+    .nav-actions{gap:6px}
+    .icon-btn{width:37px;height:37px;font-size:16px}
+    .mobile-store-link{width:37px;height:37px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+    .auth-btn{padding:9px 9px;font-size:11px;white-space:nowrap}
     .user-button{min-width:auto;padding:6px 8px}
     .user-name{display:none}
     .user-dropdown{left:0;width:190px}
@@ -264,6 +283,13 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-a
     .section-title{font-size:22px}
     .stats{margin-bottom:25px}
     .toast{right:10px;left:10px;bottom:10px;max-width:none}
+}
+@media(max-width:360px){
+    .logo{font-size:12px}
+    .logo-mark{width:30px;height:30px}
+    .nav-actions{gap:4px}
+    .icon-btn,.mobile-store-link{width:33px;height:33px}
+    .auth-btn{padding:8px 6px;font-size:10px}
 }
 </style>
 </head>
@@ -281,11 +307,16 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-a
         <a href="#posts" class="nav-link">مطالب</a>
         <a href="#games" class="nav-link">معرفی بازی</a>
         <a href="#software" class="nav-link">نرم افزار</a>
+        <a href="./store.html" class="nav-link store-nav-link">🛒 فروشگاه</a>
         <a href="./subtitles.html" class="nav-link subtitle-link">🎮 زیرنویس رایگان</a>
     </nav>
 
     <div class="nav-actions">
-        <button class="icon-btn" id="themeBtn" title="تغییر حالت">☀️</button>
+        <button class="icon-btn" id="themeBtn" title="تغییر حالت" aria-label="تغییر حالت نمایش">☀️</button>
+
+        <!-- Mobile store shortcut -->
+        <a href="./store.html" class="icon-btn mobile-store-link" title="فروشگاه" aria-label="ورود به فروشگاه">🛒</a>
+
         <button class="auth-btn" id="loginBtn">ورود / ثبت‌نام</button>
 
         <div class="user-menu" id="userMenu" style="display:none">
@@ -315,6 +346,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-a
     <div class="hero-buttons">
         <a href="#posts" class="primary-btn">مشاهده مطالب</a>
         <a href="./subtitles.html" class="secondary-btn">🎮 زیرنویس‌های رایگان</a>
+        <a href="./store.html" class="secondary-btn">🛒 ورود به فروشگاه</a>
         <button class="secondary-btn" id="heroLoginBtn">عضویت در سایت</button>
     </div>
 </div>
@@ -391,17 +423,17 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-a
 
     <form id="authForm">
         <div class="field" id="usernameField" style="display:none">
-            <label>نام کاربری</label>
+            <label for="usernameInput">نام کاربری</label>
             <input type="text" id="usernameInput" placeholder="مثلاً PersianGamer" autocomplete="username">
         </div>
 
         <div class="field">
-            <label>ایمیل</label>
+            <label for="emailInput">ایمیل</label>
             <input type="email" id="emailInput" placeholder="example@email.com" required autocomplete="email">
         </div>
 
         <div class="field">
-            <label>رمز عبور</label>
+            <label for="passwordInput">رمز عبور</label>
             <input type="password" id="passwordInput" placeholder="حداقل ۶ کاراکتر" required autocomplete="current-password">
         </div>
 
@@ -413,7 +445,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-a
 </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* SUPABASE */
@@ -507,6 +539,7 @@ function updateAuthUI(){
         forgotBtn.style.display = "inline-block";
         loginTab.classList.add("active");
         registerTab.classList.remove("active");
+        passwordInput.autocomplete = "current-password";
     }else{
         authTitle.textContent = "ساخت حساب کاربری";
         authDesc.textContent = "حساب خودت را بساز و در مطالب سایت مشارکت کن.";
@@ -516,6 +549,7 @@ function updateAuthUI(){
         forgotBtn.style.display = "none";
         registerTab.classList.add("active");
         loginTab.classList.remove("active");
+        passwordInput.autocomplete = "new-password";
     }
 }
 
@@ -554,9 +588,20 @@ authModal.addEventListener("click",e=>{
     if(e.target === authModal) closeAuth();
 });
 
+document.addEventListener("keydown",e=>{
+    if(e.key === "Escape"){
+        closeAuth();
+        userDropdown.classList.remove("show");
+    }
+});
+
 userButton.addEventListener("click",e=>{
     e.stopPropagation();
     userDropdown.classList.toggle("show");
+});
+
+userDropdown.addEventListener("click",e=>{
+    e.stopPropagation();
 });
 
 document.addEventListener("click",()=>{
@@ -686,9 +731,9 @@ forgotBtn.addEventListener("click",async()=>{
 });
 
 /* AUTH STATE */
-db.auth.onAuthStateChange(async(event,session)=>{
+db.auth.onAuthStateChange((event,session)=>{
     currentUser = session?.user || null;
-    await updateHeader();
+    updateHeader();
 });
 
 /* UPDATE HEADER */
@@ -732,13 +777,24 @@ function applyTheme(theme){
     }
 }
 
-const savedTheme = localStorage.getItem("persian-stark-theme") || "dark";
+let savedTheme = "dark";
+try{
+    savedTheme = localStorage.getItem("persian-stark-theme") || "dark";
+}catch(error){
+    console.warn("Theme storage unavailable:",error);
+}
 applyTheme(savedTheme);
 
 themeBtn.addEventListener("click",()=>{
     const isLight = document.documentElement.classList.contains("light");
     const newTheme = isLight ? "dark" : "light";
-    localStorage.setItem("persian-stark-theme",newTheme);
+
+    try{
+        localStorage.setItem("persian-stark-theme",newTheme);
+    }catch(error){
+        console.warn("Theme storage unavailable:",error);
+    }
+
     applyTheme(newTheme);
 });
 
@@ -854,10 +910,7 @@ function renderPosts(){
     }).join("");
 }
 
-/* =========================================================
-   LOAD LATEST FREE SUBTITLES — FIXED
-   Supports category values used by the admin and older posts.
-========================================================= */
+/* LOAD LATEST FREE SUBTITLES */
 async function loadLatestSubtitles(){
     if(!subtitlesGrid) return;
 
@@ -941,14 +994,19 @@ async function loadLatestSubtitles(){
 
 /* SITE STATS */
 function getSessionId(){
-    let id = localStorage.getItem("persian-stark-session");
+    try{
+        let id = localStorage.getItem("persian-stark-session");
 
-    if(!id){
-        id = crypto.randomUUID();
-        localStorage.setItem("persian-stark-session",id);
+        if(!id){
+            id = crypto.randomUUID();
+            localStorage.setItem("persian-stark-session",id);
+        }
+
+        return id;
+    }catch(error){
+        console.warn("Session storage unavailable:",error);
+        return crypto.randomUUID();
     }
-
-    return id;
 }
 
 async function updateSiteStats(){
