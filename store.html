@@ -1,919 +1,360 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090b10">
-<title>فروشگاه PERSIAN STARK | اسکین CS2</title>
-<meta name="description" content="ویترین اسکین‌های Counter-Strike 2 در فروشگاه PERSIAN STARK">
+<meta name="theme-color" content="#0c0d12">
+<title>فروشگاه اسکین CS2 | PERSIAN STARK</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root {
-  color-scheme: dark;
-  --bg: #090b10;
-  --panel: #11151e;
-  --line: #252d3b;
-  --text: #f4f6fb;
-  --muted: #9ba6b8;
-  --lime: #c6f36b;
-}
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  background: radial-gradient(ellipse at 50% -15%, #27331e 0, transparent 42%), var(--bg);
-  color: var(--text);
-  font-family: Tahoma, Arial, sans-serif;
-  min-height: 100vh;
-}
-
-a { color: inherit; text-decoration: none; }
-button, input, select, textarea { font: inherit; }
-
-.container {
-  width: min(1240px, 92%);
-  margin: auto;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: #090b10ef;
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--line);
-}
-
-.nav {
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-}
-
-.brand {
-  font-weight: 1000;
-  font-size: 19px;
-  white-space: nowrap;
-}
-
-.brand span, .accent { color: var(--lime); }
-
-.nav-right, .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.nav-links {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.nav-links a:hover { color: var(--lime); }
-
-.account-link {
-  border: 1px solid #465335;
-  border-radius: 10px;
-  padding: 10px 13px;
-  font-size: 12px;
-  color: var(--lime);
-  white-space: nowrap;
-}
-
-.hero { padding: 46px 0 28px; }
-
-.hero-panel {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #303a2a;
-  border-radius: 24px;
-  padding: clamp(24px, 5vw, 54px);
-  background: linear-gradient(115deg, #151d13, #111720 52%, #121522);
-}
-
-.hero-panel:after {
-  content: "CS2";
-  position: absolute;
-  left: 2%;
-  bottom: -42px;
-  font-size: clamp(90px, 19vw, 220px);
-  font-weight: 1000;
-  color: #ffffff08;
-  pointer-events: none;
-}
-
-.eyebrow {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: var(--lime);
-  font-weight: bold;
-}
-
-.hero h1 {
-  font-size: clamp(27px, 4.5vw, 47px);
-  line-height: 1.65;
-  margin: 14px 0 8px;
-  max-width: 760px;
-}
-
-.hero p {
-  color: #b0b8c7;
-  font-size: 13px;
-  line-height: 2.2;
-  max-width: 690px;
-  margin: 0;
-}
-
-.hero-bottom {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 23px;
-}
-
-.pill-note, .stat-pill {
-  font-size: 11px;
-  border: 1px solid #3a4530;
-  border-radius: 999px;
-  padding: 9px 13px;
-  color: #d9efb7;
-  background: #1b2518;
-}
-
-.stat-pill {
-  color: #c4ccda;
-  border-color: var(--line);
-  background: #ffffff06;
-}
-
-.toolbar-wrap {
-  margin: 16px 0 27px;
-  padding: 15px;
-  border: 1px solid var(--line);
-  border-radius: 17px;
-  background: #10141c;
-}
-
-.toolbar-label {
-  font-size: 12px;
-  font-weight: bold;
-  margin: 0 0 12px;
-}
-
-.toolbar {
-  display: grid;
-  grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(125px, 1fr));
-  gap: 10px;
-}
-
-.field {
-  width: 100%;
-  min-width: 0;
-  background: #0b0e14;
-  border: 1px solid #2a3241;
-  border-radius: 10px;
-  color: var(--text);
-  padding: 13px;
-  outline: none;
-}
-
-.field:focus { border-color: var(--lime); }
-.field::placeholder { color: #7d8798; }
-
-.section-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 25px 0 17px;
-}
-
-.section-head h2 {
-  font-size: 20px;
-  margin: 0 0 5px;
-}
-
-.section-head p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.8;
-}
-
-#resultCount {
-  color: var(--lime);
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  padding-bottom: 54px;
-}
-
-.card {
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 17px;
-  background: linear-gradient(160deg, #171d27, #10131b);
-  transition: transform .2s, border-color .2s, box-shadow .2s;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  border-color: #667d3e;
-  box-shadow: 0 14px 35px #0005;
-}
-
-.image-wrap {
-  height: 205px;
-  position: relative;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(ellipse, #2b3442 0, #171d28 55%, #121620);
-  border-bottom: 1px solid #ffffff08;
-}
-
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 14px;
-  display: block;
-}
-
-.image-placeholder {
-  height: 100%;
-  width: 100%;
-  display: grid;
-  place-items: center;
-  color: #8994a7;
-  font-size: 12px;
-  background: radial-gradient(ellipse, #222b36, #141923);
-}
-
-.image-placeholder span {
-  display: block;
-  text-align: center;
-  line-height: 2;
-}
-
-.image-placeholder b {
-  display: block;
-  font-size: 30px;
-  color: #64744a;
-  margin-bottom: 4px;
-}
-
-.card-body { padding: 15px; }
-
-.badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.badge {
-  border-radius: 6px;
-  background: #252d3b;
-  color: #cbd3e0;
-  font-size: 10px;
-  padding: 5px 7px;
-}
-
-.badge.site {
-  background: #26341c;
-  color: #d9f7a9;
-}
-
-.badge.user {
-  background: #1e2d43;
-  color: #b9d7ff;
-}
-
-.card h3 {
-  margin: 0 0 7px;
-  font-size: 15px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-.details {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 2;
-  min-height: 43px;
-}
-
-.price-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: 15px 0 13px;
-}
-
-.price {
-  color: var(--lime);
-  font-size: 19px;
-  font-weight: 900;
-  direction: ltr;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-
-.currency-label {
-  color: #a9b2c1;
-  font-size: 11px;
-}
-
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 12px;
-  background: var(--lime);
-  color: #11150b;
-  font-weight: bold;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background .15s;
-}
-
-.btn:hover { background: #d5ff86; }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
-
-.btn.secondary {
-  background: #171d28;
-  border-color: #30394a;
-  color: var(--text);
-}
-
-.state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 48px 15px;
-  border: 1px dashed #343d4c;
-  border-radius: 15px;
-  color: var(--muted);
-  line-height: 2;
-  font-size: 13px;
-  background: #ffffff03;
-}
-
-.error { color: #ff8585; }
-
-footer {
-  border-top: 1px solid var(--line);
-  padding: 26px 0;
-  color: var(--muted);
-  text-align: center;
-  font-size: 11px;
-  line-height: 2.3;
-}
-
-footer strong { color: var(--text); }
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: #000c;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-}
-
-.modal-backdrop.open { display: flex; }
-
-.modal {
-  width: min(480px, 100%);
-  background: #111620;
-  border: 1px solid #30394a;
-  border-radius: 18px;
-  padding: 23px;
-  max-height: 90vh;
-  overflow: auto;
-  box-shadow: 0 25px 90px #0009;
-}
-
-.modal h2 { font-size: 19px; margin: 0 0 10px; }
-
-.modal p {
-  color: var(--muted);
-  line-height: 2;
-  font-size: 12px;
-}
-
-.modal .field {
-  margin: 7px 0 12px;
-  resize: vertical;
-}
-
-.modal-actions {
-  display: grid;
-  gap: 9px;
-  margin-top: 12px;
-}
-
-#modalMessage {
-  font-size: 12px;
-  line-height: 2;
-  overflow-wrap: anywhere;
-  min-height: 20px;
-}
-
-.signed-in { color: var(--lime); }
-
-@media(max-width:1000px) {
-  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media(max-width:650px) {
-  .nav { min-height: 62px; }
-  .nav-links { gap: 11px; font-size: 10px; }
-  .brand { font-size: 15px; }
-  .account-link { padding: 8px; font-size: 10px; }
-  .nav-right { gap: 10px; }
-  .hero { padding-top: 25px; }
-  .hero-panel { border-radius: 17px; }
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .image-wrap { height: 150px; }
-  .card-body { padding: 10px; }
-  .card h3 { font-size: 13px; }
-  .price { font-size: 16px; }
-  .details { font-size: 10px; }
-  .toolbar-wrap { padding: 10px; }
-  .field { padding: 11px; font-size: 12px; }
-  .section-head h2 { font-size: 17px; }
-}
-
-@media(max-width:390px) {
-  .nav-links a:nth-child(2) { display: none; }
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .image-wrap { height: 125px; }
-  .hero h1 { font-size: 25px; }
-}
+:root{color-scheme:dark;--bg:#0c0d12;--panel:#151923;--panel2:#1d2330;--line:#303747;--text:#f4f6fb;--muted:#a4adbd;--lime:#bdf45a;--red:#ff7777}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#1b2434 0,transparent 55%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+.container{width:min(1180px,92%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#0c0d12ed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{font-size:18px;font-weight:900}
+.brand span,.accent{color:var(--lime)}
+.nav-right,.nav-links{display:flex;align-items:center;gap:16px}
+.nav-links{font-size:12px;color:var(--muted)}
+.account-link{border:1px solid var(--line);padding:9px 12px;border-radius:9px;font-size:12px}
+.hero{padding:34px 0 20px}
+.hero-panel{border:1px solid #333b4c;border-radius:20px;padding:clamp(22px,5vw,42px);background:linear-gradient(120deg,#192131,#11151e 70%)}
+.eyebrow{font-size:11px;letter-spacing:1px;color:var(--lime);font-weight:bold}
+.hero h1{font-size:clamp(25px,5vw,42px);line-height:1.7;margin:12px 0}
+.hero p{color:var(--muted);font-size:13px;line-height:2.1;max-width:720px}
+.hero-bottom{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.pill{font-size:11px;padding:8px 11px;border-radius:9px;background:#252c38;color:#d7deea}
+.pill.warning{background:#292c20;color:#e2f9ad;border:1px solid #424c2e}
+.toolbar-wrap,.panel{border:1px solid var(--line);border-radius:16px;background:#11151e;padding:16px;margin:16px 0}
+.toolbar-label{font-size:12px;color:var(--muted);margin:0 0 10px}
+.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px}
+.field{width:100%;min-width:0;background:#171d28;border:1px solid #30394a;color:var(--text);border-radius:10px;padding:12px;outline:none}
+.field:focus{border-color:var(--lime)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:24px 0 14px}
+.section-head h2{font-size:18px;margin:0}
+#resultCount{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;padding-bottom:42px}
+.card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:15px;background:linear-gradient(150deg,#1b2230,#11151d)}
+.image-wrap{height:185px;display:grid;place-items:center;background:radial-gradient(ellipse,#30394b,#171c26);overflow:hidden}
+.product-image{width:100%;height:100%;object-fit:contain;padding:12px}
+.image-placeholder{color:var(--muted);font-size:12px}
+.card-body{padding:13px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.badge{font-size:10px;padding:5px 7px;border-radius:6px;background:#2a3040;color:#dce2ef}
+.badge.site{background:#25351b;color:#d8f9a6}
+.badge.user{background:#253449;color:#b7d8ff}
+.card h3{font-size:14px;line-height:1.8;margin:0 0 8px;overflow-wrap:anywhere}
+.details{font-size:11px;color:var(--muted);line-height:2;min-height:42px}
+.price{font-size:17px;color:var(--lime);font-weight:bold;margin:12px 0;overflow-wrap:anywhere}
+.btn{display:inline-flex;justify-content:center;align-items:center;border:1px solid transparent;border-radius:9px;padding:11px 13px;background:var(--lime);color:#11150b;font-weight:bold;font-size:12px;cursor:pointer;width:100%}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.secondary{background:#171d28;border-color:var(--line);color:var(--text)}
+.state{grid-column:1/-1;text-align:center;padding:42px 14px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:2}
+.error{color:var(--red)}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);text-align:center;font-size:11px;line-height:2.2}
+.modal-backdrop{position:fixed;inset:0;z-index:30;background:#000c;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-backdrop.open{display:flex}
+.modal{width:min(560px,100%);max-height:92vh;overflow:auto;background:#111620;border:1px solid #30394a;border-radius:17px;padding:21px;box-shadow:0 25px 90px #0009}
+.modal h2{font-size:19px;margin:0 0 10px}
+.modal p{font-size:12px;line-height:2;color:var(--muted)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-field label{display:block;font-size:12px;margin:2px 0 7px}
+.form-field .field{margin-bottom:4px}
+.full{grid-column:1/-1}
+.required-note{font-size:11px;color:var(--muted)}
+.checkline{display:flex;gap:9px;align-items:flex-start;line-height:2;font-size:12px;margin:12px 0}
+.checkline input{margin-top:6px;accent-color:var(--lime);flex-shrink:0}
+.text-link{color:var(--lime);text-decoration:underline;cursor:pointer;background:none;border:0;padding:0}
+.modal-actions{display:grid;gap:9px;margin-top:12px}
+#modalMessage{font-size:12px;line-height:2;min-height:20px;overflow-wrap:anywhere}
+.rules-list{font-size:12px;line-height:2.2;color:#d5dbe6;padding-right:20px}
+.rules-modal{width:min(600px,100%)}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.nav{min-height:60px}.nav-links{gap:9px;font-size:10px}.brand{font-size:14px}.nav-right{gap:8px}.account-link{font-size:10px;padding:8px}.hero{padding-top:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.image-wrap{height:140px}.card-body{padding:10px}.card h3{font-size:12px}.price{font-size:15px}.details{font-size:10px}.toolbar-wrap{padding:10px}.field{padding:10px;font-size:12px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}}
+@media(max-width:390px){.nav-links a:nth-child(2){display:none}.image-wrap{height:125px}.hero h1{font-size:24px}}
 </style>
 </head>
-
 <body>
 <header>
-  <div class="container nav">
-    <a class="brand" href="./index.html">PERSIAN <span>STARK</span></a>
-    <div class="nav-right">
-      <nav class="nav-links" aria-label="ناوبری اصلی">
-        <a href="./index.html">صفحه اصلی</a>
-        <a href="./subtitles.html">زیرنویس‌ها</a>
-        <a href="./store.html" aria-current="page">فروشگاه CS2</a>
-      </nav>
-      <a class="account-link" id="accountLink" href="./index.html">ورود / ثبت‌نام</a>
-    </div>
-  </div>
+<div class="container nav">
+<a class="brand" href="./index.html">PERSIAN <span>STARK</span></a>
+<div class="nav-right">
+<nav class="nav-links" aria-label="ناوبری">
+<a href="./index.html">صفحه اصلی</a>
+<a href="./subtitles.html">زیرنویس‌ها</a>
+<a href="./store.html" aria-current="page">فروشگاه CS2</a>
+</nav>
+<a class="account-link" id="accountLink" href="./index.html">ورود / ثبت‌نام</a>
+</div>
+</div>
 </header>
 
 <main class="container">
-  <section class="hero">
-    <div class="hero-panel">
-      <div class="eyebrow">PERSIAN STARK · CS2 MARKETPLACE</div>
-      <h1>به فروشگاه <span class="accent">PERSIAN STARK</span> خوش آمدید</h1>
-      <p>
-        بازار اسکین‌های Counter-Strike 2؛ مشخصات آیتم‌ها را بررسی کن،
-        جست‌وجو کن و برای خرید درخواست بفرست. ساده، مرتب و مخصوص پلیرها.
-      </p>
-      <div class="hero-bottom">
-        <span class="pill-note">پرداخت آنلاین فعلاً غیرفعال است</span>
-        <span class="stat-pill">فقط آگهی‌های فعال نمایش داده می‌شوند</span>
-      </div>
-    </div>
-  </section>
+<section class="hero">
+<div class="hero-panel">
+<div class="eyebrow">PERSIAN STARK · CS2 MARKETPLACE</div>
+<h1>به فروشگاه <span class="accent">PERSIAN STARK</span> خوش آمدید</h1>
+<p>بازار اسکین‌های Counter-Strike 2؛ مشخصات آیتم‌ها را بررسی کن و برای خرید درخواست بفرست.</p>
+<div class="hero-bottom">
+<span class="pill warning">پرداخت آنلاین غیرفعال است</span>
+<span class="pill">ثبت درخواست به معنی نهایی‌شدن معامله نیست</span>
+</div>
+</div>
+</section>
 
-  <section class="toolbar-wrap" aria-label="جست‌وجو و فیلتر محصولات">
-    <p class="toolbar-label">اسکین موردنظرت رو پیدا کن</p>
-    <div class="toolbar">
-      <input id="searchInput" class="field" type="search"
-        placeholder="جست‌وجوی نام اسکین یا سلاح..." aria-label="جست‌وجو">
+<section class="toolbar-wrap" aria-label="جست‌وجو و فیلتر">
+<p class="toolbar-label">اسکین موردنظرت رو پیدا کن</p>
+<div class="toolbar">
+<input id="searchInput" class="field" type="search" placeholder="جست‌وجوی نام اسکین یا سلاح..." aria-label="جست‌وجو">
+<select id="wearFilter" class="field" aria-label="وضعیت ظاهری">
+<option value="">تمام وضعیت‌ها</option>
+<option>Factory New</option><option>Minimal Wear</option><option>Field-Tested</option><option>Well-Worn</option><option>Battle-Scarred</option><option>Not Applicable</option><option>Unknown</option>
+</select>
+<select id="sourceFilter" class="field" aria-label="نوع فروشنده">
+<option value="">تمام فروشنده‌ها</option>
+<option value="site">موجودی سایت</option>
+<option value="user">فروشنده کاربر</option>
+</select>
+<select id="sortFilter" class="field" aria-label="مرتب‌سازی">
+<option value="newest">جدیدترین</option>
+<option value="price-asc">ارزان‌ترین</option>
+<option value="price-desc">گران‌ترین</option>
+<option value="name">نام اسکین</option>
+</select>
+</div>
+</section>
 
-      <select id="wearFilter" class="field" aria-label="وضعیت ظاهری">
-        <option value="">همه وضعیت‌ها</option>
-        <option>Factory New</option>
-        <option>Minimal Wear</option>
-        <option>Field-Tested</option>
-        <option>Well-Worn</option>
-        <option>Battle-Scarred</option>
-        <option>Not Applicable</option>
-        <option>Unknown</option>
-      </select>
-
-      <select id="sourceFilter" class="field" aria-label="نوع فروشنده">
-        <option value="">همه فروشنده‌ها</option>
-        <option value="site">موجودی سایت</option>
-        <option value="user">فروشنده کاربر</option>
-      </select>
-
-      <select id="sortFilter" class="field" aria-label="مرتب‌سازی">
-        <option value="newest">جدیدترین</option>
-        <option value="price-asc">ارزان‌ترین</option>
-        <option value="price-desc">گران‌ترین</option>
-        <option value="name">نام اسکین</option>
-      </select>
-    </div>
-  </section>
-
-  <div class="section-head">
-    <div>
-      <h2>ویترین اسکین‌ها</h2>
-      <p>آیتمت رو انتخاب کن و جزئیاتش رو ببین.</p>
-    </div>
-    <span id="resultCount">در حال بارگذاری…</span>
-  </div>
-
-  <section id="productGrid" class="grid" aria-live="polite">
-    <div class="state">در حال آماده‌سازی فروشگاه…</div>
-  </section>
+<div class="section-head"><h2>اسکین‌های موجود</h2><span id="resultCount">در حال دریافت اطلاعات...</span></div>
+<section id="productGrid" class="grid" aria-live="polite"><div class="state">در حال بارگذاری فروشگاه...</div></section>
 </main>
 
 <footer>
-  <div class="container">
-    <strong>PERSIAN STARK</strong> · فروشگاه اسکین CS2<br>
-    ثبت درخواست به معنی تأیید موجودی یا نهایی‌شدن معامله نیست.
-    پرداخت آنلاین و انتقال خودکار آیتم فعال نیست.
-  </div>
+<div class="container">PERSIAN STARK · فروشگاه اسکین CS2<br>این نسخه فقط درخواست خرید ثبت می‌کند؛ پرداخت و انتقال اسکین انجام نمی‌شود.</div>
 </footer>
 
-<div id="orderModal" class="modal-backdrop" role="dialog"
-  aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <h2 id="modalTitle">درخواست خرید اسکین</h2>
-    <p id="selectedProduct"></p>
-    <p>
-      درخواست فقط برای بررسی ثبت می‌شود. تا پیش از تأیید شرایط معامله،
-      پرداخت یا انتقال آیتمی انجام نده.
-    </p>
+<div id="orderModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<div class="modal">
+<h2 id="modalTitle">درخواست خرید اسکین</h2>
+<p id="selectedProduct"></p>
+<p>برای ثبت درخواست، تمام اطلاعات را دقیق وارد کن. پرداخت یا انتقال آیتم در این مرحله انجام نمی‌شود.</p>
+<form id="orderForm" novalidate>
+<div class="form-grid">
+<div class="form-field"><label for="buyerName">نام و نام خانوادگی *</label><input class="field" id="buyerName" maxlength="120" autocomplete="name" required></div>
+<div class="form-field"><label for="buyerPhone">شماره تلفن *</label><input class="field" id="buyerPhone" maxlength="30" type="tel" autocomplete="tel" required></div>
+<div class="form-field"><label for="buyerTelegram">آیدی تلگرام *</label><input class="field" id="buyerTelegram" maxlength="100" placeholder="@username" required></div>
+<div class="form-field"><label for="buyerSteam">اسم اکانت استیم *</label><input class="field" id="buyerSteam" maxlength="120" required></div>
+<div class="form-field full"><label for="buyerTrade">لینک ترید استیم *</label><input class="field" id="buyerTrade" type="url" maxlength="500" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=...&token=..." required></div>
+<div class="form-field full"><label for="orderNote">توضیحات (اختیاری)</label><textarea class="field" id="orderNote" rows="3" maxlength="1500" placeholder="توضیحات تکمیلی..."></textarea></div>
+</div>
+<label class="checkline"><input id="acceptRules" type="checkbox" required><span>پذیرفتن تمام قوانین PERSIAN STARK برای اطلاعات بیشتر از <button class="text-link" id="openRules" type="button">قوانین کلیک کنید</button></span></label>
+<div class="required-note">* پر کردن تمامی فیلد ها الزامی می‌باشد.</div>
+<div id="modalMessage" role="status" aria-live="polite"></div>
+<div class="modal-actions">
+<button id="submitOrder" class="btn" type="submit">ثبت درخواست</button>
+<button id="closeModal" class="btn secondary" type="button">بستن</button>
+</div>
+</form>
+</div>
+</div>
 
-    <label for="orderNote">توضیحات (اختیاری)</label>
-    <textarea id="orderNote" class="field" rows="3" maxlength="1500"
-      placeholder="توضیحات تکمیلی…"></textarea>
-
-    <div id="modalMessage" role="status"></div>
-
-    <div class="modal-actions">
-      <button id="submitOrder" class="btn">ثبت درخواست</button>
-      <button id="closeModal" class="btn secondary" type="button">بستن</button>
-    </div>
-  </div>
+<div id="rulesModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+<div class="modal rules-modal">
+<h2 id="rulesTitle">قوانین ثبت درخواست خرید PERSIAN STARK</h2>
+<ul class="rules-list">
+<li>ثبت درخواست صرفاً برای بررسی اولیه است و به معنی تأیید موجودی، نهایی‌شدن خرید یا تضمین انجام معامله نیست.</li>
+<li>در این نسخه پرداخت آنلاین و انتقال خودکار اسکین فعال نیست؛ تا دریافت تأیید رسمی از مدیریت، پرداخت یا انتقال آیتم انجام نده.</li>
+<li>اطلاعات تماس و لینک ترید باید صحیح و متعلق به خودت باشد؛ اطلاعات ثبت‌شده برای پیگیری همین درخواست در اختیار مدیران مجاز فروشگاه قرار می‌گیرد.</li>
+<li>از ارسال رمز عبور، کد تأیید، کد Steam Guard یا اطلاعات محرمانه حساب خودداری کن. فروشگاه هرگز به این اطلاعات نیاز ندارد.</li>
+<li>مدیریت می‌تواند درخواست را بررسی، رد یا وضعیت آن را تغییر دهد. ثبت درخواست به تنهایی تعهدی برای فروشنده ایجاد نمی‌کند.</li>
+<li>با ثبت درخواست تأیید می‌کنی که اطلاعات را آگاهانه ارسال کرده‌ای و این قوانین را خوانده‌ای.</li>
+</ul>
+<p>در صورت نیاز، متن این قوانین را با قوانین رسمی و نهایی سایت هماهنگ کن.</p>
+<div class="modal-actions"><button class="btn" id="closeRules" type="button">متوجه شدم</button></div>
+</div>
 </div>
 
 <script>
 (() => {
-  "use strict";
+'use strict';
 
-  const SUPABASE_URL = "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+const SUPABASE_URL='https://jmdoxofcyoxdrtxvvuiu.supabase.co';
+const SUPABASE_KEY='sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74';
+const $=id=>document.getElementById(id);
+const grid=$('productGrid'), count=$('resultCount'), modal=$('orderModal'), rulesModal=$('rulesModal'), submitButton=$('submitOrder');
+let db=null, listings=[], selectedListing=null, busy=false, alreadySubmitted=false;
 
-  const grid = document.getElementById("productGrid");
-  const count = document.getElementById("resultCount");
-  const searchInput = document.getElementById("searchInput");
-  const wearFilter = document.getElementById("wearFilter");
-  const sourceFilter = document.getElementById("sourceFilter");
-  const sortFilter = document.getElementById("sortFilter");
-  const modal = document.getElementById("orderModal");
-  const modalMessage = document.getElementById("modalMessage");
-  const submitOrder = document.getElementById("submitOrder");
-  const accountLink = document.getElementById("accountLink");
+const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function setState(message,isError=false){grid.innerHTML=`<div class="state ${isError?'error':''}">${escapeHtml(message)}</div>`;count.textContent='۰ اسکین';}
+function formatPrice(price,currency){const n=Number(price);if(!Number.isFinite(n))return'قیمت نامشخص';return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(n)+' '+String(currency||'');}
+function safeUrl(value){try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)?u.href:'';}catch{return'';}}
 
-  let db = null;
-  let listings = [];
-  let selectedListing = null;
-  let busy = false;
+function render(){
+const q=$('searchInput').value.trim().toLocaleLowerCase();
+const wear=$('wearFilter').value,source=$('sourceFilter').value,sort=$('sortFilter').value;
+let items=listings.filter(p=>`${p.title||''} ${p.weapon||''} ${p.skin_name||''} ${p.rarity||''}`.toLocaleLowerCase().includes(q)&&(!wear||p.wear===wear)&&(!source||p.source===source));
+if(sort==='price-asc')items.sort((a,b)=>Number(a.price)-Number(b.price));
+else if(sort==='price-desc')items.sort((a,b)=>Number(b.price)-Number(a.price));
+else if(sort==='name')items.sort((a,b)=>String(a.title||'').localeCompare(String(b.title||'')));
+else items.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+count.textContent=`${items.length.toLocaleString('fa-IR')} اسکین`;
+if(!items.length){grid.innerHTML=`<div class="state">${listings.length?'اسکینی با این فیلترها پیدا نشد.':'هنوز اسکین فعالی در فروشگاه ثبت نشده است.'}</div>`;return;}
+grid.innerHTML=items.map(p=>{
+const image=safeUrl(p.image_url);
+return `<article class="card">
+<div class="image-wrap">${image?`<img class="product-image" src="${escapeHtml(image)}" alt="${escapeHtml(p.title)}" loading="lazy" referrerpolicy="no-referrer">`:'<div class="image-placeholder">تصویر اسکین ثبت نشده</div>'}</div>
+<div class="card-body">
+<div class="badges"><span class="badge ${p.source==='site'?'site':'user'}">${p.source==='site'?'موجودی سایت':'فروشنده کاربر'}</span><span class="badge">${escapeHtml(p.wear||'وضعیت نامشخص')}</span>${p.stattrak?'<span class="badge">StatTrak™</span>':''}</div>
+<h3>${escapeHtml(p.title||p.skin_name||'اسکین')}</h3>
+<div class="details">${escapeHtml(p.weapon||'')} · ${escapeHtml(p.rarity||'')}${p.float_value!=null?' · Float: '+escapeHtml(p.float_value):''}</div>
+<div class="price">${escapeHtml(formatPrice(p.price,p.currency))}</div>
+<button class="btn" type="button" data-order-id="${escapeHtml(p.id)}">درخواست خرید</button>
+</div></article>`;
+}).join('');
+}
 
-  const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
+async function loadListings(){
+setState('در حال دریافت اسکین‌ها...');
+try{
+const {data,error}=await db.from('store_listings').select('id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,created_at').eq('status','active').order('created_at',{ascending:false}).limit(100);
+if(error)throw error;
+listings=data||[];
+render();
+}catch(e){console.error('load listings',e);setState('دریافت فروشگاه انجام نشد. اتصال Supabase و سیاست‌های RLS را بررسی کن.',true);}
+}
 
-  function setState(message, isError = false) {
-    grid.innerHTML = `<div class="state ${isError ? "error" : ""}">${escapeHTML(message)}</div>`;
-    count.textContent = "۰ اسکین";
-  }
+async function updateAccountLink(){
+const {data}=await db.auth.getSession();
+const user=data.session?.user;
+$('accountLink').textContent=user?'حساب کاربری':'ورود / ثبت‌نام';
+$('accountLink').href='./index.html';
+}
 
-  function currencyLabel(currency) {
-    const labels = {
-      IRT: "تومان",
-      IRR: "ریال",
-      EUR: "یورو",
-      USD: "دلار",
-      TRY: "لیر",
-      AZN: "منات"
-    };
+function openOrder(id){
+selectedListing=listings.find(p=>String(p.id)===String(id));
+if(!selectedListing)return;
+alreadySubmitted=false;
+$('selectedProduct').textContent=`${selectedListing.title||selectedListing.skin_name} — ${formatPrice(selectedListing.price,selectedListing.currency)}`;
+$('orderForm').reset();
+$('modalMessage').textContent='';
+submitButton.disabled=false;
+submitButton.textContent='ثبت درخواست';
+modal.classList.add('open');
+}
 
-    return labels[String(currency || "").toUpperCase()]
-      || String(currency || "واحد نامشخص");
-  }
+function closeOrder(){
+if(busy)return;
+modal.classList.remove('open');
+selectedListing=null;
+}
 
-  function formatPrice(price, currency) {
-    const amount = Number(price);
+function isSteamTradeUrl(value){
+try{const u=new URL(value);return u.protocol==='https:'&&u.hostname.toLowerCase()==='steamcommunity.com'&&u.pathname.startsWith('/tradeoffer/new/');}
+catch{return false;}
+}
 
-    if (!Number.isFinite(amount)) return "قیمت نامشخص";
+function validTelegram(value){return /^@?[A-Za-z0-9_]{3,32}$/.test(value.trim());}
 
-    const code = String(currency || "").toUpperCase();
-    const digits = code === "IRT" || code === "IRR" ? 0 : 2;
+async function sendOrder(event){
+event.preventDefault();
+if(busy||alreadySubmitted||!selectedListing)return;
 
-    try {
-      return new Intl.NumberFormat("fa-IR", {
-        maximumFractionDigits: digits,
-        minimumFractionDigits: 0
-      }).format(amount);
-    } catch {
-      return amount.toLocaleString("en-US");
-    }
-  }
+const fields={
+buyer_full_name:$('buyerName').value.trim(),
+buyer_phone:$('buyerPhone').value.trim(),
+buyer_telegram:$('buyerTelegram').value.trim(),
+buyer_steam_name:$('buyerSteam').value.trim(),
+buyer_trade_url:$('buyerTrade').value.trim()
+};
+const note=$('orderNote').value.trim();
 
-  function safeImageURL(value) {
-    if (!value) return "";
+if(Object.values(fields).some(v=>!v)||!$('acceptRules').checked){
+$('modalMessage').textContent='پر کردن تمامی فیلد ها الزامی می‌باشد و پذیرش قوانین نیز ضروری است.';
+return;
+}
+if(!validTelegram(fields.buyer_telegram)){
+$('modalMessage').textContent='آیدی تلگرام معتبر وارد کن (۳ تا ۳۲ حرف، عدد یا زیرخط).';
+return;
+}
+if(!isSteamTradeUrl(fields.buyer_trade_url)){
+$('modalMessage').textContent='لینک ترید باید از نوع لینک معتبر Steam Trade Offer باشد.';
+return;
+}
+if(fields.buyer_phone.replace(/[\s()+.-]/g,'').length<7){
+$('modalMessage').textContent='شماره تلفن معتبر وارد کن.';
+return;
+}
 
-    try {
-      const url = new URL(value);
+busy=true;
+submitButton.disabled=true;
+$('modalMessage').textContent='در حال بررسی ورود و ثبت درخواست...';
 
-      if (url.protocol === "https:" || url.protocol === "http:") {
-        return url.href;
-      }
-    } catch {}
+try{
+const {data:authData,error:authError}=await db.auth.getUser();
+if(authError||!authData.user){
+$('modalMessage').textContent='برای ثبت درخواست ابتدا از صفحه ورود سایت وارد حساب کاربری شو.';
+return;
+}
 
-    return "";
-  }
+const {data:listing,error:listingError}=await db.from('store_listings').select('id,title,price,currency,status').eq('id',selectedListing.id).eq('status','active').maybeSingle();
+if(listingError)throw listingError;
+if(!listing){
+$('modalMessage').textContent='این اسکین دیگر فعال نیست. فروشگاه را تازه‌سازی کن.';
+await loadListings();
+return;
+}
 
-  function render() {
-    const query = searchInput.value.trim().toLocaleLowerCase();
-    const wear = wearFilter.value;
-    const source = sourceFilter.value;
-    const sort = sortFilter.value;
+const payload={
+listing_id:listing.id,
+buyer_id:authData.user.id,
+note:note||null,
+status:'requested',
+...fields,
+rules_accepted:true,
+rules_accepted_at:new Date().toISOString()
+};
 
-    let items = listings.filter(item => {
-      const haystack =
-        `${item.title} ${item.weapon} ${item.skin_name} ${item.rarity}`
-          .toLocaleLowerCase();
+const {error}=await db.from('store_orders').insert(payload);
+if(error)throw error;
 
-      return (!query || haystack.includes(query))
-        && (!wear || item.wear === wear)
-        && (!source || item.source === source);
-    });
+alreadySubmitted=true;
+submitButton.textContent='ثبت شد';
+$('modalMessage').textContent='درخواست ثبت شد. این درخواست پرداخت یا انتقال اسکین را انجام نمی‌دهد.';
+}catch(e){
+console.error('send order',e);
+$('modalMessage').textContent=e?.code==='23505'?'این درخواست قبلاً ثبت شده است.':`ثبت درخواست ناموفق بود. اگر فیلدهای جدید دیتابیس را اضافه نکرده‌ای، ابتدا فایل SQL همراه کد را اجرا کن. ${e?.message||''}`;
+}finally{
+busy=false;
+if(modal.classList.contains('open')&&!alreadySubmitted)submitButton.disabled=false;
+}
+}
 
-    if (sort === "price-asc") {
-      items.sort((a, b) => Number(a.price) - Number(b.price));
-    } else if (sort === "price-desc") {
-      items.sort((a, b) => Number(b.price) - Number(a.price));
-    } else if (sort === "name") {
-      items.sort((a, b) => String(a.title).localeCompare(String(b.title), "fa"));
-    } else {
-      items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    }
+$('searchInput').addEventListener('input',render);
+$('wearFilter').addEventListener('change',render);
+$('sourceFilter').addEventListener('change',render);
+$('sortFilter').addEventListener('change',render);
+grid.addEventListener('click',e=>{const b=e.target.closest('[data-order-id]');if(b)openOrder(b.dataset.orderId);});
+$('orderForm').addEventListener('submit',sendOrder);
+$('closeModal').addEventListener('click',closeOrder);
+modal.addEventListener('click',e=>{if(e.target===modal)closeOrder();});
+$('openRules').addEventListener('click',()=>rulesModal.classList.add('open'));
+$('closeRules').addEventListener('click',()=>rulesModal.classList.remove('open'));
+rulesModal.addEventListener('click',e=>{if(e.target===rulesModal)rulesModal.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){rulesModal.classList.remove('open');closeOrder();}});
 
-    count.textContent = `${items.length.toLocaleString("fa-IR")} اسکین`;
+if(!window.supabase?.createClient){
+setState('کتابخانه Supabase بارگذاری نشد. اینترنت یا CDN را بررسی کن.',true);
+return;
+}
 
-    if (!items.length) {
-      setState(
-        listings.length
-          ? "اسکینی با این فیلترها پیدا نشد."
-          : "هنوز اسکین فعالی در فروشگاه ثبت نشده است."
-      );
-      return;
-    }
-
-    grid.innerHTML = items.map(item => {
-      const image = safeImageURL(item.image_url);
-
-      const badge = item.source === "site"
-        ? '<span class="badge site">موجودی سایت</span>'
-        : '<span class="badge user">فروشنده کاربر</span>';
-
-      const floatText = item.float_value == null
-        ? ""
-        : ` · Float: ${escapeHTML(item.float_value)}`;
-
-      const imageHTML = image
-        ? `<div class="image-wrap">
-            <img class="product-image"
-              src="${escapeHTML(image)}"
-              alt="${escapeHTML(item.title)}"
-              loading="lazy"
-              referrerpolicy="no-referrer"
-              onerror="this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;><span><b>◇</b>تصویر در دسترس نیست</span></div>'">
-          </div>`
-        : `<div class="image-wrap">
-            <div class="image-placeholder">
-              <span><b>◇</b>تصویر اسکین ثبت نشده</span>
-            </div>
-          </div>`;
-
-      return `
-        <article class="card">
-          ${imageHTML}
-          <div class="card-body">
-            <div class="badges">
-              ${badge}
-              <span class="badge">${escapeHTML(item.wear)}</span>
-              ${item.stattrak ? '<span class="badge">StatTrak™</span>' : ""}
-            </div>
-
-            <h3>${escapeHTML(item.title)}</h3>
-
-            <div class="details">
-              ${escapeHTML(item.weapon)} · ${escapeHTML(item.rarity)}
-              ${floatText}
-            </div>
-
-            <div class="price-row">
-              <span class="price">${escapeHTML(formatPrice(item.price, item.currency))}</span>
-              <span class="currency-label">${escapeHTML(currencyLabel(item.currency))}</span>
-            </div>
-
-            <button class="btn" type="button"
-              data-order-id="${escapeHTML(item.id)}">
-              درخواست خرید
-            </button>
-          </div>
-        </article>`;
-    }).join("");
-  }
-
-  async function loadListings() {
-    setState("در حال دریافت اسکین‌ها…");
-
-    try {
-      const { data, error } = await db
-        .from("store_listings")
-        .select("id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,created_at")
-        .eq("status", "active")
-        .order("created_at", { ascending: false })
-        .limit(100);
-
-      if (error) throw error;
-
-      listings = data || [];
-      render();
-    } catch (error) {
-      console.error("Store loading error:", error);
-
-      setState(
-        "دریافت فروشگاه انجام نشد. اتصال Supabase و سیاست‌های RLS را بررسی کن.",
-        true
-      );
-    }
-  }
-
-  async function updateAccountLink() {
-    try {
-      const { data } = await db.auth.getUser();
-
-      if (data?.user) {
-        accountLink.textContent = "حساب کاربری";
-        accountLink.href = "./index.html";
-        accountLink.classList.add("signed-in");
-        accountLink.title = "وارد حساب شده‌اید";
-      } else {
-        accountLink.textContent = "ورود / ثبت‌نام";
-        accountLink.href = "./index.html";
-        accountLink.classList.remove("signed-in");
-      }
-    } catch {
-      accountLink.textContent = "ورود / ثبت‌نام";
-      accountLink.href = "./index.html";
-    }
-  }
-
-  function openOrder(id) {
-    selectedListing = listings.find(item => String(item.id) === String(id));
-
-    if (!selectedListing) return;
-
-    document.getElementById("selectedProduct").textContent =
-      `${selectedListing.title} — ${formatPrice(selectedListing.price, selectedListing.currency)} ${currencyLabel(selectedListing.currency)}`;
-
-    document.getElementById("orderNote").value = "";
-    modalMessage.textContent = "";
-    submitOrder.disabled = false;
-    submitOrder.textContent = "ثبت درخواست";
-    modal.classList.add("open");
-  }
-
-  function closeOrder() {
-    if (busy) return;
-
-    modal.classList.remove("open");
-    selectedListing = null;
-  }
-
-  async function sendOrder() {
-    if (busy || !selectedListing) return;
-
-    busy = true;
-    submitOrder.disabled = true;
-    modalMessage.textContent = "در حال بررسی حساب کاربری…";
-
-    try {
-      const { data: authData, error: authError } = await db.auth.getUser();
-
-      if (authError || !authData.user) {
-        modalMessage.textContent =
-          "برای ثبت درخواست، ابتدا از صفحه اصلی سایت وارد حساب کاربری شو یا ثبت‌نام کن.";
-        return;
-      }
-
-      const note = document.getElementById("orderNote").value.trim();
-
-      const { error } = await db
-        .from("store_orders")
-        .insert({
-          listing_id: selectedListing.id,
-          buyer_id: authData.user.id,
-          note: note || null,
-          status: "requested"
-        });
-
-      if (error) throw error;
-
-      modalMessage.textContent =
-        "درخواست ثبت شد. این کار هیچ پرداخت یا انتقال اسکینی انجام نمی‌دهد.";
-
-      submitOrder.textContent = "ثبت شد";
-      submitOrder.disabled = true;
-    } catch (error) {
-      console.error("Order request error:", error);
-
-      modalMessage.textContent = error?.code === "23505"
-        ? "این درخواست قبلاً ثبت شده است."
-        : "ثبت درخواست موفق نبود. ورود حساب و سیاست‌های RLS را بررسی کن.";
-    } finally {
-      busy = false;
-
-      if (
-        modal.classList.contains("open")
-        && submitOrder.textContent !== "ثبت شد"
-      ) {
-        submitOrder.disabled = false;
-      }
-    }
-  }
-
-  searchInput.addEventListener("input", render);
-  wearFilter.addEventListener("change", render);
-  sourceFilter.addEventListener("change", render);
-  sortFilter.addEventListener("change", render);
-
-  grid.addEventListener("click", event => {
-    const button = event.target.closest("[data-order-id]");
-
-    if (button) openOrder(button.dataset.orderId);
-  });
-
-  document.getElementById("closeModal").addEventListener("click", closeOrder);
-  submitOrder.addEventListener("click", sendOrder);
-
-  modal.addEventListener("click", event => {
-    if (event.target === modal) closeOrder();
-  });
-
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeOrder();
-  });
-
-  if (!window.supabase?.createClient) {
-    setState("کتابخانه اتصال بارگذاری نشد. اینترنت و دسترسی CDN را بررسی کن.", true);
-    return;
-  }
-
-  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      storageKey: "persian-stark-auth"
-    }
-  });
-
-  updateAccountLink();
-  db.auth.onAuthStateChange(() => updateAccountLink());
-  loadListings();
+db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'persian-stark-auth'}
+});
+db.auth.onAuthStateChange(()=>{updateAccountLink();});
+updateAccountLink();
+loadListings();
 })();
 </script>
 </body>
