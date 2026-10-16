@@ -107,6 +107,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);text-a
 .order-status.completed{background:#203b38;color:#aaf2d9}
 .order-id{direction:ltr;unicode-bidi:plaintext;overflow-wrap:anywhere}
 .section-note{font-size:11px;color:var(--muted);line-height:2}
+.ai-inline-link{color:var(--lime);text-decoration:underline}
 
 /* STARK AI */
 .ai-launcher{position:fixed;right:20px;bottom:20px;z-index:50;display:flex;align-items:center;gap:10px;border:1px solid #52643b;background:linear-gradient(135deg,#c8ff70,#9fd83f);color:#101608;border-radius:18px;padding:12px 17px;cursor:pointer;box-shadow:0 8px 35px #0008;font-weight:900}
@@ -256,7 +257,6 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);text-a
  <div class="container">PERSIAN STARK · فروشگاه اسکین CS2<br>این نسخه فقط درخواست خرید ثبت می‌کند؛ پرداخت و انتقال اسکین انجام نمی‌شود.</div>
 </footer>
 
-<!-- فرم ثبت درخواست برای هر آیتم سبد -->
 <div id="orderModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
  <div class="modal">
   <h2 id="modalTitle">ثبت درخواست خرید</h2>
@@ -297,7 +297,6 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);text-a
  </div>
 </div>
 
-<!-- STARK AI -->
 <button class="ai-launcher" id="aiLauncher" type="button" aria-expanded="false" aria-controls="starkPanel">
  <span class="ai-icon">✦</span><span>STARK AI<small>راهنمای فروشگاه</small></span>
 </button>
@@ -400,10 +399,13 @@ function setState(message,isError=false){
  count.textContent='۰ اسکین';
 }
 
-function formatPrice(price,currency){
- const n=Number(price);
- if(price===null||price===undefined||price===''||!Number.isFinite(n))return 'قیمت نامشخص';
- return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(n)+' '+String(currency||'تومان');
+/* تمام قیمت‌های نمایش‌داده‌شده در فروشگاه به تومان هستند.
+   این تابع واحد ارز دیتابیس را نادیده می‌گیرد. */
+function formatPrice(price){
+ if(price===null||price===undefined||String(price).trim()==='')return 'قیمت نامشخص';
+ const amount=Number(price);
+ if(!Number.isFinite(amount)||amount<0)return 'قیمت نامشخص';
+ return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(amount)+' تومان';
 }
 
 function safeUrl(value){
@@ -423,7 +425,9 @@ function readCart(){
  try{
   const raw=localStorage.getItem(CART_STORAGE_KEY);
   const parsed=raw?JSON.parse(raw):[];
-  cartIds=Array.isArray(parsed)?[...new Set(parsed.filter(v=>typeof v==='string'||typeof v==='number').map(String))].slice(0,100):[];
+  cartIds=Array.isArray(parsed)
+   ?[...new Set(parsed.filter(v=>typeof v==='string'||typeof v==='number').map(String))].slice(0,100)
+   :[];
  }catch(e){
   cartIds=[];
   cartStorageAvailable=false;
@@ -452,15 +456,31 @@ function cartProductTitle(p){
 function render(){
  const q=$('searchInput').value.trim().toLocaleLowerCase();
  const wear=$('wearFilter').value,source=$('sourceFilter').value,sort=$('sortFilter').value;
+
  let items=listings.filter(p=>
   `${p.title||''} ${p.weapon||''} ${p.skin_name||''} ${p.rarity||''}`.toLocaleLowerCase().includes(q)&&
   (!wear||p.wear===wear)&&(!source||p.source===source)
  );
 
- if(sort==='price-asc')items.sort((a,b)=>Number(a.price)-Number(b.price));
- else if(sort==='price-desc')items.sort((a,b)=>Number(b.price)-Number(a.price));
- else if(sort==='name')items.sort((a,b)=>String(a.title||'').localeCompare(String(b.title||'')));
- else items.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+ if(sort==='price-asc'){
+  items.sort((a,b)=>{
+   const pa=Number(a.price),pb=Number(b.price);
+   if(!Number.isFinite(pa))return 1;
+   if(!Number.isFinite(pb))return -1;
+   return pa-pb;
+  });
+ }else if(sort==='price-desc'){
+  items.sort((a,b)=>{
+   const pa=Number(a.price),pb=Number(b.price);
+   if(!Number.isFinite(pa))return 1;
+   if(!Number.isFinite(pb))return -1;
+   return pb-pa;
+  });
+ }else if(sort==='name'){
+  items.sort((a,b)=>String(a.title||'').localeCompare(String(b.title||'')));
+ }else{
+  items.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+ }
 
  count.textContent=`${items.length.toLocaleString('fa-IR')} اسکین`;
 
@@ -484,7 +504,7 @@ function render(){
     </div>
     <h3>${escapeHtml(cartProductTitle(p))}</h3>
     <div class="details">${escapeHtml(p.weapon||'')} · ${escapeHtml(p.rarity||'')}${p.float_value!=null?' · Float: '+escapeHtml(p.float_value):''}</div>
-    <div class="price">${escapeHtml(formatPrice(p.price,p.currency))}</div>
+    <div class="price">${escapeHtml(formatPrice(p.price))}</div>
     <button class="btn ${inCart?'secondary':''}" type="button" data-cart-add="${escapeHtml(p.id)}">${inCart?'افزودن دوباره به سبد':'افزودن به سبد خرید'}</button>
    </div>
   </article>`;
@@ -496,7 +516,10 @@ async function loadListings(){
  try{
   const {data,error}=await db.from('store_listings')
    .select('id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,created_at')
-   .eq('status','active').order('created_at',{ascending:false}).limit(100);
+   .eq('status','active')
+   .order('created_at',{ascending:false})
+   .limit(100);
+
   if(error)throw error;
   listings=data||[];
   render();
@@ -530,15 +553,18 @@ async function getSignedInUser(){
 function switchTab(name){
  const valid=['products','cart','orders'];
  if(!valid.includes(name))return;
+
  document.querySelectorAll('.store-tab').forEach(b=>{
   const active=b.dataset.tab===name;
   b.classList.toggle('active',active);
   b.setAttribute('aria-selected',String(active));
  });
+
  valid.forEach(tab=>{
   const el=$(tab+'Tab');
   el.classList.toggle('active',tab===name);
  });
+
  if(name==='cart')renderCart();
  if(name==='orders')loadMyOrders();
 }
@@ -546,14 +572,17 @@ function switchTab(name){
 function addToCart(id){
  const product=listings.find(p=>String(p.id)===String(id));
  if(!product)return;
+
  if(cartIds.includes(String(id))){
   switchTab('cart');
   return;
  }
+
  if(cartIds.length>=100){
   alert('سبد خرید حداکثر می‌تواند ۱۰۰ آیتم داشته باشد.');
   return;
  }
+
  cartIds.push(String(id));
  saveCart();
  render();
@@ -571,6 +600,7 @@ function removeFromCart(id){
 function renderCart(){
  const container=$('cartItems');
  const products=cartProducts();
+
  $('cartCount').textContent=cartIds.length.toLocaleString('fa-IR');
  $('cartSummaryCount').textContent=`${products.length.toLocaleString('fa-IR')} آیتم`;
 
@@ -588,7 +618,7 @@ function renderCart(){
    <div class="cart-item-info">
     <strong>${escapeHtml(cartProductTitle(p))}</strong>
     <small>${escapeHtml(p.weapon||'')} · ${escapeHtml(p.wear||'وضعیت نامشخص')}</small>
-    <small>${escapeHtml(formatPrice(p.price,p.currency))}</small>
+    <small>${escapeHtml(formatPrice(p.price))}</small>
    </div>
    <div class="cart-item-actions">
     <button class="cart-remove" type="button" data-cart-remove="${escapeHtml(p.id)}">حذف</button>
@@ -596,13 +626,22 @@ function renderCart(){
   </article>`;
  }).join('');
 
- const currencies=[...new Set(products.map(p=>String(p.currency||'تومان')))];
- if(currencies.length===1&&products.every(p=>p.price!==null&&p.price!==undefined&&Number.isFinite(Number(p.price)))){
+ /* جمع سبد به مقدار currency وابسته نیست؛ قیمت‌ها به تومان نمایش داده می‌شوند. */
+ const allPricesValid=products.every(p=>
+  p.price!==null&&
+  p.price!==undefined&&
+  String(p.price).trim()!==''&&
+  Number.isFinite(Number(p.price))&&
+  Number(p.price)>=0
+ );
+
+ if(allPricesValid){
   const total=products.reduce((sum,p)=>sum+Number(p.price),0);
-  $('cartTotal').textContent=formatPrice(total,currencies[0]);
+  $('cartTotal').textContent=formatPrice(total);
  }else{
   $('cartTotal').textContent='جمع کل قابل محاسبه نیست';
  }
+
  $('cartFooter').classList.remove('hidden');
 
  if(!cartStorageAvailable){
@@ -612,7 +651,14 @@ function renderCart(){
 
 async function openCheckout(){
  if(busy)return;
- const user=await getSignedInUser().catch(()=>null);
+
+ let user=null;
+ try{
+  user=await getSignedInUser();
+ }catch(e){
+  console.error('checkout auth',e);
+ }
+
  if(!user){
   alert('برای ثبت درخواست خرید ابتدا از صفحه ورود سایت وارد حساب کاربری شو.');
   location.href='./index.html';
@@ -646,7 +692,9 @@ function closeOrder(){
 function isSteamTradeUrl(value){
  try{
   const u=new URL(value);
-  return u.protocol==='https:'&&u.hostname.toLowerCase()==='steamcommunity.com'&&u.pathname.startsWith('/tradeoffer/new/');
+  return u.protocol==='https:'&&
+   u.hostname.toLowerCase()==='steamcommunity.com'&&
+   u.pathname.startsWith('/tradeoffer/new/');
  }catch{return false;}
 }
 
@@ -671,14 +719,17 @@ async function sendOrder(event){
   showOutput('modalMessage','تمام فیلدهای الزامی را تکمیل کن و قوانین را بپذیر.','error');
   return;
  }
+
  if(!validTelegram(fields.buyer_telegram)){
   showOutput('modalMessage','آیدی تلگرام معتبر وارد کن (۳ تا ۳۲ حرف، عدد یا زیرخط).','error');
   return;
  }
+
  if(!isSteamTradeUrl(fields.buyer_trade_url)){
   showOutput('modalMessage','لینک ترید باید از نوع لینک معتبر Steam Trade Offer باشد.','error');
   return;
  }
+
  if(fields.buyer_phone.replace(/[\s()+.-]/g,'').length<7){
   showOutput('modalMessage','شماره تلفن معتبر وارد کن.','error');
   return;
@@ -701,7 +752,9 @@ async function sendOrder(event){
    try{
     const {data:listing,error:listingError}=await db.from('store_listings')
      .select('id,title,skin_name,price,currency,status')
-     .eq('id',product.id).eq('status','active').maybeSingle();
+     .eq('id',product.id)
+     .eq('status','active')
+     .maybeSingle();
 
     if(listingError)throw listingError;
     if(!listing)throw new Error('این اسکین دیگر فعال نیست.');
@@ -725,7 +778,11 @@ async function sendOrder(event){
     });
    }catch(e){
     console.error('individual order failed',product.id,e);
-    failed.push({id:String(product.id),title:cartProductTitle(product),error:e?.message||'خطای نامشخص'});
+    failed.push({
+     id:String(product.id),
+     title:cartProductTitle(product),
+     error:e?.message||'خطای نامشخص'
+    });
    }
   }
 
@@ -737,19 +794,31 @@ async function sendOrder(event){
    renderCart();
   }
 
-  alreadySubmitted=true;
-
   if(failed.length===0){
-   showOutput('modalMessage',`${successfullyCreated.length.toLocaleString('fa-IR')} سفارش جداگانه با موفقیت ثبت شد. پرداخت یا انتقال اسکین انجام نشده است. برای مشاهده وضعیت، به بخش «سفارش‌های من» برو.`,'ai-success');
+   alreadySubmitted=true;
+   showOutput(
+    'modalMessage',
+    `${successfullyCreated.length.toLocaleString('fa-IR')} سفارش جداگانه با موفقیت ثبت شد. پرداخت یا انتقال اسکین انجام نشده است. برای مشاهده وضعیت، به بخش «سفارش‌های من» برو.`,
+    'ai-success'
+   );
    submitButton.textContent='ثبت شد';
    submitButton.disabled=true;
   }else if(successfullyCreated.length){
-   showOutput('modalMessage',`${successfullyCreated.length.toLocaleString('fa-IR')} سفارش ثبت شد، اما ${failed.length.toLocaleString('fa-IR')} آیتم ثبت نشد. موارد ناموفق در سبد باقی مانده‌اند. جزئیات خطا در کنسول ثبت شده است.`,'error');
+   alreadySubmitted=true;
+   showOutput(
+    'modalMessage',
+    `${successfullyCreated.length.toLocaleString('fa-IR')} سفارش ثبت شد، اما ${failed.length.toLocaleString('fa-IR')} آیتم ثبت نشد. آیتم‌های ناموفق در سبد باقی مانده‌اند. پنجره را ببند و برای تلاش دوباره، مجدداً ثبت درخواست را انتخاب کن.`,
+    'error'
+   );
    submitButton.textContent='ثبت انجام شد';
    submitButton.disabled=true;
   }else{
-   showOutput('modalMessage',`هیچ سفارشی ثبت نشد. خطا: ${failed.map(x=>x.title+': '+x.error).join(' | ')}`,'error');
    alreadySubmitted=false;
+   showOutput(
+    'modalMessage',
+    `هیچ سفارشی ثبت نشد. ${failed.map(x=>x.title+': '+x.error).join(' | ')}`,
+    'error'
+   );
    submitButton.disabled=false;
    submitButton.textContent='تلاش دوباره';
   }
@@ -772,12 +841,13 @@ const ORDER_STATUS={
  requested:{label:'در انتظار بررسی',description:'درخواست ثبت شده و هنوز نتیجه بررسی مدیر ثبت نشده است.'},
  approved:{label:'تأیید شده',description:'در پنل مدیریت، سفارش تأیید شده است.'},
  rejected:{label:'رد شده',description:'در پنل مدیریت، درخواست رد شده است.'},
- completed:{label:'تکمیل شده',description:'سفارش در پنل مدیریت تکمیل‌شده ثبت شده است.'}
+ completed:{label:'تکمیل شده',description:'در پنل مدیریت تکمیل‌شده ثبت شده است.'}
 };
 
 function orderStatusLabel(status){
  return ORDER_STATUS[status]?.label||`وضعیت ثبت‌شده: ${String(status||'نامشخص')}`;
 }
+
 function orderStatusClass(status){
  return ['requested','approved','rejected','completed'].includes(status)?status:'';
 }
@@ -792,7 +862,6 @@ async function fetchMyOrders(){
  const user=await getSignedInUser();
  if(!user)return {user:null,orders:[]};
 
- // فیلتر buyer_id در کنار RLS قرار دارد؛ RLS باید دسترسی را در دیتابیس محدود کند.
  const {data,error}=await db.from('store_orders')
   .select('id,listing_id,buyer_id,status,created_at,note')
   .eq('buyer_id',user.id)
@@ -803,7 +872,7 @@ async function fetchMyOrders(){
 
  const orders=data||[];
  const listingIds=[...new Set(orders.map(o=>o.listing_id).filter(Boolean).map(String))];
- let listingMap={};
+ const listingMap={};
 
  if(listingIds.length){
   const {data:listData,error:listError}=await db.from('store_listings')
@@ -811,14 +880,16 @@ async function fetchMyOrders(){
    .in('id',listingIds);
 
   if(listError){
-   // ممکن است اسکین غیرفعال دیگر قابل خواندن نباشد؛ سفارش همچنان نمایش داده می‌شود.
    console.warn('Could not load order listing details',listError);
   }else{
    for(const item of listData||[])listingMap[String(item.id)]=item;
   }
  }
 
- return {user,orders:orders.map(o=>({...o,listing:listingMap[String(o.listing_id)]||null}))};
+ return {
+  user,
+  orders:orders.map(o=>({...o,listing:listingMap[String(o.listing_id)]||null}))
+ };
 }
 
 function orderCardHtml(order){
@@ -834,7 +905,7 @@ function orderCardHtml(order){
    <strong>${escapeHtml(title)}</strong>
    <small>شماره سفارش: <span class="order-id">${escapeHtml(order.id)}</span></small>
    <small>تاریخ ثبت: ${escapeHtml(formatDate(order.created_at))}</small>
-   ${listing?`<small>قیمت ثبت‌شده فعلی اسکین: ${escapeHtml(formatPrice(listing.price,listing.currency))}</small>`:''}
+   ${listing?`<small>قیمت فعلی اسکین: ${escapeHtml(formatPrice(listing.price))}</small>`:''}
    <span class="order-status ${orderStatusClass(status)}">${escapeHtml(orderStatusLabel(status))}</span>
    <small>${escapeHtml(ORDER_STATUS[status]?.description||'برای اطلاع از جزئیات این وضعیت، با پشتیبانی تماس بگیر.')}</small>
    ${note}
@@ -848,517 +919,7 @@ async function loadMyOrders(showLoading=true){
 
  try{
   const result=await fetchMyOrders();
+
   if(!result.user){
-   container.innerHTML='<div class="state">برای مشاهده سفارش‌ها ابتدا وارد حساب کاربری شو. <br><a class="ai-inline-link" href="./index.html">رفتن به صفحه ورود</a></div>';
+   container.innerHTML='<div class="state">برای مشاهده سفارش‌ها ابتدا وارد حساب کاربری شو.<br><a class="ai-inline-link" href="./index.html">رفتن به صفحه ورود</a></div>';
    return result;
-  }
-  if(!result.orders.length){
-   container.innerHTML='<div class="state">هنوز سفارشی برای این حساب پیدا نشد. سفارش‌های ثبت‌شده بعد از ورود به حساب در این قسمت نمایش داده می‌شوند.</div>';
-   return result;
-  }
-
-  container.innerHTML=result.orders.map(orderCardHtml).join('');
-  return result;
- }catch(e){
-  console.error('load customer orders',e);
-  container.innerHTML=`<div class="state error">دریافت سفارش‌ها ناموفق بود: ${escapeHtml(e?.message||'خطای نامشخص')}<br>سیاست SELECT جدول store_orders و نام ستون buyer_id را بررسی کن.</div>`;
-  return {user:null,orders:[],error:e};
- }
-}
-
-/* ---------------- STARK AI ---------------- */
-
-function aiShowScreen(screenId){
- ['aiChatScreen','aiTicketScreen','aiTicketsScreen','aiConversationScreen'].forEach(id=>{
-  $(id).classList.toggle('active',id===screenId);
- });
- $('aiChatForm').style.display=screenId==='aiChatScreen'?'flex':'none';
- aiBody.scrollTop=0;
-}
-
-function aiOpen(){
- aiPanel.classList.add('open');
- aiPanel.setAttribute('aria-hidden','false');
- $('aiLauncher').setAttribute('aria-expanded','true');
- setTimeout(()=>aiInput.focus(),100);
-}
-function aiClose(){
- aiPanel.classList.remove('open');
- aiPanel.setAttribute('aria-hidden','true');
- $('aiLauncher').setAttribute('aria-expanded','false');
-}
-function addAiMessage(text,role='bot'){
- const div=document.createElement('div');
- div.className=`ai-message ${role}`;
- div.textContent=text;
- aiMessages.appendChild(div);
- aiBody.scrollTop=aiBody.scrollHeight;
-}
-function normalizeText(text){
- return String(text||'').toLocaleLowerCase('fa').replace(/\u200c/g,' ').trim();
-}
-
-function aiReply(text){
- const t=normalizeText(text);
-
- if(/سلام|درود|خسته نباشید|hi\b|hello\b/.test(t))
-  return 'سلام! خوش اومدی به PERSIAN STARK 🎮 می‌تونی وضعیت سفارش‌ها، سبد خرید، پرداخت، قوانین یا پشتیبانی رو از من بپرسی.';
-
- if(/چرا.*(سفارش|درخواست).*(بررسی|جواب|تایید|تأیید)|بررسی نشده|جواب نداده|هنوز.*سفارش/.test(t))
-  return 'ممکنه درخواستت هنوز در صف بررسی باشه. من می‌تونم وضعیت واقعی سفارش‌هایی رو که با حساب فعلی ثبت شده‌اند از فروشگاه بخونم. از گزینه «وضعیت سفارش‌های من» استفاده کن.';
-
- if(/پرداخت|واریز|کارت به کارت|درگاه|پول|قیمت نهایی/.test(t))
-  return 'در نسخه فعلی فروشگاه پرداخت آنلاین فعال نیست. ثبت درخواست فقط برای بررسی اولیه است و به معنی نهایی‌شدن خرید نیست. تا وقتی مدیریت از مسیر رسمی شرایط را تأیید نکرده، پولی واریز نکن و اسکینی منتقل نکن.';
-
- if(/انتقال.*اسکین|تحویل|ترید|trade offer|اسکین.*نرسیده/.test(t))
-  return 'انتقال خودکار اسکین فعال نیست. اگر سفارش تأیید شده اما درباره تحویل سؤال داری، از همین دستیار تیکت با دسته‌بندی «تحویل اسکین» ثبت کن. رمز استیم یا کد Steam Guard را هیچ‌وقت ارسال نکن.';
-
- if(/ورود|ثبت نام|ثبت‌نام|حساب کاربری|اکانت|رمز عبور|رمز/.test(t))
-  return 'برای ثبت سفارش و مشاهده سفارش‌های خودت باید با حساب سایت وارد شوی. از لینک «ورود / ثبت‌نام» بالای صفحه استفاده کن. رمز عبور و کد تأییدت را اینجا یا برای پشتیبانی نفرست.';
-
- if(/قانون|قوانین|شرایط خرید|شرایط فروش/.test(t))
-  return 'درخواست خرید فقط برای بررسی است؛ پرداخت آنلاین و انتقال خودکار اسکین فعال نیست؛ اطلاعات تماس باید صحیح باشد؛ و هرگز رمز یا کد Steam Guard را به کسی نده. برای مشاهده متن کامل قوانین، روی «قوانین» در فرم خرید کلیک کن.';
-
- if(/فروشنده|ثبت آگهی|آگهی|اسکین خودم|فروش اسکین/.test(t))
-  return 'برای ثبت آگهی باید قابلیت ثبت آگهی برای حساب و فروشگاه فعال باشد. من از داخل چت نمی‌توانم آگهی بسازم یا موجودی را تغییر بدهم. اگر گزینه ثبت آگهی را نمی‌بینی، تیکت پشتیبانی ثبت کن.';
-
- if(/امنیت|هک|کلاهبردار|دزدیده|steam guard|استیم گارد/.test(t))
-  return 'رمز، کد Steam Guard، کد یک‌بارمصرف یا اطلاعات بازیابی را برای هیچ‌کس ارسال نکن. اگر حسابت در خطر است، تنظیمات امنیتی را از وب‌سایت رسمی Steam بررسی کن.';
-
- if(/پشتیبانی|تیکت|تماس با مدیر|مدیر فروشگاه/.test(t))
-  return 'می‌تونی از همین دستیار تیکت ثبت کنی و بعد پیام‌ها و پاسخ‌های پشتیبانی را از بخش «تیکت‌های من» ببینی.';
-
- if(/سبد خرید|سبدم|سبد/.test(t))
-  return 'از تب «سبد خرید» در صفحه فروشگاه می‌تونی آیتم‌ها را ببینی، حذف کنی و درخواست خرید ثبت کنی. هر اسکین یک سفارش مستقل خواهد داشت.';
-
- if(/سلامت|کار می.?کنی|هوش مصنوعی|کی هستی|اسمت/.test(t))
-  return 'من STARK AI هستم؛ دستیار خودکار فروشگاه PERSIAN STARK. می‌تونم وضعیت سفارش‌های حساب فعلی را از دیتابیس بخونم و برای پیگیری انسانی به ثبت تیکت کمک کنم.';
-
- return 'می‌تونی وضعیت سفارش‌ها، سبد خرید، پرداخت، قوانین یا پشتیبانی رو بپرسی. برای پیگیری سفارش واقعی، گزینه «وضعیت سفارش‌های من» رو انتخاب کن.';
-}
-
-async function showOrdersInAi(){
- addAiMessage('وضعیت سفارش‌های من','user');
- addAiMessage('در حال بررسی سفارش‌های حساب شما...','bot');
- try{
-  const result=await fetchMyOrders();
-  if(!result.user){
-   addAiMessage('برای مشاهده سفارش‌ها ابتدا وارد حساب کاربری سایت شو. بعد دوباره این گزینه را انتخاب کن.','bot');
-   addAiLinkButton('رفتن به صفحه ورود','./index.html');
-   return;
-  }
-  if(!result.orders.length){
-   addAiMessage('برای حساب فعلی سفارشی پیدا نشد. اگر تازه سفارش ثبت کرده‌ای، مطمئن شو با همان حساب وارد شده‌ای.','bot');
-   return;
-  }
-
-  const lines=result.orders.slice(0,20).map((o,i)=>{
-   const title=o.listing?cartProductTitle(o.listing):'اسکین سفارش';
-   return `${i+1}. ${title}\nوضعیت: ${orderStatusLabel(o.status)}\nتاریخ: ${formatDate(o.created_at)}\nشماره سفارش: ${o.id}`;
-  });
-  addAiMessage(`تعداد سفارش‌های پیدا شده: ${result.orders.length.toLocaleString('fa-IR')}\n\n${lines.join('\n\n')}${result.orders.length>20?'\n\nبرای مشاهده فهرست کامل به بخش «سفارش‌های من» در صفحه فروشگاه برو.':''}`,'bot');
- }catch(e){
-  console.error('AI order lookup',e);
-  addAiMessage('نتوانستم سفارش‌ها را از دیتابیس بخوانم. ممکن است سیاست دسترسی جدول store_orders یا اتصال Supabase مشکل داشته باشد. لطفاً از بخش «سفارش‌های من» دوباره امتحان کن یا تیکت ثبت کن.','bot');
- }
-}
-
-function addAiLinkButton(label,url){
- const wrap=document.createElement('div');
- wrap.className='ai-quick';
- const a=document.createElement('a');
- a.className='ai-action primary';
- a.href=url;
- a.textContent=label;
- wrap.appendChild(a);
- aiMessages.appendChild(wrap);
- aiBody.scrollTop=aiBody.scrollHeight;
-}
-
-async function processAiText(text){
- const value=String(text||'').trim();
- if(!value)return;
- addAiMessage(value,'user');
- const t=normalizeText(value);
-
- if(/وضعیت.*سفارش|سفارشم کجاست|پیگیری سفارش|سفارش.*کجا|سفارش.*من|سفارش هام|سفارش‌هام|سفارشام/.test(t)){
-  await showOrdersInAi();
-  return;
- }
- if(/سبد خرید|سبدم|سبد/.test(t)){
-  addAiMessage(aiReply(value),'bot');
-  switchTab('cart');
-  return;
- }
- addAiMessage(aiReply(value),'bot');
-}
-
-async function requireSignedIn(){
- const user=await getSignedInUser();
- if(!user){
-  addAiMessage('برای این قابلیت ابتدا وارد حساب کاربری سایت شو. بعد دوباره همین گزینه را انتخاب کن.','bot');
-  addAiLinkButton('رفتن به صفحه ورود','./index.html');
-  return null;
- }
- return user;
-}
-
-/* ---------------- تیکت‌های پشتیبانی ---------------- */
-
-function openTicketForm(){
- aiShowScreen('aiTicketScreen');
- $('ticketFormMessage').textContent='';
- $('aiTicketForm').reset();
-}
-
-async function createTicket(event){
- event.preventDefault();
- if(ticketBusy)return;
-
- const subject=$('ticketSubject').value.trim();
- const category=$('ticketCategory').value;
- const message=$('ticketMessage').value.trim();
- const output=$('ticketFormMessage');
-
- if(subject.length<3||subject.length>150||message.length<3||message.length>5000){
-  output.className='ai-error';
-  output.textContent='موضوع باید بین ۳ تا ۱۵۰ نویسه و شرح مشکل بین ۳ تا ۵۰۰۰ نویسه باشد.';
-  return;
- }
-
- ticketBusy=true;
- $('ticketSubmit').disabled=true;
- output.className='';
- output.textContent='در حال ثبت تیکت...';
-
- try{
-  const user=await requireSignedIn();
-  if(!user){
-   output.className='ai-error';
-   output.textContent='ابتدا وارد حساب کاربری شو.';
-   return;
-  }
-
-  const {data:ticket,error:ticketError}=await db.from('store_support_tickets')
-   .insert({user_id:user.id,subject,category,status:'open'})
-   .select('id,ticket_number,subject,category,status,created_at,updated_at')
-   .single();
-
-  if(ticketError)throw ticketError;
-
-  const {error:messageError}=await db.from('store_support_messages').insert({
-   ticket_id:ticket.id,sender_id:user.id,sender_role:'user',message
-  });
-
-  if(messageError){
-   console.error('initial ticket message failed',messageError);
-   output.className='ai-error';
-   output.textContent=`تیکت ${ticket.ticket_number} ساخته شد، اما پیام اولیه ذخیره نشد. از بخش «تیکت‌های من» آن را باز کن و پیام را دوباره ارسال کن.`;
-   await loadTickets();
-   return;
-  }
-
-  output.className='ai-success';
-  output.textContent=`تیکت با موفقیت ثبت شد. شماره پیگیری: ${ticket.ticket_number}`;
-  $('ticketMessage').value='';
-  $('ticketSubject').value='';
-  await loadTickets();
- }catch(e){
-  console.error('create support ticket',e);
-  output.className='ai-error';
-  output.textContent=`ثبت تیکت ناموفق بود: ${e?.message||'خطای نامشخص'}`;
- }finally{
-  ticketBusy=false;
-  $('ticketSubmit').disabled=false;
- }
-}
-
-function statusLabel(status){
- const labels={open:'باز',in_progress:'در حال بررسی',answered:'پاسخ داده شده',closed:'بسته'};
- return labels[status]||'نامشخص';
-}
-function statusClass(status){
- if(status==='closed')return 'closed';
- if(status==='answered')return '';
- return 'other';
-}
-
-async function loadTickets(){
- const list=$('aiTicketList');
- list.innerHTML='<div class="ai-empty">در حال دریافت تیکت‌ها...</div>';
-
- try{
-  const user=await getSignedInUser();
-  if(!user){
-   list.innerHTML='<div class="ai-empty">برای دیدن تیکت‌ها ابتدا وارد حساب کاربری شو.</div>';
-   return;
-  }
-
-  const {data,error}=await db.from('store_support_tickets')
-   .select('id,ticket_number,subject,category,status,created_at,updated_at')
-   .eq('user_id',user.id).order('created_at',{ascending:false}).limit(50);
-
-  if(error)throw error;
-  if(!data?.length){
-   list.innerHTML='<div class="ai-empty">هنوز تیکتی ثبت نکرده‌ای.</div>';
-   return;
-  }
-
-  list.innerHTML=data.map(ticket=>`
-   <article class="ai-ticket">
-    <strong>${escapeHtml(ticket.subject)}</strong>
-    <p>شماره پیگیری: ${escapeHtml(ticket.ticket_number||'ثبت نشده')}</p>
-    <p>تاریخ ثبت: ${escapeHtml(formatDate(ticket.created_at))}</p>
-    <span class="ai-status ${statusClass(ticket.status)}">${escapeHtml(statusLabel(ticket.status))}</span>
-    <button class="ai-action" type="button" data-ticket-id="${escapeHtml(ticket.id)}">مشاهده گفتگو</button>
-   </article>
-  `).join('');
- }catch(e){
-  console.error('load support tickets',e);
-  list.innerHTML=`<div class="ai-empty ai-error">دریافت تیکت‌ها ناموفق بود: ${escapeHtml(e?.message||'خطای نامشخص')}</div>`;
- }
-}
-
-async function openTicketConversation(ticketId){
- try{
-  const user=await getSignedInUser();
-  if(!user){
-   addAiMessage('برای مشاهده تیکت ابتدا وارد حساب کاربری شو.','bot');
-   return;
-  }
-
-  const {data:ticket,error:ticketError}=await db.from('store_support_tickets')
-   .select('id,ticket_number,subject,category,status,created_at')
-   .eq('id',ticketId).eq('user_id',user.id).maybeSingle();
-
-  if(ticketError)throw ticketError;
-  if(!ticket){
-   alert('این تیکت پیدا نشد یا متعلق به حساب فعلی نیست.');
-   return;
-  }
-
-  currentTicket=ticket;
-  $('aiConversationTitle').textContent=ticket.subject;
-  $('aiConversationInfo').textContent=`شماره پیگیری: ${ticket.ticket_number||'نامشخص'} · وضعیت: ${statusLabel(ticket.status)}`;
-  $('aiConversationMessages').innerHTML='<div class="ai-empty">در حال دریافت پیام‌ها...</div>';
-  $('aiReplyMessage').textContent='';
-  $('aiReplyText').value='';
-  $('aiReplyForm').style.display=ticket.status==='closed'?'none':'block';
-  aiShowScreen('aiConversationScreen');
-
-  const {data:messages,error:messagesError}=await db.from('store_support_messages')
-   .select('id,ticket_id,sender_id,sender_role,message,created_at')
-   .eq('ticket_id',ticket.id).order('created_at',{ascending:true}).limit(200);
-
-  if(messagesError)throw messagesError;
-  const container=$('aiConversationMessages');
-
-  if(!messages?.length){
-   container.innerHTML='<div class="ai-empty">هنوز پیامی در این تیکت وجود ندارد.</div>';
-   return;
-  }
-
-  container.innerHTML=messages.map(m=>{
-   const own=m.sender_id===user.id;
-   const who=own?'شما':m.sender_role==='admin'?'پشتیبانی':'دستیار';
-   return `<div class="ai-ticket">
-    <strong>${escapeHtml(who)}</strong>
-    <p>${escapeHtml(m.message)}</p>
-    <p class="ai-small">${escapeHtml(formatDate(m.created_at))}</p>
-   </div>`;
-  }).join('');
-  aiBody.scrollTop=aiBody.scrollHeight;
- }catch(e){
-  console.error('open support ticket',e);
-  $('aiConversationMessages').innerHTML=`<div class="ai-empty ai-error">دریافت پیام‌ها ناموفق بود: ${escapeHtml(e?.message||'خطای نامشخص')}</div>`;
- }
-}
-
-async function sendTicketReply(event){
- event.preventDefault();
- if(replyBusy||!currentTicket)return;
-
- const message=$('aiReplyText').value.trim();
- const output=$('aiReplyMessage');
- if(!message||message.length>5000){
-  output.className='ai-error';
-  output.textContent='پیام را وارد کن. حداکثر طول پیام ۵۰۰۰ نویسه است.';
-  return;
- }
-
- replyBusy=true;
- $('aiReplySubmit').disabled=true;
- output.className='';
- output.textContent='در حال ارسال پیام...';
-
- try{
-  const user=await getSignedInUser();
-  if(!user)throw new Error('ابتدا وارد حساب کاربری شو.');
-
-  const {data:ticket,error:ticketError}=await db.from('store_support_tickets')
-   .select('id,status').eq('id',currentTicket.id).eq('user_id',user.id).maybeSingle();
-
-  if(ticketError)throw ticketError;
-  if(!ticket)throw new Error('تیکت پیدا نشد یا متعلق به این حساب نیست.');
-  if(ticket.status==='closed')throw new Error('این تیکت بسته شده است و امکان ارسال پاسخ ندارد.');
-
-  const {error}=await db.from('store_support_messages').insert({
-   ticket_id:ticket.id,sender_id:user.id,sender_role:'user',message
-  });
-  if(error)throw error;
-
-  $('aiReplyText').value='';
-  output.className='ai-success';
-  output.textContent='پیام ارسال شد.';
-  await openTicketConversation(ticket.id);
- }catch(e){
-  console.error('send ticket reply',e);
-  output.className='ai-error';
-  output.textContent=`ارسال پیام ناموفق بود: ${e?.message||'خطای نامشخص'}`;
- }finally{
-  replyBusy=false;
-  $('aiReplySubmit').disabled=false;
- }
-}
-
-/* ---------------- رویدادها ---------------- */
-
-document.querySelectorAll('.store-tab').forEach(button=>{
- button.addEventListener('click',()=>switchTab(button.dataset.tab));
-});
-
-$('searchInput').addEventListener('input',render);
-$('wearFilter').addEventListener('change',render);
-$('sourceFilter').addEventListener('change',render);
-$('sortFilter').addEventListener('change',render);
-
-grid.addEventListener('click',e=>{
- const b=e.target.closest('[data-cart-add]');
- if(b)addToCart(b.dataset.cartAdd);
-});
-
-$('cartItems').addEventListener('click',e=>{
- const b=e.target.closest('[data-cart-remove]');
- if(b)removeFromCart(b.dataset.cartRemove);
-});
-
-$('checkoutButton').addEventListener('click',openCheckout);
-$('clearCartButton').addEventListener('click',()=>{
- if(!cartIds.length)return;
- if(!confirm('تمام آیتم‌های سبد خرید حذف شوند؟'))return;
- cartIds=[];
- saveCart();
- render();
- renderCart();
-});
-$('refreshOrders').addEventListener('click',()=>loadMyOrders(true));
-
-$('orderForm').addEventListener('submit',sendOrder);
-$('closeModal').addEventListener('click',closeOrder);
-modal.addEventListener('click',e=>{if(e.target===modal)closeOrder();});
-$('openRules').addEventListener('click',()=>rulesModal.classList.add('open'));
-$('closeRules').addEventListener('click',()=>rulesModal.classList.remove('open'));
-rulesModal.addEventListener('click',e=>{if(e.target===rulesModal)rulesModal.classList.remove('open');});
-
-$('aiLauncher').addEventListener('click',()=>{
- if(aiPanel.classList.contains('open'))aiClose();
- else aiOpen();
-});
-$('aiClose').addEventListener('click',aiClose);
-
-$('aiChatForm').addEventListener('submit',async e=>{
- e.preventDefault();
- const text=aiInput.value.trim();
- if(!text)return;
- aiInput.value='';
- $('aiSend').disabled=true;
- try{await processAiText(text);}
- finally{$('aiSend').disabled=false;}
-});
-
-$('aiQuick').addEventListener('click',async e=>{
- const b=e.target.closest('[data-ai]');
- if(!b)return;
- const action=b.dataset.ai;
-
- if(action==='order-help'){
-  addAiMessage('چرا سفارشم بررسی نشده؟','user');
-  addAiMessage(aiReply('چرا سفارشم بررسی نشده؟'),'bot');
- }else if(action==='order-status'){
-  await showOrdersInAi();
- }else if(action==='cart'){
-  addAiMessage('سبد خرید من','user');
-  addAiMessage(aiReply('سبد خرید من'),'bot');
-  switchTab('cart');
- }else if(action==='payment'){
-  addAiMessage(aiReply('پرداخت و خرید'),'bot');
- }else if(action==='account'){
-  addAiMessage(aiReply('ورود به حساب کاربری'),'bot');
- }else if(action==='rules'){
-  addAiMessage(aiReply('قوانین فروشگاه'),'bot');
-  rulesModal.classList.add('open');
- }else if(action==='new-ticket'){
-  openTicketForm();
- }else if(action==='my-tickets'){
-  aiShowScreen('aiTicketsScreen');
-  await loadTickets();
- }
-});
-
-$('aiTicketForm').addEventListener('submit',createTicket);
-$('refreshTickets').addEventListener('click',loadTickets);
-$('aiTicketList').addEventListener('click',async e=>{
- const b=e.target.closest('[data-ticket-id]');
- if(b)await openTicketConversation(b.dataset.ticketId);
-});
-$('aiReplyForm').addEventListener('submit',sendTicketReply);
-
-aiPanel.addEventListener('click',e=>{
- const b=e.target.closest('[data-ai="back"]');
- if(!b)return;
- currentTicket=null;
- aiShowScreen('aiChatScreen');
-});
-
-document.addEventListener('keydown',e=>{
- if(e.key==='Escape'){
-  rulesModal.classList.remove('open');
-  closeOrder();
-  aiClose();
- }
-});
-
-/* ---------------- راه‌اندازی ---------------- */
-
-if(!window.supabase?.createClient){
- setState('کتابخانه Supabase بارگذاری نشد. اینترنت یا CDN را بررسی کن.',true);
- $('aiLauncher').disabled=true;
- return;
-}
-
-readCart();
-
-db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
- auth:{
-  persistSession:true,
-  autoRefreshToken:true,
-  detectSessionInUrl:true,
-  storageKey:'persian-stark-auth'
- }
-});
-
-db.auth.onAuthStateChange(()=>{
- setTimeout(()=>{
-  updateAccountLink();
-  if($('ordersTab').classList.contains('active'))loadMyOrders();
- },0);
-});
-
-updateAccountLink();
-loadListings();
-renderCart();
-
-})();
-</script>
-</body>
-</html>
