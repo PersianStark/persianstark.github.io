@@ -7,7 +7,19 @@
 <title>مدیریت فروشگاه | PERSIAN STARK</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{color-scheme:dark;--bg:#07111f;--card:#0d1b2d;--card2:#12243a;--text:#f4f8ff;--muted:#9eafc4;--line:#ffffff1a;--accent:#00c8ff;--green:#18e0c1;--red:#ff5577;--orange:#ffb454}
+:root{
+  color-scheme:dark;
+  --bg:#07111f;
+  --card:#0d1b2d;
+  --card2:#12243a;
+  --text:#f4f8ff;
+  --muted:#9eafc4;
+  --line:#ffffff1a;
+  --accent:#00c8ff;
+  --green:#18e0c1;
+  --red:#ff5577;
+  --orange:#ffb454
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
 button,input,select,textarea{font:inherit}
@@ -22,10 +34,12 @@ header{padding:17px 0;background:#091626;border-bottom:1px solid var(--line)}
 .btn{display:inline-flex;justify-content:center;align-items:center;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#13243a;color:var(--text);font-size:12px;font-weight:bold}
 .btn-primary{background:var(--accent);color:#03131b;border-color:transparent}
 .btn-danger{background:#351624;color:#ffb1c1;border-color:#733048}
+.btn-success{background:#0b302b;color:#9cf5df;border-color:#1b685d}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 main{padding:24px 0 40px}
 h1{font-size:25px;margin:0 0 8px}
 h2{font-size:17px;margin:0 0 14px}
+h3{font-size:14px;margin:0 0 10px}
 .muted{color:var(--muted);font-size:12px;line-height:2}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}
 .stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:17px}
@@ -34,8 +48,11 @@ h2{font-size:17px;margin:0 0 14px}
 .panel{margin:16px 0}
 .form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .field label{display:block;font-size:12px;margin-bottom:7px;color:#dbe7f5}
-.field input,.field select,.field textarea,.toolbar input,.toolbar select{width:100%;min-width:0;background:#081524;border:1px solid var(--line);color:var(--text);padding:11px;border-radius:9px;outline:none}
-.field input:focus,.field select:focus,.field textarea:focus,.toolbar input:focus,.toolbar select:focus{border-color:var(--accent)}
+.field input,.field select,.field textarea,.toolbar input,.toolbar select,.support-compose textarea{
+  width:100%;min-width:0;background:#081524;border:1px solid var(--line);
+  color:var(--text);padding:11px;border-radius:9px;outline:none
+}
+.field input:focus,.field select:focus,.field textarea:focus,.toolbar input:focus,.toolbar select:focus,.support-compose textarea:focus{border-color:var(--accent)}
 .full{grid-column:1/-1}
 .check-field{display:flex;align-items:center;gap:9px;font-size:12px}
 .check-field input{width:auto;accent-color:var(--accent)}
@@ -53,9 +70,9 @@ th{color:var(--muted);font-weight:700;background:#ffffff04}
 .product-name{font-weight:800}
 .product-sub{color:var(--muted);margin-top:4px}
 .status{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:4px 8px;white-space:nowrap;font-size:10px}
-.status-active,.status-completed{color:var(--green)}
+.status-active,.status-completed,.status-open{color:var(--green)}
 .status-sold,.status-approved,.status-reviewing{color:var(--orange)}
-.status-rejected,.status-cancelled{color:var(--red)}
+.status-rejected,.status-cancelled,.status-closed{color:var(--red)}
 .row-actions{display:flex;gap:6px;flex-wrap:wrap}
 .row-actions .btn{padding:7px 8px}
 .empty{padding:30px 10px;text-align:center;color:var(--muted)}
@@ -70,21 +87,50 @@ th{color:var(--muted);font-weight:700;background:#ffffff04}
 #app{display:none}
 #gate{width:min(560px,calc(100% - 28px));margin:70px auto;padding:25px;background:var(--card);border:1px solid var(--line);border-radius:18px;text-align:center;line-height:2}
 footer{text-align:center;padding:24px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}
+.support-layout{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(0,1.5fr);gap:14px;align-items:start}
+.support-card{background:#081524;border:1px solid var(--line);border-radius:12px;padding:13px;min-width:0}
+.support-list{display:flex;flex-direction:column;gap:8px;max-height:650px;overflow:auto}
+.ticket-item{width:100%;text-align:right;background:#0d1b2d;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text)}
+.ticket-item.selected{border-color:var(--accent);background:#0a2839}
+.ticket-item:hover{border-color:#1688a8}
+.ticket-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.ticket-subject{font-weight:bold;font-size:12px;margin:9px 0;overflow-wrap:anywhere}
+.ticket-meta{font-size:10px;color:var(--muted);line-height:2}
+.support-detail{min-width:0}
+.support-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.support-detail-head .actions{display:flex;gap:7px;flex-wrap:wrap}
+.message-list{display:flex;flex-direction:column;gap:10px;margin:14px 0;max-height:460px;overflow:auto;padding:2px}
+.message{padding:12px;border-radius:11px;border:1px solid var(--line);background:#0a1727;overflow-wrap:anywhere}
+.message.admin{border-color:#126b76;background:#0a2630}
+.message.user{border-color:#ffffff20}
+.message-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-bottom:8px}
+.message-body{font-size:12px;line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
+.support-compose{border-top:1px solid var(--line);padding-top:13px;margin-top:14px}
+.support-compose textarea{resize:vertical;min-height:100px;line-height:2}
+.support-compose .form-actions{justify-content:flex-start}
+.support-empty{padding:35px 12px;text-align:center;color:var(--muted);font-size:12px;line-height:2}
+.ticket-counts{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.count-pill{font-size:10px;border:1px solid var(--line);border-radius:20px;padding:6px 9px;color:var(--muted)}
+.count-pill strong{color:var(--text)}
 @media(max-width:850px){
-.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.order-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .order-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .support-layout{grid-template-columns:1fr}
+  .support-list{max-height:400px}
 }
 @media(max-width:600px){
-h1{font-size:21px}
-.stats{gap:8px}
-.stat,.panel{padding:13px}
-.form-grid{grid-template-columns:1fr}
-.full{grid-column:auto}
-.toolbar{grid-template-columns:1fr 1fr}
-.toolbar .btn{grid-column:1/-1}
-.header-actions .btn{font-size:10px;padding:8px}
-.order-grid{grid-template-columns:1fr}
+  h1{font-size:21px}
+  .stats{gap:8px}
+  .stat,.panel{padding:13px}
+  .form-grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .toolbar{grid-template-columns:1fr 1fr}
+  .toolbar .btn{grid-column:1/-1}
+  .header-actions .btn{font-size:10px;padding:8px}
+  .order-grid{grid-template-columns:1fr}
+  .support-detail-head .actions{width:100%}
+  .support-detail-head .actions .btn{flex:1}
 }
 </style>
 </head>
@@ -104,14 +150,14 @@ h1{font-size:21px}
     <div class="header-actions">
       <a class="btn" href="./store.html">مشاهده فروشگاه</a>
       <a class="btn" href="./index.html">صفحه اصلی</a>
-      <button class="btn btn-danger" id="logoutButton">خروج</button>
+      <button class="btn btn-danger" id="logoutButton" type="button">خروج</button>
     </div>
   </div>
 </header>
 
 <main class="container">
   <h1>مدیریت فروشگاه PERSIAN STARK</h1>
-  <p class="muted">مدیریت اسکین‌ها و درخواست‌های خرید. پرداخت آنلاین و انتقال خودکار اسکین فعال نیست.</p>
+  <p class="muted">مدیریت اسکین‌ها، درخواست‌های خرید و پشتیبانی کاربران. پرداخت آنلاین و انتقال خودکار اسکین فعال نیست.</p>
 
   <div class="stats">
     <div class="stat"><div class="stat-label">کل محصولات</div><div class="stat-value" id="totalCount">—</div></div>
@@ -121,14 +167,15 @@ h1{font-size:21px}
   </div>
 
   <div class="tab-row">
-    <button class="tab active" data-tab="ordersPanel">درخواست‌های خرید</button>
-    <button class="tab" data-tab="productsPanel">مدیریت اسکین‌ها</button>
+    <button class="tab active" data-tab="ordersPanel" type="button">درخواست‌های خرید</button>
+    <button class="tab" data-tab="productsPanel" type="button">مدیریت اسکین‌ها</button>
+    <button class="tab" data-tab="supportPanel" type="button">پشتیبانی کاربران</button>
   </div>
 
+  <!-- ORDERS -->
   <section class="panel" id="ordersPanel">
     <h2>درخواست‌های خرید مشتریان</h2>
     <p class="muted">اطلاعات تماس فقط در این پنل مدیر قابل مشاهده است. برای وضعیت هر درخواست از فهرست وضعیت استفاده کن.</p>
-
     <div class="toolbar">
       <input id="orderSearch" type="search" placeholder="جست‌وجوی نام، استیم، تلفن یا آیدی تلگرام...">
       <select id="orderStatusFilter">
@@ -140,150 +187,106 @@ h1{font-size:21px}
       </select>
       <button class="btn" id="refreshOrders" type="button">تازه‌سازی سفارش‌ها</button>
     </div>
-
     <div class="notice" id="ordersNotice" role="status"></div>
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr><th>اسکین</th><th>اطلاعات خریدار</th><th>لینک ترید</th><th>توضیحات</th><th>وضعیت و تاریخ</th></tr>
-        </thead>
-        <tbody id="orderRows">
-          <tr><td colspan="5" class="empty">در حال دریافت سفارش‌ها...</td></tr>
-        </tbody>
+        <thead><tr><th>اسکین</th><th>اطلاعات خریدار</th><th>لینک ترید</th><th>توضیحات</th><th>وضعیت و تاریخ</th></tr></thead>
+        <tbody id="orderRows"><tr><td colspan="5" class="empty">در حال دریافت سفارش‌ها...</td></tr></tbody>
       </table>
     </div>
   </section>
 
+  <!-- PRODUCTS -->
   <section class="panel" id="productsPanel" hidden>
     <h2 id="formTitle">ثبت اسکین جدید</h2>
-
     <form id="productForm">
       <input type="hidden" id="productId">
-
       <div class="form-grid">
-        <div class="field">
-          <label for="title">عنوان محصول *</label>
-          <input id="title" maxlength="180" required placeholder="مثلاً AK-47 | Redline">
-        </div>
-
-        <div class="field">
-          <label for="weapon">نام سلاح *</label>
-          <input id="weapon" maxlength="100" required>
-        </div>
-
-        <div class="field">
-          <label for="skinName">نام اسکین</label>
-          <input id="skinName" maxlength="120">
-        </div>
-
+        <div class="field"><label for="title">عنوان محصول *</label><input id="title" maxlength="180" required placeholder="مثلاً AK-47 | Redline"></div>
+        <div class="field"><label for="weapon">نام سلاح *</label><input id="weapon" maxlength="100" required></div>
+        <div class="field"><label for="skinName">نام اسکین</label><input id="skinName" maxlength="120"></div>
         <div class="field">
           <label for="wear">وضعیت ظاهری</label>
           <select id="wear">
-            <option value="">نامشخص</option>
-            <option>Factory New</option>
-            <option>Minimal Wear</option>
-            <option>Field-Tested</option>
-            <option>Well-Worn</option>
-            <option>Battle-Scarred</option>
-            <option>Not Applicable</option>
-            <option>Unknown</option>
+            <option value="">نامشخص</option><option>Factory New</option><option>Minimal Wear</option><option>Field-Tested</option><option>Well-Worn</option><option>Battle-Scarred</option><option>Not Applicable</option><option>Unknown</option>
           </select>
         </div>
-
-        <div class="field">
-          <label for="floatValue">Float</label>
-          <input id="floatValue" type="number" min="0" max="1" step="0.000001">
-        </div>
-
-        <div class="field">
-          <label for="rarity">کمیابی</label>
-          <input id="rarity" maxlength="80" placeholder="Classified, Covert, ...">
-        </div>
-
-        <div class="field">
-          <label for="price">قیمت *</label>
-          <input id="price" type="number" min="0" step="0.01" required>
-        </div>
-
+        <div class="field"><label for="floatValue">Float</label><input id="floatValue" type="number" min="0" max="1" step="0.000001"></div>
+        <div class="field"><label for="rarity">کمیابی</label><input id="rarity" maxlength="80" placeholder="Classified, Covert, ..."></div>
+        <div class="field"><label for="price">قیمت *</label><input id="price" type="number" min="0" step="0.01" required></div>
         <div class="field">
           <label for="currency">واحد قیمت</label>
-          <select id="currency">
-            <option value="IRT">تومان</option>
-            <option value="IRR">ریال</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </select>
+          <select id="currency"><option value="IRT">تومان</option><option value="IRR">ریال</option><option value="USD">USD</option><option value="EUR">EUR</option></select>
         </div>
-
         <div class="field">
           <label for="status">وضعیت محصول</label>
           <select id="status">
-            <option value="draft">پیش‌نویس</option>
-            <option value="pending_review">در انتظار بررسی</option>
-            <option value="active">فعال</option>
-            <option value="reserved">رزروشده</option>
-            <option value="sold">فروخته‌شده</option>
-            <option value="rejected">ردشده</option>
-            <option value="hidden">مخفی</option>
+            <option value="draft">پیش‌نویس</option><option value="pending_review">در انتظار بررسی</option><option value="active">فعال</option><option value="reserved">رزروشده</option><option value="sold">فروخته‌شده</option><option value="rejected">ردشده</option><option value="hidden">مخفی</option>
           </select>
         </div>
-
-        <div class="field full">
-          <label for="imageUrl">لینک تصویر (اختیاری)</label>
-          <input id="imageUrl" type="url" maxlength="1000" placeholder="https://...">
-        </div>
-
-        <div class="field full">
-          <label for="inspectUrl">لینک Steam Inspect (اختیاری)</label>
-          <input id="inspectUrl" type="url" maxlength="1000" placeholder="steam://... یا https://...">
-        </div>
-
-        <div class="field full">
-          <label for="description">توضیحات (اختیاری)</label>
-          <textarea id="description" rows="3" maxlength="3000"></textarea>
-        </div>
-
-        <label class="check-field full">
-          <input id="stattrak" type="checkbox"> دارای StatTrak™
-        </label>
+        <div class="field full"><label for="imageUrl">لینک تصویر (اختیاری)</label><input id="imageUrl" type="url" maxlength="1000" placeholder="https://..."></div>
+        <div class="field full"><label for="inspectUrl">لینک Steam Inspect (اختیاری)</label><input id="inspectUrl" type="url" maxlength="1000" placeholder="steam://... یا https://..."></div>
+        <div class="field full"><label for="description">توضیحات (اختیاری)</label><textarea id="description" rows="3" maxlength="3000"></textarea></div>
+        <label class="check-field full"><input id="stattrak" type="checkbox"> دارای StatTrak™</label>
       </div>
-
       <div class="form-actions">
         <button class="btn btn-primary" id="saveButton" type="submit">ثبت محصول</button>
         <button class="btn" id="resetButton" type="button">پاک‌کردن فرم</button>
       </div>
-
       <div class="notice" id="formNotice" role="status"></div>
     </form>
 
     <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
-
     <h2>فهرست محصولات</h2>
     <div class="toolbar">
       <input id="productSearch" type="search" placeholder="جست‌وجوی نام محصول یا سلاح...">
       <select id="filterStatus">
-        <option value="">تمام وضعیت‌ها</option>
-        <option value="draft">پیش‌نویس</option>
-        <option value="pending_review">در انتظار بررسی</option>
-        <option value="active">فعال</option>
-        <option value="reserved">رزروشده</option>
-        <option value="sold">فروخته‌شده</option>
-        <option value="rejected">ردشده</option>
-        <option value="hidden">مخفی</option>
+        <option value="">تمام وضعیت‌ها</option><option value="draft">پیش‌نویس</option><option value="pending_review">در انتظار بررسی</option><option value="active">فعال</option><option value="reserved">رزروشده</option><option value="sold">فروخته‌شده</option><option value="rejected">ردشده</option><option value="hidden">مخفی</option>
       </select>
       <button class="btn" id="refreshProducts" type="button">تازه‌سازی</button>
     </div>
-
     <div class="notice" id="productsNotice" role="status"></div>
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr><th>محصول</th><th>قیمت</th><th>وضعیت</th><th>تاریخ ثبت</th><th>عملیات</th></tr>
-        </thead>
-        <tbody id="productRows">
-          <tr><td colspan="5" class="empty">در حال دریافت محصولات...</td></tr>
-        </tbody>
+        <thead><tr><th>محصول</th><th>قیمت</th><th>وضعیت</th><th>تاریخ ثبت</th><th>عملیات</th></tr></thead>
+        <tbody id="productRows"><tr><td colspan="5" class="empty">در حال دریافت محصولات...</td></tr></tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- SUPPORT TICKETS -->
+  <section class="panel" id="supportPanel" hidden>
+    <h2>مرکز پشتیبانی کاربران</h2>
+    <p class="muted">تیکت‌ها و پیام‌های ثبت‌شده در فروشگاه را اینجا بررسی کن. پاسخ‌ها با حساب مدیر ارسال می‌شوند.</p>
+
+    <div class="ticket-counts">
+      <span class="count-pill">همه تیکت‌ها: <strong id="ticketTotalCount">۰</strong></span>
+      <span class="count-pill">باز: <strong id="ticketOpenCount">۰</strong></span>
+      <span class="count-pill">بسته: <strong id="ticketClosedCount">۰</strong></span>
+    </div>
+
+    <div class="toolbar">
+      <input id="ticketSearch" type="search" placeholder="جست‌وجوی شماره، موضوع یا دسته‌بندی...">
+      <select id="ticketStatusFilter">
+        <option value="">تمام وضعیت‌ها</option>
+        <option value="open">باز</option>
+        <option value="closed">بسته</option>
+      </select>
+      <button class="btn" id="refreshTickets" type="button">تازه‌سازی تیکت‌ها</button>
+    </div>
+    <div class="notice" id="supportNotice" role="status"></div>
+
+    <div class="support-layout">
+      <div class="support-card">
+        <h3>فهرست تیکت‌ها</h3>
+        <div class="support-list" id="ticketList">
+          <div class="support-empty">برای دریافت تیکت‌ها، این بخش را تازه‌سازی کن.</div>
+        </div>
+      </div>
+
+      <div class="support-card support-detail" id="ticketDetail">
+        <div class="support-empty">برای مشاهدهٔ گفتگو، یک تیکت از فهرست انتخاب کن.</div>
+      </div>
     </div>
   </section>
 </main>
@@ -294,713 +297,937 @@ h1{font-size:21px}
 <script>
 'use strict';
 
-const SUPABASE_URL = 'https://jmdoxofcyoxdrtxvvuiu.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74';
+const SUPABASE_URL='https://jmdoxofcyoxdrtxvvuiu.supabase.co';
+const SUPABASE_KEY='sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74';
 
-const $ = id => document.getElementById(id);
-
-const db = window.supabase?.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY,
-  {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      storageKey: 'persian-stark-auth'
-    }
+const $=id=>document.getElementById(id);
+const db=window.supabase?.createClient(SUPABASE_URL,SUPABASE_KEY,{
+  auth:{
+    persistSession:true,
+    autoRefreshToken:true,
+    detectSessionInUrl:true,
+    storageKey:'persian-stark-auth'
   }
-);
+});
 
-let currentUser = null;
-let products = [];
-let orders = [];
-let busy = false;
+let currentUser=null;
+let products=[];
+let orders=[];
+let tickets=[];
+let selectedTicketId=null;
+let selectedMessages=[];
+let busy=false;
+let supportBusy=false;
 
-const allowedProductStatuses = [
-  'draft',
-  'pending_review',
-  'active',
-  'reserved',
-  'sold',
-  'rejected',
-  'hidden'
-];
+const allowedProductStatuses=['draft','pending_review','active','reserved','sold','rejected','hidden'];
 
-const orderStatuses = {
-  requested: 'در انتظار بررسی',
-  approved: 'تأیید شده',
-  rejected: 'رد شده',
-  completed: 'بسته شده'
+const orderStatuses={
+  requested:'درخواست ثبت‌شده',
+  approved:'تأیید شده',
+  rejected:'رد شده',
+  completed:'بسته شده'
 };
 
-const productStatuses = {
-  draft: 'پیش‌نویس',
-  pending_review: 'در انتظار بررسی',
-  active: 'فعال',
-  reserved: 'رزروشده',
-  sold: 'فروخته‌شده',
-  rejected: 'ردشده',
-  hidden: 'مخفی'
+const productStatuses={
+  draft:'پیش‌نویس',
+  pending_review:'در انتظار بررسی',
+  active:'فعال',
+  reserved:'رزروشده',
+  sold:'فروخته‌شده',
+  rejected:'ردشده',
+  hidden:'مخفی'
 };
 
-const escapeHtml = value =>
-  String(value ?? '').replace(/[&<>"']/g, char => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  }[char]));
+const ticketStatuses={
+  open:'باز',
+  closed:'بسته'
+};
 
-function notice(id, message, type = 'error') {
-  const element = $(id);
-  element.textContent = message;
-  element.className = 'notice show ' + (type === 'success' ? 'success' : '');
+const ticketCategories={
+  purchase:'خرید و سفارش',
+  account:'حساب کاربری',
+  product:'محصول و اسکین',
+  payment:'پرداخت',
+  technical:'مشکل فنی',
+  other:'سایر موارد'
+};
+
+const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+}[c]));
+
+function notice(id,msg,type='error'){
+  const e=$(id);
+  if(!e)return;
+  e.textContent=msg;
+  e.className='notice show '+(type==='success'?'success':'');
 }
 
-function clearNotice(id) {
-  const element = $(id);
-  element.textContent = '';
-  element.className = 'notice';
+function clearNotice(id){
+  const e=$(id);
+  if(!e)return;
+  e.textContent='';
+  e.className='notice';
 }
 
-function formatPrice(price, currency) {
-  const number = Number(price);
-  return Number.isFinite(number)
-    ? new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 2 }).format(number) + ' ' + (currency || '')
-    : '—';
+function formatPrice(p,c){
+  const n=Number(p);
+  if(!Number.isFinite(n))return '—';
+  const currency=c||'';
+  const currencyNames={IRT:'تومان',IRR:'ریال',USD:'دلار',EUR:'یورو'};
+  return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(n)+' '+(currencyNames[currency]||currency);
 }
 
-function formatDate(value) {
-  if (!value) return '—';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString('fa-IR');
+function formatDate(v){
+  if(!v)return '—';
+  const d=new Date(v);
+  return Number.isNaN(d.getTime())?'—':d.toLocaleString('fa-IR');
 }
 
-function setGate(title, message, showLogin = false) {
-  $('gateTitle').textContent = title;
-  $('gateMessage').textContent = message;
-  $('loginButton').hidden = !showLogin;
+function setGate(title,msg,showLogin=false){
+  $('gateTitle').textContent=title;
+  $('gateMessage').textContent=msg;
+  $('loginButton').hidden=!showLogin;
 }
 
-async function checkAdmin() {
-  const { data, error } = await db.auth.getSession();
+async function checkAdmin(){
+  const {data,error}=await db.auth.getSession();
+  if(error)throw error;
 
-  if (error) throw error;
+  currentUser=data.session?.user||null;
 
-  currentUser = data.session?.user || null;
-
-  if (!currentUser) {
-    setGate('ورود به پنل مدیریت', 'برای دسترسی ابتدا با حساب مدیر وارد سایت شوید.', true);
+  if(!currentUser){
+    setGate('ورود به پنل مدیریت','برای دسترسی ابتدا با حساب مدیر وارد سایت شوید.',true);
     return false;
   }
 
-  const { data: profile, error: profileError } = await db
+  const {data:profile,error:profileError}=await db
     .from('profiles')
     .select('is_admin')
-    .eq('id', currentUser.id)
+    .eq('id',currentUser.id)
     .maybeSingle();
 
-  if (profileError) {
-    throw new Error('بررسی دسترسی مدیر انجام نشد: ' + profileError.message);
+  if(profileError){
+    throw new Error('بررسی دسترسی مدیر انجام نشد: '+profileError.message);
   }
 
-  if (profile?.is_admin !== true) {
-    setGate('دسترسی غیرمجاز', 'این صفحه فقط برای حساب‌هایی است که profiles.is_admin آن‌ها true است.');
+  if(profile?.is_admin!==true){
+    setGate('دسترسی غیرمجاز','این صفحه فقط برای حساب‌هایی است که profiles.is_admin آن‌ها true است.');
     return false;
   }
 
   return true;
 }
 
-function showApp() {
-  $('gate').style.display = 'none';
-  $('app').style.display = 'block';
+function showApp(){
+  $('gate').style.display='none';
+  $('app').style.display='block';
 }
 
-function updateStats() {
-  $('totalCount').textContent = products.length.toLocaleString('fa-IR');
-
-  $('activeCount').textContent = products
-    .filter(product => product.status === 'active')
-    .length.toLocaleString('fa-IR');
-
-  $('openOrdersCount').textContent = orders
-    .filter(order => !['completed', 'rejected', 'cancelled'].includes(order.status))
-    .length.toLocaleString('fa-IR');
-
-  $('completedOrdersCount').textContent = orders
-    .filter(order => order.status === 'completed')
-    .length.toLocaleString('fa-IR');
+function updateStats(){
+  $('totalCount').textContent=products.length.toLocaleString('fa-IR');
+  $('activeCount').textContent=products.filter(p=>p.status==='active').length.toLocaleString('fa-IR');
+  $('openOrdersCount').textContent=orders.filter(o=>!['completed','rejected','cancelled'].includes(o.status)).length.toLocaleString('fa-IR');
+  $('completedOrdersCount').textContent=orders.filter(o=>o.status==='completed').length.toLocaleString('fa-IR');
 }
 
-function renderProducts() {
-  const query = $('productSearch').value.trim().toLocaleLowerCase();
-  const status = $('filterStatus').value;
+function renderProducts(){
+  const q=$('productSearch').value.trim().toLocaleLowerCase();
+  const status=$('filterStatus').value;
 
-  const filtered = products.filter(product => {
-    const text = `${product.title || ''} ${product.weapon || ''} ${product.skin_name || ''}`.toLocaleLowerCase();
-    return (!status || product.status === status) && text.includes(query);
-  });
+  const filtered=products.filter(p=>
+    (!status||p.status===status)&&
+    `${p.title||''} ${p.weapon||''} ${p.skin_name||''}`.toLocaleLowerCase().includes(q)
+  );
 
-  const body = $('productRows');
+  const body=$('productRows');
 
-  if (!filtered.length) {
-    body.innerHTML = '<tr><td colspan="5" class="empty">محصولی مطابق جست‌وجو پیدا نشد.</td></tr>';
+  if(!filtered.length){
+    body.innerHTML='<tr><td colspan="5" class="empty">محصولی مطابق جست‌وجو پیدا نشد.</td></tr>';
     return;
   }
 
-  body.innerHTML = filtered.map(product => {
-    const image = /^https?:\/\//i.test(product.image_url || '')
-      ? escapeHtml(product.image_url)
-      : '';
+  body.innerHTML=filtered.map(p=>{
+    const image=/^https?:\/\//i.test(p.image_url||'')?escapeHtml(p.image_url):'';
 
-    return `
-      <tr>
-        <td>
-          <div class="product-cell">
-            ${image
-              ? `<img class="product-image" src="${image}" alt="" loading="lazy" referrerpolicy="no-referrer">`
-              : '<div class="product-image"></div>'}
-            <div>
-              <div class="product-name">${escapeHtml(product.title)}</div>
-              <div class="product-sub">${escapeHtml(product.weapon || '')}</div>
-            </div>
+    return `<tr>
+      <td>
+        <div class="product-cell">
+          ${image?`<img class="product-image" src="${image}" alt="" loading="lazy" referrerpolicy="no-referrer">`:'<div class="product-image"></div>'}
+          <div>
+            <div class="product-name">${escapeHtml(p.title)}</div>
+            <div class="product-sub">${escapeHtml(p.weapon||'')}</div>
           </div>
-        </td>
-        <td>${escapeHtml(formatPrice(product.price, product.currency))}</td>
-        <td>
-          <span class="status ${product.status === 'active' ? 'status-active' : product.status === 'sold' ? 'status-sold' : product.status === 'rejected' ? 'status-rejected' : ''}">
-            ${escapeHtml(productStatuses[product.status] || product.status || '—')}
-          </span>
-        </td>
-        <td>${escapeHtml(formatDate(product.created_at))}</td>
-        <td>
-          <div class="row-actions">
-            <button class="btn" data-action="edit" data-id="${escapeHtml(product.id)}">ویرایش</button>
-            <button class="btn btn-danger" data-action="delete" data-id="${escapeHtml(product.id)}">حذف</button>
-          </div>
-        </td>
-      </tr>`;
+        </div>
+      </td>
+      <td>${escapeHtml(formatPrice(p.price,p.currency))}</td>
+      <td><span class="status ${p.status==='active'?'status-active':p.status==='sold'?'status-sold':p.status==='rejected'?'status-rejected':''}">${escapeHtml(productStatuses[p.status]||p.status||'—')}</span></td>
+      <td>${escapeHtml(formatDate(p.created_at))}</td>
+      <td><div class="row-actions">
+        <button class="btn" data-action="edit" data-id="${escapeHtml(p.id)}" type="button">ویرایش</button>
+        <button class="btn btn-danger" data-action="delete" data-id="${escapeHtml(p.id)}" type="button">حذف</button>
+      </div></td>
+    </tr>`;
   }).join('');
 }
 
-async function loadProducts() {
+async function loadProducts(){
   clearNotice('productsNotice');
+  $('productRows').innerHTML='<tr><td colspan="5" class="empty">در حال دریافت محصولات...</td></tr>';
 
-  $('productRows').innerHTML =
-    '<tr><td colspan="5" class="empty">در حال دریافت محصولات...</td></tr>';
-
-  const { data, error } = await db
+  const {data,error}=await db
     .from('store_listings')
     .select('id,owner_id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,steam_inspect_url,created_at,updated_at')
-    .order('created_at', { ascending: false })
+    .order('created_at',{ascending:false})
     .limit(500);
 
-  if (error) {
-    products = [];
+  if(error){
+    products=[];
     renderProducts();
-    notice('productsNotice', 'دریافت محصولات ناموفق بود؛ سیاست‌های RLS را بررسی کن. ' + error.message);
+    notice('productsNotice','دریافت محصولات ناموفق بود؛ سیاست‌های RLS را بررسی کن. '+error.message);
     updateStats();
     return;
   }
 
-  products = data || [];
+  products=data||[];
   renderProducts();
   updateStats();
 }
 
-function renderOrders() {
-  const query = $('orderSearch').value.trim().toLocaleLowerCase();
-  const status = $('orderStatusFilter').value;
+function renderOrders(){
+  const q=$('orderSearch').value.trim().toLocaleLowerCase();
+  const status=$('orderStatusFilter').value;
 
-  const filtered = orders.filter(order => {
-    const product = products.find(item => String(item.id) === String(order.listing_id));
-
-    const searchable = `
-      ${order.buyer_full_name || ''}
-      ${order.buyer_phone || ''}
-      ${order.buyer_telegram || ''}
-      ${order.buyer_steam_name || ''}
-      ${order.buyer_trade_url || ''}
-      ${order.id || ''}
-      ${product?.title || ''}
-      ${product?.weapon || ''}
-    `.toLocaleLowerCase();
-
-    return (!status || order.status === status) && searchable.includes(query);
+  const filtered=orders.filter(o=>{
+    const p=products.find(x=>String(x.id)===String(o.listing_id));
+    const hay=`${o.buyer_full_name||''} ${o.buyer_phone||''} ${o.buyer_telegram||''} ${o.buyer_steam_name||''} ${o.buyer_trade_url||''} ${o.id||''} ${p?.title||''} ${p?.weapon||''}`.toLocaleLowerCase();
+    return (!status||o.status===status)&&hay.includes(q);
   });
 
-  const body = $('orderRows');
+  const body=$('orderRows');
 
-  if (!filtered.length) {
-    body.innerHTML = '<tr><td colspan="5" class="empty">درخواستی برای نمایش وجود ندارد.</td></tr>';
+  if(!filtered.length){
+    body.innerHTML='<tr><td colspan="5" class="empty">درخواستی برای نمایش وجود ندارد.</td></tr>';
     return;
   }
 
-  body.innerHTML = filtered.map(order => {
-    const product = products.find(item => String(item.id) === String(order.listing_id));
-    const trade = String(order.buyer_trade_url || '');
-    const safeTrade = /^https:\/\/steamcommunity\.com\/tradeoffer\/new\//i.test(trade);
+  body.innerHTML=filtered.map(o=>{
+    const p=products.find(x=>String(x.id)===String(o.listing_id));
+    const trade=String(o.buyer_trade_url||'');
+    const safeTrade=/^https:\/\/steamcommunity\.com\/tradeoffer\/new\//i.test(trade);
+    const opts=Object.entries(orderStatuses).map(([k,v])=>
+      `<option value="${k}" ${o.status===k?'selected':''}>${v}</option>`
+    ).join('');
 
-    const options = Object.entries(orderStatuses)
-      .map(([key, label]) =>
-        `<option value="${key}" ${order.status === key ? 'selected' : ''}>${label}</option>`
-      )
-      .join('');
-
-    return `
-      <tr>
-        <td>
-          <strong>${escapeHtml(product?.title || product?.skin_name || ('شناسه محصول: ' + order.listing_id))}</strong>
-          <div class="product-sub">
-            ${escapeHtml(product?.weapon || '')}<br>
-            ${escapeHtml(product ? formatPrice(product.price, product.currency) : '')}
-          </div>
-        </td>
-
-        <td>
-          <div class="order-grid">
-            <div class="order-detail">
-              <strong>نام و نام خانوادگی</strong>
-              ${escapeHtml(order.buyer_full_name || '—')}
-            </div>
-            <div class="order-detail">
-              <strong>شماره تلفن</strong>
-              ${escapeHtml(order.buyer_phone || '—')}
-            </div>
-            <div class="order-detail">
-              <strong>آیدی تلگرام</strong>
-              ${escapeHtml(order.buyer_telegram || '—')}
-            </div>
-            <div class="order-detail">
-              <strong>اسم اکانت استیم</strong>
-              ${escapeHtml(order.buyer_steam_name || '—')}
-            </div>
-            <div class="order-detail">
-              <strong>شناسه کاربر</strong>
-              ${escapeHtml(order.buyer_id || '—')}
-            </div>
-          </div>
-        </td>
-
-        <td>
-          ${safeTrade
-            ? `<a href="${escapeHtml(trade)}" target="_blank" rel="noopener noreferrer">بازکردن لینک ترید</a>
-               <br><button class="copy-link" data-copy-trade="${escapeHtml(order.id)}">کپی لینک</button>`
-            : '<span class="muted">لینک معتبر موجود نیست</span>'}
-        </td>
-
-        <td>
-          ${escapeHtml(order.note || '—')}
-          <div class="product-sub">
-            قوانین پذیرفته شده: ${order.rules_accepted === true ? 'بله' : 'نامشخص'}
-          </div>
-        </td>
-
-        <td>
-          <select class="order-status-select" data-order-status="${escapeHtml(order.id)}">
-            ${options}
-          </select>
-          <div class="product-sub">${escapeHtml(formatDate(order.created_at))}</div>
-          <button class="btn btn-primary" data-save-order="${escapeHtml(order.id)}" style="margin-top:7px">
-            ذخیره وضعیت
-          </button>
-        </td>
-      </tr>`;
+    return `<tr>
+      <td>
+        <strong>${escapeHtml(p?.title||p?.skin_name||('شناسه محصول: '+o.listing_id))}</strong>
+        <div class="product-sub">${escapeHtml(p?.weapon||'')}<br>${escapeHtml(p?formatPrice(p.price,p.currency):'')}</div>
+      </td>
+      <td>
+        <div class="order-grid">
+          <div class="order-detail"><strong>نام و نام خانوادگی</strong>${escapeHtml(o.buyer_full_name||'—')}</div>
+          <div class="order-detail"><strong>شماره تلفن</strong>${escapeHtml(o.buyer_phone||'—')}</div>
+          <div class="order-detail"><strong>آیدی تلگرام</strong>${escapeHtml(o.buyer_telegram||'—')}</div>
+          <div class="order-detail"><strong>اسم اکانت استیم</strong>${escapeHtml(o.buyer_steam_name||'—')}</div>
+          <div class="order-detail"><strong>شناسه کاربر</strong>${escapeHtml(o.buyer_id||'—')}</div>
+        </div>
+      </td>
+      <td>
+        ${safeTrade?`<a href="${escapeHtml(trade)}" target="_blank" rel="noopener noreferrer">بازکردن لینک ترید</a><br><button class="copy-link" data-copy-trade="${escapeHtml(o.id)}" type="button">کپی لینک</button>`:'<span class="muted">لینک معتبر موجود نیست</span>'}
+      </td>
+      <td>${escapeHtml(o.note||'—')}<div class="product-sub">قوانین پذیرفته شده: ${o.rules_accepted===true?'بله':'نامشخص'}</div></td>
+      <td>
+        <select class="order-status-select" data-order-status="${escapeHtml(o.id)}">${opts}</select>
+        <div class="product-sub">${escapeHtml(formatDate(o.created_at))}</div>
+        <button class="btn btn-primary" data-save-order="${escapeHtml(o.id)}" style="margin-top:7px" type="button">ذخیره وضعیت</button>
+      </td>
+    </tr>`;
   }).join('');
 }
 
-async function loadOrders() {
+async function loadOrders(){
   clearNotice('ordersNotice');
+  $('orderRows').innerHTML='<tr><td colspan="5" class="empty">در حال دریافت درخواست‌ها...</td></tr>';
 
-  $('orderRows').innerHTML =
-    '<tr><td colspan="5" class="empty">در حال دریافت درخواست‌ها...</td></tr>';
-
-  const { data, error } = await db
+  const {data,error}=await db
     .from('store_orders')
     .select('id,listing_id,buyer_id,note,status,created_at,buyer_full_name,buyer_phone,buyer_telegram,buyer_steam_name,buyer_trade_url,rules_accepted,rules_accepted_at')
-    .order('created_at', { ascending: false })
+    .order('created_at',{ascending:false})
     .limit(500);
 
-  if (error) {
-    orders = [];
+  if(error){
+    orders=[];
     renderOrders();
     updateStats();
-    notice('ordersNotice', 'دریافت سفارش‌ها ناموفق بود. مطمئن شو ستون‌های اطلاعات خریدار و سیاست خواندن ادمین فعال هستند. ' + error.message);
+    notice('ordersNotice','دریافت سفارش‌ها ناموفق بود. مطمئن شو سیاست خواندن ادمین فعال است. '+error.message);
     return;
   }
 
-  orders = data || [];
+  orders=data||[];
   renderOrders();
   updateStats();
 }
 
-function resetForm() {
+function resetForm(){
   $('productForm').reset();
-  $('productId').value = '';
-  $('currency').value = 'IRT';
-  $('status').value = 'active';
-  $('formTitle').textContent = 'ثبت اسکین جدید';
-  $('saveButton').textContent = 'ثبت محصول';
+  $('productId').value='';
+  $('currency').value='IRT';
+  $('status').value='active';
+  $('formTitle').textContent='ثبت اسکین جدید';
+  $('saveButton').textContent='ثبت محصول';
   clearNotice('formNotice');
 }
 
-function editProduct(id) {
-  const product = products.find(item => String(item.id) === String(id));
+function editProduct(id){
+  const p=products.find(x=>String(x.id)===String(id));
 
-  if (!product) {
-    notice('productsNotice', 'محصول موردنظر پیدا نشد.');
+  if(!p){
+    notice('productsNotice','محصول موردنظر پیدا نشد.');
     return;
   }
 
-  $('productId').value = product.id;
-  $('title').value = product.title || '';
-  $('weapon').value = product.weapon || '';
-  $('skinName').value = product.skin_name || '';
-  $('wear').value = product.wear || '';
-  $('floatValue').value = product.float_value ?? '';
-  $('rarity').value = product.rarity || '';
-  $('price').value = product.price ?? '';
-  $('currency').value = product.currency || 'IRT';
-  $('imageUrl').value = product.image_url || '';
-  $('inspectUrl').value = product.steam_inspect_url || '';
-  $('status').value = allowedProductStatuses.includes(product.status) ? product.status : 'draft';
-  $('stattrak').checked = product.stattrak === true;
-  $('description').value = product.description || '';
-
-  $('formTitle').textContent = 'ویرایش محصول';
-  $('saveButton').textContent = 'ذخیره تغییرات';
+  $('productId').value=p.id;
+  $('title').value=p.title||'';
+  $('weapon').value=p.weapon||'';
+  $('skinName').value=p.skin_name||'';
+  $('wear').value=p.wear||'';
+  $('floatValue').value=p.float_value??'';
+  $('rarity').value=p.rarity||'';
+  $('price').value=p.price??'';
+  $('currency').value=p.currency||'IRT';
+  $('imageUrl').value=p.image_url||'';
+  $('inspectUrl').value=p.steam_inspect_url||'';
+  $('status').value=allowedProductStatuses.includes(p.status)?p.status:'draft';
+  $('stattrak').checked=p.stattrak===true;
+  $('description').value=p.description||'';
+  $('formTitle').textContent='ویرایش محصول';
+  $('saveButton').textContent='ذخیره تغییرات';
   clearNotice('formNotice');
-
-  $('productsPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  $('productsPanel').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function validHttpUrl(value) {
-  if (!value) return true;
-
-  try {
-    const url = new URL(value);
-    return url.protocol === 'https:' || url.protocol === 'http:';
-  } catch {
+function validHttpUrl(v){
+  if(!v)return true;
+  try{
+    const u=new URL(v);
+    return u.protocol==='https:'||u.protocol==='http:';
+  }catch{
     return false;
   }
 }
 
-function validInspectUrl(value) {
-  return !value || /^(https?:\/\/|steam:\/\/)/i.test(value);
+function validInspectUrl(v){
+  return !v||/^(https?:\/\/|steam:\/\/)/i.test(v);
 }
 
-$('productForm').addEventListener('submit', async event => {
-  event.preventDefault();
-  if (busy) return;
+$('productForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(busy)return;
 
-  const title = $('title').value.trim();
-  const weapon = $('weapon').value.trim();
-  const price = Number($('price').value);
-  const floatRaw = $('floatValue').value.trim();
-  const floatValue = floatRaw === '' ? null : Number(floatRaw);
-  const imageUrl = $('imageUrl').value.trim();
-  const inspectUrl = $('inspectUrl').value.trim();
-  const status = $('status').value;
+  const title=$('title').value.trim();
+  const weapon=$('weapon').value.trim();
+  const price=Number($('price').value);
+  const floatRaw=$('floatValue').value.trim();
+  const floatValue=floatRaw===''?null:Number(floatRaw);
+  const imageUrl=$('imageUrl').value.trim();
+  const inspectUrl=$('inspectUrl').value.trim();
+  const status=$('status').value;
 
-  if (!title || !weapon || $('price').value.trim() === '' || !Number.isFinite(price) || price < 0) {
-    notice('formNotice', 'عنوان، نام سلاح و قیمت معتبر الزامی است.');
+  if(!title||!weapon||$('price').value.trim()===''||!Number.isFinite(price)||price<0){
+    notice('formNotice','عنوان، نام سلاح و قیمت معتبر الزامی است.');
     return;
   }
 
-  if (floatValue !== null && (!Number.isFinite(floatValue) || floatValue < 0 || floatValue > 1)) {
-    notice('formNotice', 'مقدار Float باید بین ۰ و ۱ باشد.');
+  if(floatValue!==null&&(!Number.isFinite(floatValue)||floatValue<0||floatValue>1)){
+    notice('formNotice','مقدار Float باید بین ۰ و ۱ باشد.');
     return;
   }
 
-  if (!validHttpUrl(imageUrl)) {
-    notice('formNotice', 'لینک تصویر باید یک آدرس HTTP یا HTTPS معتبر باشد.');
+  if(!validHttpUrl(imageUrl)){
+    notice('formNotice','لینک تصویر باید یک آدرس HTTP یا HTTPS معتبر باشد.');
     return;
   }
 
-  if (!validInspectUrl(inspectUrl)) {
-    notice('formNotice', 'لینک Inspect معتبر نیست.');
+  if(!validInspectUrl(inspectUrl)){
+    notice('formNotice','لینک Inspect معتبر نیست.');
     return;
   }
 
-  if (!allowedProductStatuses.includes(status)) {
-    notice('formNotice', 'وضعیت محصول معتبر نیست.');
+  if(!allowedProductStatuses.includes(status)){
+    notice('formNotice','وضعیت محصول معتبر نیست.');
     return;
   }
 
-  const id = $('productId').value;
+  const id=$('productId').value;
 
-  const payload = {
+  const payload={
     title,
     weapon,
-    skin_name: $('skinName').value.trim() || null,
-    wear: $('wear').value || null,
-    float_value: floatValue,
-    rarity: $('rarity').value.trim() || null,
-    stattrak: $('stattrak').checked,
+    skin_name:$('skinName').value.trim()||null,
+    wear:$('wear').value||null,
+    float_value:floatValue,
+    rarity:$('rarity').value.trim()||null,
+    stattrak:$('stattrak').checked,
     price,
-    currency: $('currency').value,
-    image_url: imageUrl || null,
-    steam_inspect_url: inspectUrl || null,
-    description: $('description').value.trim() || null,
+    currency:$('currency').value,
+    image_url:imageUrl||null,
+    steam_inspect_url:inspectUrl||null,
+    description:$('description').value.trim()||null,
     status,
-    updated_at: new Date().toISOString()
+    updated_at:new Date().toISOString()
   };
 
-  busy = true;
-  $('saveButton').disabled = true;
+  busy=true;
+  $('saveButton').disabled=true;
 
-  try {
+  try{
     let result;
 
-    if (id) {
-      result = await db
-        .from('store_listings')
-        .update(payload)
-        .eq('id', id)
-        .select('id')
-        .maybeSingle();
-    } else {
-      result = await db
-        .from('store_listings')
-        .insert({
-          ...payload,
-          owner_id: null,
-          source: 'site'
-        })
-        .select('id')
-        .single();
+    if(id){
+      result=await db.from('store_listings').update(payload).eq('id',id).select('id').maybeSingle();
+    }else{
+      result=await db.from('store_listings').insert({...payload,owner_id:null,source:'site'}).select('id').single();
     }
 
-    if (result.error) throw result.error;
+    if(result.error)throw result.error;
+    if(!result.data)throw new Error('هیچ محصولی تغییر نکرد؛ ممکن است RLS اجازه عملیات ندهد.');
 
-    if (!result.data) {
-      throw new Error('هیچ محصولی تغییر نکرد؛ ممکن است RLS اجازه عملیات ندهد.');
-    }
-
-    notice(
-      'formNotice',
-      id ? 'تغییرات محصول ذخیره شد.' : 'محصول جدید ثبت شد.',
-      'success'
-    );
-
+    notice('formNotice',id?'تغییرات محصول ذخیره شد.':'محصول جدید ثبت شد.','success');
     resetForm();
     await loadProducts();
-
-  } catch (error) {
-    console.error(error);
-    notice('formNotice', 'ذخیره محصول ناموفق بود: ' + (error.message || 'خطای نامشخص'));
-  } finally {
-    busy = false;
-    $('saveButton').disabled = false;
-    $('saveButton').textContent = $('productId').value ? 'ذخیره تغییرات' : 'ثبت محصول';
+  }catch(err){
+    console.error(err);
+    notice('formNotice','ذخیره محصول ناموفق بود: '+(err.message||'خطای نامشخص'));
+  }finally{
+    busy=false;
+    $('saveButton').disabled=false;
+    $('saveButton').textContent=$('productId').value?'ذخیره تغییرات':'ثبت محصول';
   }
 });
 
-async function deleteProduct(id) {
-  const product = products.find(item => String(item.id) === String(id));
+async function deleteProduct(id){
+  const p=products.find(x=>String(x.id)===String(id));
+  if(!p||busy)return;
+  if(!confirm(`محصول «${p.title}» حذف شود؟`))return;
 
-  if (!product || busy) return;
+  busy=true;
 
-  if (!confirm(`محصول «${product.title}» حذف شود؟`)) return;
+  try{
+    const {data,error}=await db.from('store_listings').delete().eq('id',id).select('id');
+    if(error)throw error;
+    if(!data?.length)throw new Error('محصول حذف نشد؛ احتمالاً RLS اجازه حذف نمی‌دهد.');
 
-  busy = true;
+    if(String($('productId').value)===String(id))resetForm();
 
-  try {
-    const { data, error } = await db
-      .from('store_listings')
-      .delete()
-      .eq('id', id)
-      .select('id');
-
-    if (error) throw error;
-
-    if (!data?.length) {
-      throw new Error('محصول حذف نشد؛ احتمالاً RLS اجازه حذف نمی‌دهد.');
-    }
-
-    if (String($('productId').value) === String(id)) {
-      resetForm();
-    }
-
-    notice('productsNotice', 'محصول حذف شد.', 'success');
-
+    notice('productsNotice','محصول حذف شد.','success');
     await loadProducts();
     await loadOrders();
-
-  } catch (error) {
-    notice('productsNotice', 'حذف محصول ناموفق بود: ' + (error.message || ''));
-  } finally {
-    busy = false;
+  }catch(err){
+    notice('productsNotice','حذف محصول ناموفق بود: '+(err.message||''));
+  }finally{
+    busy=false;
   }
 }
 
-async function saveOrderStatus(id) {
-  const select = document.querySelector(
-    `[data-order-status="${CSS.escape(String(id))}"]`
-  );
+async function saveOrderStatus(id){
+  const select=document.querySelector(`[data-order-status="${CSS.escape(String(id))}"]`);
+  if(!select)return;
 
-  if (!select) return;
+  const status=select.value;
 
-  const status = select.value;
-
-  if (!Object.hasOwn(orderStatuses, status)) {
-    notice('ordersNotice', 'وضعیت انتخاب‌شده معتبر نیست.');
+  if(!Object.hasOwn(orderStatuses,status)){
+    notice('ordersNotice','وضعیت انتخاب‌شده معتبر نیست.');
     return;
   }
 
-  const oldOrder = orders.find(order => String(order.id) === String(id));
-  if (!oldOrder) return;
+  const oldOrder=orders.find(o=>String(o.id)===String(id));
+  if(!oldOrder)return;
 
-  const oldStatus = oldOrder.status;
+  const oldStatus=oldOrder.status;
+  select.disabled=true;
 
-  select.disabled = true;
+  const buttons=[...document.querySelectorAll('[data-save-order]')];
+  const saveButton=buttons.find(b=>String(b.dataset.saveOrder)===String(id));
+  if(saveButton)saveButton.disabled=true;
 
-  const buttons = [...document.querySelectorAll('[data-save-order]')];
-  const saveButton = buttons.find(button => String(button.dataset.saveOrder) === String(id));
+  try{
+    const {data,error}=await db.from('store_orders').update({status}).eq('id',id).select('id,status').maybeSingle();
 
-  if (saveButton) saveButton.disabled = true;
+    if(error)throw error;
+    if(!data)throw new Error('دیتابیس هیچ ردیفی را به‌روزرسانی نکرد؛ ممکن است سیاست دسترسی مدیر مانع ذخیره باشد.');
+    if(data.status!==status)throw new Error('وضعیت ذخیره‌شده با وضعیت انتخابی مطابقت ندارد.');
 
-  try {
-    const { data, error } = await db
-      .from('store_orders')
-      .update({ status })
-      .eq('id', id)
-      .select('id,status')
+    oldOrder.status=data.status;
+    notice('ordersNotice','وضعیت سفارش با موفقیت ذخیره شد: '+orderStatuses[data.status],'success');
+    await loadOrders();
+  }catch(err){
+    oldOrder.status=oldStatus;
+    console.error('save order status',err);
+    notice('ordersNotice','وضعیت ذخیره نشد: '+(err.message||'خطای نامشخص'));
+    await loadOrders();
+  }finally{
+    if(select.isConnected)select.disabled=false;
+    if(saveButton?.isConnected)saveButton.disabled=false;
+  }
+}
+
+/* ---------------- SUPPORT TICKETS ---------------- */
+
+function ticketCategoryLabel(category){
+  return ticketCategories[category]||category||'سایر موارد';
+}
+
+function ticketStatusLabel(status){
+  return ticketStatuses[status]||status||'نامشخص';
+}
+
+function renderTicketCounts(){
+  $('ticketTotalCount').textContent=tickets.length.toLocaleString('fa-IR');
+  $('ticketOpenCount').textContent=tickets.filter(t=>t.status==='open').length.toLocaleString('fa-IR');
+  $('ticketClosedCount').textContent=tickets.filter(t=>t.status==='closed').length.toLocaleString('fa-IR');
+}
+
+function renderTickets(){
+  const q=$('ticketSearch').value.trim().toLocaleLowerCase();
+  const status=$('ticketStatusFilter').value;
+
+  const filtered=tickets.filter(t=>{
+    const hay=`${t.ticket_number||''} ${t.subject||''} ${ticketCategoryLabel(t.category)} ${t.user_id||''}`.toLocaleLowerCase();
+    return (!status||t.status===status)&&hay.includes(q);
+  });
+
+  const list=$('ticketList');
+
+  if(!filtered.length){
+    list.innerHTML='<div class="support-empty">تیکتی با این مشخصات پیدا نشد.</div>';
+    return;
+  }
+
+  list.innerHTML=filtered.map(t=>{
+    const selected=String(t.id)===String(selectedTicketId);
+    const statusClass=t.status==='closed'?'status-closed':'status-open';
+
+    return `<button type="button" class="ticket-item ${selected?'selected':''}" data-open-ticket="${escapeHtml(t.id)}">
+      <div class="ticket-top">
+        <span class="status ${statusClass}">${escapeHtml(ticketStatusLabel(t.status))}</span>
+        <span class="ticket-meta">${escapeHtml(t.ticket_number||'بدون شماره')}</span>
+      </div>
+      <div class="ticket-subject">${escapeHtml(t.subject||'بدون موضوع')}</div>
+      <div class="ticket-meta">دسته‌بندی: ${escapeHtml(ticketCategoryLabel(t.category))}</div>
+      <div class="ticket-meta">ثبت: ${escapeHtml(formatDate(t.created_at))}</div>
+      <div class="ticket-meta">شناسه کاربر: ${escapeHtml(t.user_id||'—')}</div>
+    </button>`;
+  }).join('');
+}
+
+async function loadTickets(options={}){
+  const keepSelected=options.keepSelected!==false;
+  clearNotice('supportNotice');
+
+  if(!keepSelected){
+    selectedTicketId=null;
+    selectedMessages=[];
+  }
+
+  $('ticketList').innerHTML='<div class="support-empty">در حال دریافت تیکت‌ها...</div>';
+
+  const {data,error}=await db
+    .from('store_support_tickets')
+    .select('id,ticket_number,user_id,subject,category,status,created_at,updated_at')
+    .order('updated_at',{ascending:false})
+    .limit(500);
+
+  if(error){
+    tickets=[];
+    renderTicketCounts();
+    renderTickets();
+    $('ticketDetail').innerHTML='<div class="support-empty">دریافت تیکت‌ها ناموفق بود. نام جدول‌ها و سیاست‌های دسترسی را بررسی کن.</div>';
+    notice('supportNotice','دریافت تیکت‌ها ناموفق بود: '+error.message);
+    return;
+  }
+
+  tickets=data||[];
+
+  if(selectedTicketId&&!tickets.some(t=>String(t.id)===String(selectedTicketId))){
+    selectedTicketId=null;
+    selectedMessages=[];
+  }
+
+  renderTicketCounts();
+  renderTickets();
+
+  if(selectedTicketId){
+    const ticket=tickets.find(t=>String(t.id)===String(selectedTicketId));
+    if(ticket)await loadTicketMessages(ticket.id,{quiet:true});
+  }else{
+    $('ticketDetail').innerHTML='<div class="support-empty">برای مشاهدهٔ گفتگو، یک تیکت از فهرست انتخاب کن.</div>';
+  }
+}
+
+async function openTicket(id){
+  const ticket=tickets.find(t=>String(t.id)===String(id));
+  if(!ticket)return;
+
+  selectedTicketId=ticket.id;
+  selectedMessages=[];
+  renderTickets();
+
+  $('ticketDetail').innerHTML='<div class="support-empty">در حال دریافت پیام‌های تیکت...</div>';
+  await loadTicketMessages(ticket.id);
+}
+
+function renderTicketDetail(ticket){
+  if(!ticket){
+    $('ticketDetail').innerHTML='<div class="support-empty">این تیکت در فهرست موجود نیست.</div>';
+    return;
+  }
+
+  const isClosed=ticket.status==='closed';
+  const statusClass=isClosed?'status-closed':'status-open';
+
+  $('ticketDetail').innerHTML=`
+    <div class="support-detail-head">
+      <div>
+        <h3>${escapeHtml(ticket.subject||'بدون موضوع')}</h3>
+        <div class="ticket-meta">شماره پیگیری: ${escapeHtml(ticket.ticket_number||'—')}</div>
+        <div class="ticket-meta">دسته‌بندی: ${escapeHtml(ticketCategoryLabel(ticket.category))}</div>
+        <div class="ticket-meta">کاربر: ${escapeHtml(ticket.user_id||'—')}</div>
+        <div class="ticket-meta">تاریخ ثبت: ${escapeHtml(formatDate(ticket.created_at))}</div>
+        <div style="margin-top:8px"><span class="status ${statusClass}">${escapeHtml(ticketStatusLabel(ticket.status))}</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn" type="button" id="refreshTicketMessages">تازه‌سازی پیام‌ها</button>
+        <button class="btn ${isClosed?'btn-success':'btn-danger'}" type="button" id="toggleTicketStatus">${isClosed?'باز کردن مجدد':'بستن تیکت'}</button>
+      </div>
+    </div>
+
+    <div class="notice" id="ticketDetailNotice" role="status"></div>
+
+    <div class="message-list" id="ticketMessages">
+      <div class="support-empty">در حال دریافت پیام‌ها...</div>
+    </div>
+
+    <form class="support-compose" id="adminReplyForm">
+      <h3>پاسخ مدیر</h3>
+      ${isClosed?'<p class="muted">این تیکت بسته است. برای پاسخ دادن ابتدا آن را دوباره باز کن.</p>':'<p class="muted">پیام ارسالی با نام نقش «مدیر» در گفتگوی کاربر ثبت می‌شود.</p>'}
+      <textarea id="adminReplyText" maxlength="5000" placeholder="پاسخ خود را بنویس..." ${isClosed?'disabled':''} required></textarea>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="sendAdminReply" type="submit" ${isClosed?'disabled':''}>ارسال پاسخ</button>
+      </div>
+    </form>
+  `;
+
+  $('refreshTicketMessages').addEventListener('click',()=>loadTicketMessages(ticket.id));
+  $('toggleTicketStatus').addEventListener('click',()=>changeTicketStatus(ticket.id));
+  $('adminReplyForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    sendAdminReply(ticket.id);
+  });
+
+  renderTicketMessages();
+}
+
+function renderTicketMessages(){
+  const box=$('ticketMessages');
+  if(!box)return;
+
+  if(!selectedMessages.length){
+    box.innerHTML='<div class="support-empty">هنوز پیامی برای این تیکت ثبت نشده است.</div>';
+    return;
+  }
+
+  box.innerHTML=selectedMessages.map(m=>{
+    const isAdmin=m.sender_role==='admin';
+    const senderLabel=isAdmin?'پشتیبانی PERSIAN STARK':m.sender_role==='ai'?'دستیار فروشگاه':'کاربر';
+
+    return `<article class="message ${isAdmin?'admin':'user'}">
+      <div class="message-head">
+        <strong>${escapeHtml(senderLabel)}</strong>
+        <span>${escapeHtml(formatDate(m.created_at))}</span>
+      </div>
+      <div class="message-body">${escapeHtml(m.message||'')}</div>
+    </article>`;
+  }).join('');
+
+  box.scrollTop=box.scrollHeight;
+}
+
+async function loadTicketMessages(ticketId,options={}){
+  const quiet=options.quiet===true;
+  const ticket=tickets.find(t=>String(t.id)===String(ticketId));
+
+  if(!ticket){
+    $('ticketDetail').innerHTML='<div class="support-empty">تیکت انتخاب‌شده پیدا نشد.</div>';
+    return;
+  }
+
+  if(!quiet){
+    $('ticketDetail').innerHTML='<div class="support-empty">در حال دریافت پیام‌ها...</div>';
+  }
+
+  const {data,error}=await db
+    .from('store_support_messages')
+    .select('id,ticket_id,sender_id,sender_role,message,created_at')
+    .eq('ticket_id',ticketId)
+    .order('created_at',{ascending:true})
+    .limit(1000);
+
+  if(error){
+    if(quiet){
+      notice('supportNotice','به‌روزرسانی پیام‌های تیکت ناموفق بود: '+error.message);
+      return;
+    }
+
+    renderTicketDetail(ticket);
+    $('ticketMessages').innerHTML='<div class="support-empty">خواندن پیام‌ها ناموفق بود. سیاست خواندن پیام‌های پشتیبانی را بررسی کن.</div>';
+    notice('supportNotice','دریافت پیام‌ها ناموفق بود: '+error.message);
+    return;
+  }
+
+  selectedMessages=data||[];
+  renderTicketDetail(ticket);
+}
+
+async function sendAdminReply(ticketId){
+  if(supportBusy)return;
+
+  const ticket=tickets.find(t=>String(t.id)===String(ticketId));
+  if(!ticket){
+    notice('supportNotice','تیکت موردنظر پیدا نشد.');
+    return;
+  }
+
+  if(ticket.status==='closed'){
+    notice('supportNotice','این تیکت بسته است. ابتدا آن را دوباره باز کن.');
+    return;
+  }
+
+  const message=$('adminReplyText')?.value.trim()||'';
+  if(!message){
+    notice('supportNotice','متن پاسخ را وارد کن.');
+    return;
+  }
+
+  if(message.length>5000){
+    notice('supportNotice','متن پاسخ نباید بیشتر از ۵۰۰۰ نویسه باشد.');
+    return;
+  }
+
+  supportBusy=true;
+
+  const sendButton=$('sendAdminReply');
+  const replyField=$('adminReplyText');
+
+  if(sendButton){
+    sendButton.disabled=true;
+    sendButton.textContent='در حال ارسال...';
+  }
+  if(replyField)replyField.disabled=true;
+
+  try{
+    const {data:authData,error:authError}=await db.auth.getUser();
+    if(authError)throw authError;
+
+    const adminUser=authData?.user;
+    if(!adminUser||adminUser.id!==currentUser?.id){
+      throw new Error('نشست مدیر معتبر نیست. دوباره وارد حساب شو.');
+    }
+
+    const {error}=await db.from('store_support_messages').insert({
+      ticket_id:ticket.id,
+      sender_id:adminUser.id,
+      sender_role:'admin',
+      message
+    });
+
+    if(error)throw error;
+
+    const {error:updateError}=await db
+      .from('store_support_tickets')
+      .update({updated_at:new Date().toISOString()})
+      .eq('id',ticket.id);
+
+    if(updateError){
+      console.warn('پیام ارسال شد اما زمان آخرین به‌روزرسانی تیکت تغییر نکرد:',updateError);
+    }
+
+    notice('supportNotice','پاسخ با موفقیت ثبت شد.','success');
+    await loadTickets({keepSelected:true});
+  }catch(err){
+    console.error('ارسال پاسخ پشتیبانی ناموفق بود:',err);
+    notice('supportNotice','ارسال پاسخ ناموفق بود: '+(err.message||'خطای نامشخص'));
+  }finally{
+    supportBusy=false;
+    const button=$('sendAdminReply');
+    const field=$('adminReplyText');
+
+    if(button&&button.isConnected){
+      button.disabled=tickets.find(t=>String(t.id)===String(ticketId))?.status==='closed';
+      button.textContent='ارسال پاسخ';
+    }
+    if(field&&field.isConnected){
+      field.disabled=tickets.find(t=>String(t.id)===String(ticketId))?.status==='closed';
+    }
+  }
+}
+
+async function changeTicketStatus(ticketId){
+  if(supportBusy)return;
+
+  const ticket=tickets.find(t=>String(t.id)===String(ticketId));
+  if(!ticket){
+    notice('supportNotice','تیکت موردنظر پیدا نشد.');
+    return;
+  }
+
+  const newStatus=ticket.status==='closed'?'open':'closed';
+  const confirmation=newStatus==='closed'
+    ?'تیکت بسته شود؟ کاربر دیگر نمی‌تواند در تیکت بسته‌شده پیام جدید ارسال کند.'
+    :'تیکت دوباره باز شود؟';
+
+  if(!confirm(confirmation))return;
+
+  supportBusy=true;
+  const button=$('toggleTicketStatus');
+  if(button){
+    button.disabled=true;
+    button.textContent='در حال ذخیره...';
+  }
+
+  try{
+    const {data,error}=await db
+      .from('store_support_tickets')
+      .update({
+        status:newStatus,
+        updated_at:new Date().toISOString()
+      })
+      .eq('id',ticket.id)
+      .select('id,status,updated_at')
       .maybeSingle();
 
-    if (error) throw error;
+    if(error)throw error;
+    if(!data)throw new Error('وضعیت تغییر نکرد. دسترسی UPDATE ادمین در سیاست‌های RLS را بررسی کن.');
+    if(data.status!==newStatus)throw new Error('وضعیت برگشتی با وضعیت انتخاب‌شده مطابقت ندارد.');
 
-    if (!data) {
-      throw new Error('دیتابیس هیچ ردیفی را به‌روزرسانی نکرد؛ ممکن است سیاست دسترسی مدیر مانع ذخیره باشد.');
-    }
+    ticket.status=data.status;
+    ticket.updated_at=data.updated_at||new Date().toISOString();
 
-    if (data.status !== status) {
-      throw new Error(
-        'دیتابیس وضعیت «' +
-        (orderStatuses[data.status] || data.status) +
-        '» را برگرداند، نه وضعیت انتخاب‌شده. محدودیت وضعیت دیتابیس را بررسی کن.'
-      );
-    }
-
-    oldOrder.status = data.status;
-
-    notice(
-      'ordersNotice',
-      'وضعیت سفارش با موفقیت ذخیره شد: ' + orderStatuses[data.status],
-      'success'
-    );
-
-    await loadOrders();
-
-  } catch (error) {
-    oldOrder.status = oldStatus;
-    console.error('save order status', error);
-
-    notice(
-      'ordersNotice',
-      'وضعیت ذخیره نشد: ' + (error.message || 'خطای نامشخص')
-    );
-
-    await loadOrders();
-
-  } finally {
-    if (select.isConnected) select.disabled = false;
-    if (saveButton?.isConnected) saveButton.disabled = false;
+    notice('supportNotice',newStatus==='closed'?'تیکت با موفقیت بسته شد.':'تیکت دوباره باز شد.','success');
+    await loadTickets({keepSelected:true});
+  }catch(err){
+    console.error('تغییر وضعیت تیکت ناموفق بود:',err);
+    notice('supportNotice','تغییر وضعیت تیکت ناموفق بود: '+(err.message||'خطای نامشخص'));
+    await loadTickets({keepSelected:true});
+  }finally{
+    supportBusy=false;
+    if(button&&button.isConnected)button.disabled=false;
   }
 }
 
-$('productRows').addEventListener('click', event => {
-  const button = event.target.closest('button[data-action]');
-  if (!button) return;
+/* ---------------- EVENT HANDLERS ---------------- */
 
-  if (button.dataset.action === 'edit') {
-    editProduct(button.dataset.id);
-  }
+$('productRows').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-action]');
+  if(!b)return;
 
-  if (button.dataset.action === 'delete') {
-    deleteProduct(button.dataset.id);
-  }
+  if(b.dataset.action==='edit')editProduct(b.dataset.id);
+  if(b.dataset.action==='delete')deleteProduct(b.dataset.id);
 });
 
-$('orderRows').addEventListener('click', async event => {
-  const copyButton = event.target.closest('[data-copy-trade]');
+$('orderRows').addEventListener('click',async e=>{
+  const copy=e.target.closest('[data-copy-trade]');
 
-  if (copyButton) {
-    const order = orders.find(item => String(item.id) === String(copyButton.dataset.copyTrade));
-    if (!order?.buyer_trade_url) return;
+  if(copy){
+    const o=orders.find(x=>String(x.id)===String(copy.dataset.copyTrade));
+    if(!o?.buyer_trade_url)return;
 
-    try {
-      await navigator.clipboard.writeText(order.buyer_trade_url);
-      notice('ordersNotice', 'لینک ترید کپی شد.', 'success');
-    } catch {
-      notice('ordersNotice', 'کپی خودکار در این مرورگر ممکن نیست؛ لینک را باز کن و دستی کپی کن.');
+    try{
+      await navigator.clipboard.writeText(o.buyer_trade_url);
+      notice('ordersNotice','لینک ترید کپی شد.','success');
+    }catch{
+      notice('ordersNotice','کپی خودکار در این مرورگر ممکن نیست؛ لینک را باز کن و دستی کپی کن.');
     }
-
     return;
   }
 
-  const saveButton = event.target.closest('[data-save-order]');
-
-  if (saveButton) {
-    await saveOrderStatus(saveButton.dataset.saveOrder);
-  }
+  const save=e.target.closest('[data-save-order]');
+  if(save)saveOrderStatus(save.dataset.saveOrder);
 });
 
-$('orderSearch').addEventListener('input', renderOrders);
-$('orderStatusFilter').addEventListener('change', renderOrders);
-$('productSearch').addEventListener('input', renderProducts);
-$('filterStatus').addEventListener('change', renderProducts);
+$('ticketList').addEventListener('click',e=>{
+  const button=e.target.closest('[data-open-ticket]');
+  if(button)openTicket(button.dataset.openTicket);
+});
 
-$('refreshOrders').addEventListener('click', async () => {
+$('orderSearch').addEventListener('input',renderOrders);
+$('orderStatusFilter').addEventListener('change',renderOrders);
+$('productSearch').addEventListener('input',renderProducts);
+$('filterStatus').addEventListener('change',renderProducts);
+$('ticketSearch').addEventListener('input',renderTickets);
+$('ticketStatusFilter').addEventListener('change',renderTickets);
+
+$('refreshOrders').addEventListener('click',async()=>{
   await loadProducts();
   await loadOrders();
 });
 
-$('refreshProducts').addEventListener('click', loadProducts);
-$('resetButton').addEventListener('click', resetForm);
+$('refreshProducts').addEventListener('click',loadProducts);
+$('refreshTickets').addEventListener('click',()=>loadTickets({keepSelected:true}));
+$('resetButton').addEventListener('click',resetForm);
 
-$('loginButton').addEventListener('click', () => {
-  window.location.href = './index.html';
+$('loginButton').addEventListener('click',()=>{
+  window.location.href='./index.html';
 });
 
-$('logoutButton').addEventListener('click', async () => {
-  await db.auth.signOut();
-  window.location.href = './index.html';
-});
-
-document.querySelectorAll('[data-tab]').forEach(button => {
-  button.addEventListener('click', () => {
-    document.querySelectorAll('[data-tab]').forEach(tab => {
-      tab.classList.toggle('active', tab === button);
-    });
-
-    $('ordersPanel').hidden = button.dataset.tab !== 'ordersPanel';
-    $('productsPanel').hidden = button.dataset.tab !== 'productsPanel';
-  });
-});
-
-(async () => {
-  if (!db) {
-    setGate('خطای اتصال', 'کتابخانه Supabase بارگذاری نشده است. اینترنت یا CDN را بررسی کنید.');
+$('logoutButton').addEventListener('click',async()=>{
+  if(!db){
+    window.location.href='./index.html';
     return;
   }
 
-  try {
-    const isAdmin = await checkAdmin();
+  await db.auth.signOut();
+  window.location.href='./index.html';
+});
 
-    if (!isAdmin) return;
+document.querySelectorAll('[data-tab]').forEach(button=>{
+  button.addEventListener('click',async()=>{
+    document.querySelectorAll('[data-tab]').forEach(tab=>{
+      tab.classList.toggle('active',tab===button);
+    });
+
+    $('ordersPanel').hidden=button.dataset.tab!=='ordersPanel';
+    $('productsPanel').hidden=button.dataset.tab!=='productsPanel';
+    $('supportPanel').hidden=button.dataset.tab!=='supportPanel';
+
+    if(button.dataset.tab==='supportPanel'){
+      await loadTickets({keepSelected:true});
+    }
+  });
+});
+
+/* ---------------- STARTUP ---------------- */
+
+(async()=>{
+  if(!db){
+    setGate('خطای اتصال','کتابخانه Supabase بارگذاری نشده است. اینترنت یا CDN را بررسی کنید.');
+    return;
+  }
+
+  try{
+    const ok=await checkAdmin();
+    if(!ok)return;
 
     showApp();
-
     await loadProducts();
     await loadOrders();
-
-  } catch (error) {
-    console.error(error);
-    setGate('خطا در بررسی دسترسی', error.message || 'اتصال به Supabase ناموفق بود.');
+  }catch(err){
+    console.error(err);
+    setGate('خطا در بررسی دسترسی',err.message||'اتصال به Supabase ناموفق بود.');
   }
 })();
 </script>
