@@ -6,64 +6,143 @@
 <meta name="theme-color" content="#0c0d12">
 <title>فروشگاه اسکین CS2 | PERSIAN STARK</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 :root{
- color-scheme:dark;--bg:#0c0d12;--panel:#151923;--panel2:#1d2330;
- --line:#303747;--text:#f4f6fb;--muted:#a4adbd;
- --lime:#bdf45a;--red:#ff7777
+  color-scheme:dark;
+  --bg:#0c0d12;
+  --panel:#151923;
+  --panel2:#1d2330;
+  --line:#303747;
+  --text:#f4f6fb;
+  --muted:#a4adbd;
+  --lime:#bdf45a;
+  --red:#ff7777;
+  --green:#80e5a2;
+  --orange:#ffd17c
 }
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#1b2434 0,transparent 55%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at top,#1b2434 0,transparent 55%),var(--bg);
+  color:var(--text);
+  font-family:Tahoma,Arial,sans-serif;
+  min-height:100vh
+}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit}
 button{touch-action:manipulation}
 .container{width:min(1180px,92%);margin:auto}
-header{position:sticky;top:0;z-index:10;background:#0c0d12ed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.brand{font-size:18px;font-weight:900}
+header{
+  position:sticky;top:0;z-index:10;
+  background:#0c0d12ed;backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)
+}
+.nav{
+  min-height:68px;display:flex;align-items:center;
+  justify-content:space-between;gap:15px
+}
+.brand{font-size:18px;font-weight:900;white-space:nowrap}
 .brand span,.accent{color:var(--lime)}
-.nav-right,.nav-links{display:flex;align-items:center;gap:16px}
+.nav-right,.nav-links{display:flex;align-items:center;gap:14px}
 .nav-links{font-size:12px;color:var(--muted)}
-.account-link{border:1px solid var(--line);padding:9px 12px;border-radius:9px;font-size:12px}
+.nav-links a:hover{color:var(--lime)}
+.account-link{
+  border:1px solid var(--line);padding:9px 12px;
+  border-radius:9px;font-size:12px;white-space:nowrap
+}
 .hero{padding:34px 0 20px}
-.hero-panel{border:1px solid #333b4c;border-radius:20px;padding:clamp(22px,5vw,42px);background:linear-gradient(120deg,#192131,#11151e 70%)}
+.hero-panel{
+  border:1px solid #333b4c;border-radius:20px;
+  padding:clamp(22px,5vw,42px);
+  background:linear-gradient(120deg,#192131,#11151e 70%)
+}
 .eyebrow{font-size:11px;letter-spacing:1px;color:var(--lime);font-weight:bold}
 .hero h1{font-size:clamp(25px,5vw,42px);line-height:1.7;margin:12px 0}
 .hero p{color:var(--muted);font-size:13px;line-height:2.1;max-width:720px}
 .hero-bottom{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
-.pill{font-size:11px;padding:8px 11px;border-radius:9px;background:#252c38;color:#d7deea}
+.pill,.badge{
+  font-size:11px;padding:8px 11px;border-radius:9px;
+  background:#252c38;color:#d7deea
+}
 .pill.warning{background:#292c20;color:#e2f9ad;border:1px solid #424c2e}
-.toolbar-wrap,.panel{border:1px solid var(--line);border-radius:16px;background:#11151e;padding:16px;margin:16px 0}
+.toolbar-wrap,.panel{
+  border:1px solid var(--line);border-radius:16px;
+  background:#11151e;padding:16px;margin:16px 0
+}
 .toolbar-label{font-size:12px;color:var(--muted);margin:0 0 10px}
 .toolbar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px}
-.field{width:100%;min-width:0;background:#171d28;border:1px solid #30394a;color:var(--text);border-radius:10px;padding:12px;outline:none}
+.field{
+  width:100%;min-width:0;background:#171d28;
+  border:1px solid #30394a;color:var(--text);
+  border-radius:10px;padding:12px;outline:none
+}
 .field:focus{border-color:var(--lime)}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:24px 0 14px}
+textarea.field{resize:vertical;line-height:1.9}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin:24px 0 14px
+}
 .section-head h2{font-size:18px;margin:0}
-#resultCount{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;padding-bottom:42px}
-.card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:15px;background:linear-gradient(150deg,#1b2230,#11151d)}
-.image-wrap{height:185px;display:grid;place-items:center;background:radial-gradient(ellipse,#30394b,#171c26);overflow:hidden}
+.section-head p{color:var(--muted);font-size:12px}
+.muted{color:var(--muted)}
+.small{font-size:11px;line-height:1.9}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;padding-bottom:24px}
+.card{
+  min-width:0;overflow:hidden;border:1px solid var(--line);
+  border-radius:15px;background:linear-gradient(150deg,#1b2230,#11151d)
+}
+.image-wrap{
+  height:185px;display:grid;place-items:center;
+  background:radial-gradient(ellipse,#30394b,#171c26);overflow:hidden
+}
 .product-image{width:100%;height:100%;object-fit:contain;padding:12px}
 .image-placeholder{color:var(--muted);font-size:12px}
 .card-body{padding:13px}
 .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.badge{font-size:10px;padding:5px 7px;border-radius:6px;background:#2a3040;color:#dce2ef}
+.badge{font-size:10px;padding:5px 7px;border-radius:6px}
 .badge.site{background:#25351b;color:#d8f9a6}
 .badge.user{background:#253449;color:#b7d8ff}
+.badge.status{background:#302a1b;color:var(--orange)}
 .card h3{font-size:14px;line-height:1.8;margin:0 0 8px;overflow-wrap:anywhere}
 .details{font-size:11px;color:var(--muted);line-height:2;min-height:42px}
 .price{font-size:17px;color:var(--lime);font-weight:bold;margin:12px 0;overflow-wrap:anywhere}
-.btn{display:inline-flex;justify-content:center;align-items:center;border:1px solid transparent;border-radius:9px;padding:11px 13px;background:var(--lime);color:#11150b;font-weight:bold;font-size:12px;cursor:pointer;width:100%}
+.btn{
+  display:inline-flex;justify-content:center;align-items:center;
+  gap:6px;border:1px solid transparent;border-radius:9px;
+  padding:11px 13px;background:var(--lime);color:#11150b;
+  font-weight:bold;font-size:12px;cursor:pointer;width:100%;
+  text-align:center
+}
+.btn:hover{filter:brightness(1.06)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 .btn.secondary{background:#171d28;border-color:var(--line);color:var(--text)}
-.state{grid-column:1/-1;text-align:center;padding:42px 14px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);line-height:2}
+.btn.danger{background:#351b20;border-color:#67333b;color:#ffb0b0}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--text)}
+.btn.small-btn{width:auto;padding:8px 11px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row .btn{flex:1}
+.state{
+  grid-column:1/-1;text-align:center;padding:35px 14px;
+  border:1px dashed var(--line);border-radius:14px;
+  color:var(--muted);line-height:2
+}
 .error{color:var(--red)}
-footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);text-align:center;font-size:11px;line-height:2.2}
-.modal-backdrop{position:fixed;inset:0;z-index:30;background:#000c;display:none;align-items:center;justify-content:center;padding:16px}
+.success{color:var(--green)}
+footer{
+  border-top:1px solid var(--line);padding:24px 0;
+  color:var(--muted);text-align:center;font-size:11px;line-height:2.2
+}
+.modal-backdrop{
+  position:fixed;inset:0;z-index:30;background:#000c;
+  display:none;align-items:center;justify-content:center;padding:16px
+}
 .modal-backdrop.open{display:flex}
-.modal{width:min(560px,100%);max-height:92vh;overflow:auto;background:#111620;border:1px solid #30394a;border-radius:17px;padding:21px;box-shadow:0 25px 90px #0009}
+.modal{
+  width:min(620px,100%);max-height:92vh;overflow:auto;
+  background:#111620;border:1px solid #30394a;
+  border-radius:17px;padding:21px;box-shadow:0 25px 90px #0009
+}
 .modal h2{font-size:19px;margin:0 0 10px}
 .modal p{font-size:12px;line-height:2;color:var(--muted)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -73,1001 +152,1297 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);text-a
 .required-note{font-size:11px;color:var(--muted)}
 .checkline{display:flex;gap:9px;align-items:flex-start;line-height:2;font-size:12px;margin:12px 0}
 .checkline input{margin-top:6px;accent-color:var(--lime);flex-shrink:0}
-.text-link{color:var(--lime);text-decoration:underline;cursor:pointer;background:none;border:0;padding:0}
+.text-link{
+  color:var(--lime);text-decoration:underline;cursor:pointer;
+  background:none;border:0;padding:0
+}
 .modal-actions{display:grid;gap:9px;margin-top:12px}
-#modalMessage{font-size:12px;line-height:2;min-height:20px;overflow-wrap:anywhere}
+.message{font-size:12px;line-height:2;min-height:20px;overflow-wrap:anywhere}
 .rules-list{font-size:12px;line-height:2.2;color:#d5dbe6;padding-right:20px}
 .rules-modal{width:min(600px,100%)}
-
-/* STARK AI */
-.ai-launcher{
- position:fixed;right:20px;bottom:20px;z-index:50;
- display:flex;align-items:center;gap:10px;border:1px solid #52643b;
- background:linear-gradient(135deg,#c8ff70,#9fd83f);color:#101608;
- border-radius:18px;padding:12px 17px;cursor:pointer;
- box-shadow:0 8px 35px #0008;font-weight:900
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.tab{
+  background:#171d28;color:var(--muted);border:1px solid var(--line);
+  padding:10px 13px;border-radius:9px;font-size:12px;cursor:pointer
 }
-.ai-launcher .ai-icon{display:grid;place-items:center;width:35px;height:35px;background:#18220f;color:var(--lime);border-radius:12px;font-size:20px}
-.ai-launcher small{display:block;font-size:10px;font-weight:500;margin-top:3px}
-.ai-panel{
- position:fixed;right:20px;bottom:92px;width:min(390px,calc(100vw - 24px));
- height:min(610px,calc(100dvh - 115px));z-index:51;
- display:none;flex-direction:column;overflow:hidden;
- background:#10151e;border:1px solid #384254;border-radius:20px;
- box-shadow:0 20px 80px #000b
+.tab.active{background:#26321b;color:var(--lime);border-color:#526b30}
+.toolbar-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.toolbar-buttons .btn{width:auto;flex:1}
+.count-bubble{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:20px;height:20px;padding:0 5px;border-radius:20px;
+  background:var(--lime);color:#111;font-size:10px;margin-right:4px
 }
-.ai-panel.open{display:flex}
-.ai-header{padding:15px;background:linear-gradient(120deg,#202b39,#151a24);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px}
-.ai-avatar{width:42px;height:42px;border-radius:14px;background:var(--lime);color:#14190d;display:grid;place-items:center;font-size:22px;font-weight:900;flex-shrink:0}
-.ai-heading{flex:1;min-width:0}
-.ai-heading strong{font-size:14px;display:block}
-.ai-heading small{font-size:10px;color:var(--muted);display:block;margin-top:5px}
-.ai-online{color:var(--lime)}
-.ai-close{background:#262e3b;border:1px solid #3b4657;color:white;width:34px;height:34px;border-radius:10px;cursor:pointer}
-.ai-body{padding:14px;overflow:auto;flex:1;min-height:0;scroll-behavior:smooth}
-.ai-welcome{font-size:12px;line-height:2;color:#d9dfeb;margin:0 0 12px}
-.ai-notice{font-size:10px;line-height:1.9;color:#9da9ba;padding:9px 10px;border:1px solid #303949;border-radius:10px;background:#151b25;margin-bottom:12px}
-.ai-message{width:fit-content;max-width:94%;font-size:12px;line-height:2;padding:10px 12px;border-radius:13px;margin:9px 0;overflow-wrap:anywhere;white-space:pre-wrap}
-.ai-message.bot{background:#202938;border:1px solid #303d50;border-top-right-radius:4px}
-.ai-message.user{background:#2b3b1e;border:1px solid #526b36;border-top-left-radius:4px;margin-right:auto;color:#f1f8e9}
-.ai-message a{color:var(--lime);text-decoration:underline}
-.ai-quick{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 15px}
-.ai-quick button,.ai-action{
- border:1px solid #3b4658;background:#171e29;color:#e9eef8;
- border-radius:10px;padding:9px 10px;font-size:11px;cursor:pointer
+.list{display:grid;gap:10px}
+.order-card,.ticket-card,.cart-item{
+  border:1px solid var(--line);border-radius:12px;
+  padding:13px;background:#171d28;min-width:0
 }
-.ai-quick button:hover,.ai-action:hover{border-color:var(--lime)}
-.ai-action.primary{background:var(--lime);color:#12180c;border-color:var(--lime);font-weight:bold}
-.ai-typing{font-size:11px;color:var(--muted);margin:8px 0}
-.ai-compose{border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;background:#121720}
-.ai-compose input{min-width:0;flex:1;background:#1a202b;border:1px solid #354052;border-radius:11px;padding:11px;color:var(--text);outline:none;font-size:12px}
-.ai-compose input:focus{border-color:var(--lime)}
-.ai-send{width:43px;flex-shrink:0;border:0;border-radius:11px;background:var(--lime);color:#12180c;font-weight:bold;cursor:pointer}
-.ai-send:disabled{opacity:.5}
-.ai-screen{display:none}
-.ai-screen.active{display:block}
-.ai-screen h3{font-size:14px;line-height:1.8}
-.ai-screen p,.ai-screen label{font-size:11px;line-height:2;color:var(--muted)}
-.ai-screen .field{margin:5px 0 12px;font-size:12px}
-.ai-ticket{border:1px solid var(--line);border-radius:12px;padding:11px;margin:10px 0;background:#151b25}
-.ai-ticket strong{font-size:12px}
-.ai-ticket p{margin:5px 0}
-.ai-ticket button{margin-top:7px}
-.ai-back{margin-bottom:10px}
-.ai-status{display:inline-block;padding:4px 7px;border-radius:6px;background:#293425;color:#d7f5a5;font-size:10px}
-.ai-status.closed{background:#392526;color:#ffb8b8}
-.ai-status.other{background:#263448;color:#bedbff}
-.ai-empty{font-size:11px;color:var(--muted);line-height:2;padding:12px;border:1px dashed var(--line);border-radius:10px}
-.ai-small{font-size:10px!important;color:#8996a9!important;line-height:1.9!important}
-.ai-error{color:#ff9c9c!important}
-.ai-success{color:var(--lime)!important}
-.ai-inline-link{color:var(--lime);text-decoration:underline}
-@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.order-top,.cart-top{
+  display:flex;justify-content:space-between;gap:10px;
+  align-items:flex-start;flex-wrap:wrap
+}
+.order-title{font-size:13px;font-weight:bold;line-height:1.9}
+.order-meta{font-size:11px;color:var(--muted);line-height:2;margin-top:7px;overflow-wrap:anywhere}
+.status-pill{
+  display:inline-block;border-radius:7px;padding:6px 9px;
+  background:#2c3040;color:#e0e5ef;font-size:10px;white-space:nowrap
+}
+.status-pill.green{background:#1c3527;color:#a4f2bc}
+.status-pill.red{background:#3a2025;color:#ffb1b1}
+.status-pill.orange{background:#3b311c;color:#ffe0a0}
+.empty-note{
+  border:1px dashed var(--line);border-radius:12px;
+  padding:24px 14px;text-align:center;color:var(--muted);
+  font-size:12px;line-height:2
+}
+.total-line{
+  display:flex;justify-content:space-between;gap:12px;
+  border-top:1px solid var(--line);padding-top:12px;margin-top:12px;
+  font-size:13px
+}
+.chat-box{
+  display:flex;flex-direction:column;gap:10px;
+  max-height:360px;overflow:auto;padding:10px;
+  background:#0c1018;border:1px solid var(--line);border-radius:12px
+}
+.chat-msg{
+  max-width:92%;align-self:flex-start;padding:10px 12px;
+  border-radius:12px;background:#202838;color:#e6eaf2;
+  font-size:12px;line-height:2;overflow-wrap:anywhere;white-space:pre-wrap
+}
+.chat-msg.user{align-self:flex-end;background:#28351e;color:#e7f8d0}
+.chat-form{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}
+.chat-form .btn{width:auto}
+.ticket-detail{margin-top:12px;display:none}
+.ticket-detail.open{display:block}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.hidden{display:none!important}
+@media(max-width:1000px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media(max-width:650px){
- .nav{min-height:60px}.nav-links{gap:9px;font-size:10px}.brand{font-size:14px}
- .nav-right{gap:8px}.account-link{font-size:10px;padding:8px}
- .hero{padding-top:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .image-wrap{height:140px}.card-body{padding:10px}.card h3{font-size:12px}
- .price{font-size:15px}.details{font-size:10px}.toolbar-wrap{padding:10px}
- .field{padding:10px;font-size:12px}.form-grid{grid-template-columns:1fr}
- .full{grid-column:auto}
- .ai-launcher{right:12px;bottom:12px;padding:9px 12px;border-radius:15px}
- .ai-launcher .ai-icon{width:32px;height:32px}
- .ai-panel{right:8px;bottom:78px;width:calc(100vw - 16px);height:min(650px,calc(100dvh - 94px));border-radius:17px}
+  .nav{min-height:60px}
+  .nav-links{gap:9px;font-size:10px}
+  .brand{font-size:14px}
+  .nav-right{gap:8px}
+  .account-link{font-size:10px;padding:8px}
+  .hero{padding-top:22px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .image-wrap{height:140px}
+  .card-body{padding:10px}
+  .card h3{font-size:12px}
+  .price{font-size:15px}
+  .details{font-size:10px}
+  .toolbar-wrap{padding:10px}
+  .field{padding:10px;font-size:12px}
+  .form-grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .toolbar-buttons .btn{font-size:11px;padding:10px 8px}
+  .section-head h2{font-size:15px}
 }
 @media(max-width:390px){
- .nav-links a:nth-child(2){display:none}.image-wrap{height:125px}.hero h1{font-size:24px}
+  .nav-links a:nth-child(2){display:none}
+  .image-wrap{height:125px}
+  .hero h1{font-size:24px}
 }
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 </head>
-
 <body>
 <header>
- <div class="container nav">
-  <a class="brand" href="./index.html">PERSIAN <span>STARK</span></a>
-  <div class="nav-right">
-   <nav class="nav-links" aria-label="ناوبری">
-    <a href="./index.html">صفحه اصلی</a>
-    <a href="./subtitles.html">زیرنویس‌ها</a>
-    <a href="./store.html" aria-current="page">فروشگاه CS2</a>
-   </nav>
-   <a class="account-link" id="accountLink" href="./index.html">ورود / ثبت‌نام</a>
+  <div class="container nav">
+    <a class="brand" href="./index.html">PERSIAN <span>STARK</span></a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="ناوبری">
+        <a href="./index.html">صفحه اصلی</a>
+        <a href="./subtitles.html">زیرنویس‌ها</a>
+        <a href="./store.html" aria-current="page">فروشگاه CS2</a>
+      </nav>
+      <a class="account-link" id="accountLink" href="./index.html">ورود / ثبت‌نام</a>
+    </div>
   </div>
- </div>
 </header>
 
 <main class="container">
- <section class="hero">
-  <div class="hero-panel">
-   <div class="eyebrow">PERSIAN STARK · CS2 MARKETPLACE</div>
-   <h1>به فروشگاه <span class="accent">PERSIAN STARK</span> خوش آمدید</h1>
-   <p>بازار اسکین‌های Counter-Strike 2؛ مشخصات آیتم‌ها را بررسی کن و برای خرید درخواست بفرست.</p>
-   <div class="hero-bottom">
-    <span class="pill warning">پرداخت آنلاین غیرفعال است</span>
-    <span class="pill">ثبت درخواست به معنی نهایی‌شدن معامله نیست</span>
-   </div>
-  </div>
- </section>
+  <section class="hero">
+    <div class="hero-panel">
+      <div class="eyebrow">PERSIAN STARK · CS2 MARKETPLACE</div>
+      <h1>به فروشگاه <span class="accent">PERSIAN STARK</span> خوش آمدید</h1>
+      <p>بازار اسکین‌های Counter-Strike 2؛ اسکین موردنظرت را پیدا کن، به سبد خرید اضافه کن و درخواستت را ثبت کن. وضعیت سفارش‌ها هم از همین صفحه قابل پیگیری است.</p>
+      <div class="hero-bottom">
+        <span class="pill warning">پرداخت آنلاین غیرفعال است</span>
+        <span class="pill">ثبت درخواست به معنی نهایی‌شدن معامله نیست</span>
+      </div>
+    </div>
+  </section>
 
- <section class="toolbar-wrap" aria-label="جست‌وجو و فیلتر">
-  <p class="toolbar-label">اسکین موردنظرت رو پیدا کن</p>
-  <div class="toolbar">
-   <input id="searchInput" class="field" type="search" placeholder="جست‌وجوی نام اسکین یا سلاح..." aria-label="جست‌وجو">
-   <select id="wearFilter" class="field" aria-label="وضعیت ظاهری">
-    <option value="">تمام وضعیت‌ها</option>
-    <option>Factory New</option><option>Minimal Wear</option><option>Field-Tested</option>
-    <option>Well-Worn</option><option>Battle-Scarred</option><option>Not Applicable</option><option>Unknown</option>
-   </select>
-   <select id="sourceFilter" class="field" aria-label="نوع فروشنده">
-    <option value="">تمام فروشنده‌ها</option>
-    <option value="site">موجودی سایت</option><option value="user">فروشنده کاربر</option>
-   </select>
-   <select id="sortFilter" class="field" aria-label="مرتب‌سازی">
-    <option value="newest">جدیدترین</option><option value="price-asc">ارزان‌ترین</option>
-    <option value="price-desc">گران‌ترین</option><option value="name">نام اسکین</option>
-   </select>
-  </div>
- </section>
+  <section class="toolbar-wrap" aria-label="جست‌وجو و فیلتر">
+    <p class="toolbar-label">اسکین موردنظرت رو پیدا کن</p>
+    <div class="toolbar">
+      <input id="searchInput" class="field" type="search" placeholder="جست‌وجوی نام اسکین یا سلاح..." aria-label="جست‌وجو">
+      <select id="wearFilter" class="field" aria-label="وضعیت ظاهری">
+        <option value="">تمام وضعیت‌ها</option>
+        <option>Factory New</option>
+        <option>Minimal Wear</option>
+        <option>Field-Tested</option>
+        <option>Well-Worn</option>
+        <option>Battle-Scarred</option>
+        <option>Not Applicable</option>
+        <option>Unknown</option>
+      </select>
+      <select id="sourceFilter" class="field" aria-label="نوع فروشنده">
+        <option value="">تمام فروشنده‌ها</option>
+        <option value="site">موجودی سایت</option>
+        <option value="user">فروشنده کاربر</option>
+      </select>
+      <select id="sortFilter" class="field" aria-label="مرتب‌سازی">
+        <option value="newest">جدیدترین</option>
+        <option value="price-asc">ارزان‌ترین</option>
+        <option value="price-desc">گران‌ترین</option>
+        <option value="name">نام اسکین</option>
+      </select>
+    </div>
+  </section>
 
- <div class="section-head"><h2>اسکین‌های موجود</h2><span id="resultCount">در حال دریافت اطلاعات...</span></div>
- <section id="productGrid" class="grid" aria-live="polite"><div class="state">در حال بارگذاری فروشگاه...</div></section>
+  <div class="toolbar-buttons">
+    <button class="btn secondary" type="button" id="openCartBtn">🛒 سبد خرید <span class="count-bubble" id="cartCount">۰</span></button>
+    <button class="btn secondary" type="button" id="openOrdersBtn">📦 سفارش‌های من</button>
+    <button class="btn secondary" type="button" id="openSupportBtn">🎧 پشتیبانی</button>
+    <button class="btn secondary" type="button" id="openAiBtn">🤖 STARK AI</button>
+  </div>
+
+  <div class="section-head">
+    <h2>اسکین‌های موجود</h2>
+    <span id="resultCount">در حال دریافت اطلاعات...</span>
+  </div>
+  <section id="productGrid" class="grid" aria-live="polite">
+    <div class="state">در حال بارگذاری فروشگاه...</div>
+  </section>
+
+  <section id="ordersSection" class="panel hidden">
+    <div class="section-head">
+      <h2>📦 سفارش‌های من</h2>
+      <button class="btn secondary small-btn" type="button" id="refreshOrdersBtn">به‌روزرسانی</button>
+    </div>
+    <p class="small muted">وضعیت این فهرست از جدول سفارش‌های Supabase خوانده می‌شود. هر اسکین در یک ردیف مستقل ثبت می‌شود.</p>
+    <div id="ordersList" class="list"><div class="empty-note">برای مشاهده سفارش‌ها وارد حساب کاربری شو.</div></div>
+  </section>
+
+  <section id="cartSection" class="panel hidden">
+    <div class="section-head">
+      <h2>🛒 سبد خرید</h2>
+      <button class="btn secondary small-btn" type="button" id="clearCartBtn">خالی کردن سبد</button>
+    </div>
+    <p class="small muted">اسکین‌ها ابتدا در سبد نگهداری می‌شوند. پس از ثبت درخواست، برای هر اسکین یک سفارش مستقل ساخته می‌شود. پرداخت آنلاین فعال نیست.</p>
+    <div id="cartList" class="list"></div>
+    <div class="total-line"><span>جمع مبلغ اسکین‌ها</span><strong id="cartTotal">۰ تومان</strong></div>
+    <div class="toolbar-buttons">
+      <button class="btn" type="button" id="checkoutBtn">ادامه و ثبت درخواست</button>
+      <button class="btn secondary" type="button" id="continueShoppingBtn">ادامه خرید</button>
+    </div>
+    <div id="cartMessage" class="message" role="status"></div>
+  </section>
+
+  <section id="supportSection" class="panel hidden">
+    <div class="section-head">
+      <h2>🎧 پشتیبانی فروشگاه</h2>
+    </div>
+    <p class="small muted">برای پیگیری مشکل سفارش یا سؤال درباره فروشگاه تیکت ثبت کن. پیام‌ها فقط برای حساب صاحب تیکت و مدیران مجاز باید قابل مشاهده باشند.</p>
+    <form id="ticketForm">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="ticketSubject">عنوان تیکت *</label>
+          <input class="field" id="ticketSubject" maxlength="160" required placeholder="مثلاً پیگیری سفارش">
+        </div>
+        <div class="form-field">
+          <label for="ticketCategory">دسته‌بندی</label>
+          <select class="field" id="ticketCategory">
+            <option value="order">پیگیری سفارش</option>
+            <option value="product">مشکل اسکین یا آگهی</option>
+            <option value="account">حساب کاربری</option>
+            <option value="other">سایر موارد</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label for="ticketMessage">متن پیام *</label>
+          <textarea class="field" id="ticketMessage" rows="4" maxlength="3000" required placeholder="مشکل یا درخواستت را توضیح بده..."></textarea>
+        </div>
+      </div>
+      <div class="toolbar-buttons">
+        <button class="btn" id="createTicketBtn" type="submit">ثبت تیکت</button>
+        <button class="btn secondary" id="refreshTicketsBtn" type="button">نمایش تیکت‌های من</button>
+      </div>
+      <div id="ticketFormMessage" class="message" role="status"></div>
+    </form>
+    <hr>
+    <div class="section-head"><h2>تیکت‌های من</h2></div>
+    <div id="ticketsList" class="list"><div class="empty-note">برای دیدن تیکت‌ها وارد حساب کاربری شو.</div></div>
+  </section>
+
+  <section id="aiSection" class="panel hidden">
+    <div class="section-head"><h2>🤖 STARK AI</h2></div>
+    <p class="small muted">دستیار فروشگاه می‌تواند سفارش‌های ثبت‌شده در حساب فعلی را بررسی کند. پاسخ به سؤال‌های عمومی از اطلاعات همین فروشگاه استفاده می‌کند؛ این نسخه به‌خودی‌خود به یک مدل هوش مصنوعی ابری متصل نیست.</p>
+    <div class="toolbar-buttons">
+      <button class="btn secondary" type="button" id="aiOrdersBtn">وضعیت سفارش من</button>
+      <button class="btn secondary" type="button" id="aiCartBtn">سبد خرید من</button>
+      <button class="btn secondary" type="button" id="aiSupportBtn">راهنمای پشتیبانی</button>
+    </div>
+    <div id="aiChat" class="chat-box" aria-live="polite">
+      <div class="chat-msg">سلام! من STARK AI فروشگاه هستم. می‌توانم سفارش‌های ثبت‌شده‌ات را بررسی کنم یا درباره خرید و پشتیبانی راهنمایی‌ات کنم.</div>
+    </div>
+    <form id="aiForm" class="chat-form">
+      <input id="aiInput" class="field" maxlength="500" placeholder="سؤالت را بنویس..." autocomplete="off" required>
+      <button class="btn" type="submit">ارسال</button>
+    </form>
+  </section>
 </main>
 
 <footer>
- <div class="container">PERSIAN STARK · فروشگاه اسکین CS2<br>این نسخه فقط درخواست خرید ثبت می‌کند؛ پرداخت و انتقال اسکین انجام نمی‌شود.</div>
+  <div class="container">
+    PERSIAN STARK · فروشگاه اسکین CS2<br>
+    این نسخه فقط درخواست خرید ثبت می‌کند؛ پرداخت آنلاین و انتقال خودکار اسکین انجام نمی‌شود.
+  </div>
 </footer>
 
-<!-- پنجره ثبت سفارش -->
+<!-- پنجره اطلاعات خریدار -->
 <div id="orderModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
- <div class="modal">
-  <h2 id="modalTitle">درخواست خرید اسکین</h2>
-  <p id="selectedProduct"></p>
-  <p>برای ثبت درخواست، تمام اطلاعات را دقیق وارد کن. پرداخت یا انتقال آیتم در این مرحله انجام نمی‌شود.</p>
-  <form id="orderForm" novalidate>
-   <div class="form-grid">
-    <div class="form-field"><label for="buyerName">نام و نام خانوادگی *</label><input class="field" id="buyerName" maxlength="120" autocomplete="name" required></div>
-    <div class="form-field"><label for="buyerPhone">شماره تلفن *</label><input class="field" id="buyerPhone" maxlength="30" type="tel" autocomplete="tel" required></div>
-    <div class="form-field"><label for="buyerTelegram">آیدی تلگرام *</label><input class="field" id="buyerTelegram" maxlength="100" placeholder="@username" required></div>
-    <div class="form-field"><label for="buyerSteam">اسم اکانت استیم *</label><input class="field" id="buyerSteam" maxlength="120" required></div>
-    <div class="form-field full"><label for="buyerTrade">لینک ترید استیم *</label><input class="field" id="buyerTrade" type="url" maxlength="500" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=...&token=..." required></div>
-    <div class="form-field full"><label for="orderNote">توضیحات (اختیاری)</label><textarea class="field" id="orderNote" rows="3" maxlength="1500" placeholder="توضیحات تکمیلی..."></textarea></div>
-   </div>
-   <label class="checkline"><input id="acceptRules" type="checkbox" required><span>پذیرفتن تمام قوانین PERSIAN STARK برای اطلاعات بیشتر از <button class="text-link" id="openRules" type="button">قوانین کلیک کنید</button></span></label>
-   <div class="required-note">* پر کردن تمامی فیلدها الزامی است.</div>
-   <div id="modalMessage" role="status" aria-live="polite"></div>
-   <div class="modal-actions">
-    <button id="submitOrder" class="btn" type="submit">ثبت درخواست</button>
-    <button id="closeModal" class="btn secondary" type="button">بستن</button>
-   </div>
-  </form>
- </div>
+  <div class="modal">
+    <h2 id="modalTitle">ثبت درخواست خرید</h2>
+    <p id="selectedProduct"></p>
+    <p>اطلاعات را دقیق وارد کن. این مرحله فقط درخواست خرید ثبت می‌کند و پرداخت یا انتقال اسکین انجام نمی‌شود.</p>
+    <form id="orderForm" novalidate>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="buyerName">نام و نام خانوادگی *</label>
+          <input class="field" id="buyerName" maxlength="120" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="buyerPhone">شماره تلفن *</label>
+          <input class="field" id="buyerPhone" maxlength="30" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="form-field">
+          <label for="buyerTelegram">آیدی تلگرام *</label>
+          <input class="field" id="buyerTelegram" maxlength="100" placeholder="@username" required>
+        </div>
+        <div class="form-field">
+          <label for="buyerSteam">اسم اکانت استیم *</label>
+          <input class="field" id="buyerSteam" maxlength="120" required>
+        </div>
+        <div class="form-field full">
+          <label for="buyerTrade">لینک ترید استیم *</label>
+          <input class="field" id="buyerTrade" type="url" maxlength="500" placeholder="https://steamcommunity.com/tradeoffer/new/..." required>
+        </div>
+        <div class="form-field full">
+          <label for="orderNote">توضیحات (اختیاری)</label>
+          <textarea class="field" id="orderNote" rows="3" maxlength="1500" placeholder="توضیحات تکمیلی..."></textarea>
+        </div>
+      </div>
+      <label class="checkline">
+        <input id="acceptRules" type="checkbox" required>
+        <span>قوانین فروشگاه را می‌پذیرم. <button class="text-link" id="openRules" type="button">مشاهده قوانین</button></span>
+      </label>
+      <div class="required-note">* پر کردن تمام فیلدهای ستاره‌دار الزامی است.</div>
+      <div id="modalMessage" class="message" role="status" aria-live="polite"></div>
+      <div class="modal-actions">
+        <button id="submitOrder" class="btn" type="submit">ثبت درخواست</button>
+        <button id="closeModal" class="btn secondary" type="button">بستن</button>
+      </div>
+    </form>
+  </div>
 </div>
 
-<!-- پنجره قوانین -->
+<!-- قوانین -->
 <div id="rulesModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
- <div class="modal rules-modal">
-  <h2 id="rulesTitle">قوانین ثبت درخواست خرید PERSIAN STARK</h2>
-  <ul class="rules-list">
-   <li>ثبت درخواست صرفاً برای بررسی اولیه است و به معنی تأیید موجودی، نهایی‌شدن خرید یا تضمین انجام معامله نیست.</li>
-   <li>در این نسخه پرداخت آنلاین و انتقال خودکار اسکین فعال نیست؛ تا دریافت تأیید رسمی از مدیریت، پرداخت یا انتقال آیتم انجام نده.</li>
-   <li>اطلاعات تماس و لینک ترید باید صحیح و متعلق به خودت باشد؛ اطلاعات ثبت‌شده برای پیگیری همین درخواست در اختیار مدیران مجاز فروشگاه قرار می‌گیرد.</li>
-   <li>از ارسال رمز عبور، کد تأیید، کد Steam Guard یا اطلاعات محرمانه حساب خودداری کن. فروشگاه هرگز به این اطلاعات نیاز ندارد.</li>
-   <li>مدیریت می‌تواند درخواست را بررسی، رد یا وضعیت آن را تغییر دهد. ثبت درخواست به‌تنهایی تعهدی برای فروشنده ایجاد نمی‌کند.</li>
-   <li>با ثبت درخواست تأیید می‌کنی که اطلاعات را آگاهانه ارسال کرده‌ای و این قوانین را خوانده‌ای.</li>
-  </ul>
-  <div class="modal-actions"><button class="btn" id="closeRules" type="button">متوجه شدم</button></div>
- </div>
+  <div class="modal rules-modal">
+    <h2 id="rulesTitle">قوانین ثبت درخواست خرید PERSIAN STARK</h2>
+    <ul class="rules-list">
+      <li>ثبت درخواست صرفاً برای بررسی اولیه است و به معنی تأیید موجودی یا نهایی‌شدن خرید نیست.</li>
+      <li>پرداخت آنلاین و انتقال خودکار اسکین در این نسخه فعال نیست.</li>
+      <li>اطلاعات تماس و لینک ترید باید صحیح و متعلق به خودت باشد.</li>
+      <li>هرگز رمز عبور، کد Steam Guard یا کد تأیید حسابت را برای کسی ارسال نکن.</li>
+      <li>مدیریت فروشگاه می‌تواند درخواست را بررسی، رد یا وضعیت آن را تغییر دهد.</li>
+      <li>با ثبت درخواست تأیید می‌کنی که اطلاعات را آگاهانه ارسال کرده‌ای.</li>
+    </ul>
+    <div class="modal-actions"><button class="btn" id="closeRules" type="button">متوجه شدم</button></div>
+  </div>
 </div>
-
-<!-- دکمه شناور STARK AI -->
-<button class="ai-launcher" id="aiLauncher" type="button" aria-expanded="false" aria-controls="starkPanel">
- <span class="ai-icon">✦</span>
- <span>STARK AI<small>راهنمای فروشگاه</small></span>
-</button>
-
-<!-- پنجره STARK AI -->
-<section class="ai-panel" id="starkPanel" aria-label="دستیار STARK AI" aria-hidden="true">
- <div class="ai-header">
-  <div class="ai-avatar">✦</div>
-  <div class="ai-heading">
-   <strong>STARK AI</strong>
-   <small><span class="ai-online">●</span> دستیار خودکار فروشگاه</small>
-  </div>
-  <button class="ai-close" id="aiClose" type="button" aria-label="بستن دستیار">✕</button>
- </div>
-
- <div class="ai-body" id="aiBody">
-  <div id="aiChatScreen" class="ai-screen active">
-   <p class="ai-welcome">سلام! 👋 من دستیار فروشگاه PERSIAN STARK هستم. برای راهنمایی درباره سفارش، قوانین یا ثبت تیکت پشتیبانی اینجا هستم.</p>
-   <div class="ai-notice">این دستیار خودکار است و به‌تنهایی نمی‌تواند سفارش را تأیید یا معامله‌ای انجام دهد. وضعیت واقعی سفارش باید از اطلاعات فروشگاه بررسی شود.</div>
-   <div id="aiMessages" aria-live="polite">
-    <div class="ai-message bot">از کجا شروع کنیم؟ یکی از گزینه‌های زیر را انتخاب کن یا سؤالت را بنویس.</div>
-   </div>
-   <div class="ai-quick" id="aiQuick">
-    <button type="button" data-ai="order-help">چرا سفارشم بررسی نشده؟</button>
-    <button type="button" data-ai="order-status">وضعیت سفارش من</button>
-    <button type="button" data-ai="payment">پرداخت و خرید</button>
-    <button type="button" data-ai="account">ورود به حساب</button>
-    <button type="button" data-ai="rules">قوانین فروشگاه</button>
-    <button type="button" data-ai="new-ticket">ثبت تیکت پشتیبانی</button>
-    <button type="button" data-ai="my-tickets">تیکت‌های من</button>
-   </div>
-  </div>
-
-  <div id="aiTicketScreen" class="ai-screen">
-   <button type="button" class="ai-action ai-back" data-ai="back">← بازگشت به گفتگو</button>
-   <h3>ثبت تیکت پشتیبانی</h3>
-   <p>برای ثبت تیکت باید وارد حساب کاربری سایت شده باشی. از ارسال رمز عبور و کدهای امنیتی خودداری کن.</p>
-   <form id="aiTicketForm">
-    <label for="ticketSubject">موضوع تیکت</label>
-    <input class="field" id="ticketSubject" maxlength="150" minlength="3" required placeholder="مثلاً پیگیری سفارش">
-    <label for="ticketCategory">دسته‌بندی</label>
-    <select class="field" id="ticketCategory" required>
-     <option value="general">سؤال عمومی</option>
-     <option value="order">پیگیری سفارش</option>
-     <option value="delivery">تحویل اسکین</option>
-     <option value="account">حساب کاربری</option>
-     <option value="security">امنیت حساب</option>
-     <option value="other">سایر موارد</option>
-    </select>
-    <label for="ticketMessage">شرح مشکل</label>
-    <textarea class="field" id="ticketMessage" rows="5" minlength="3" maxlength="5000" required placeholder="مشکل را بدون اطلاعات محرمانه توضیح بده..."></textarea>
-    <p class="ai-small">ارسال تیکت به معنی تأیید سفارش یا انجام پرداخت نیست.</p>
-    <button class="btn" id="ticketSubmit" type="submit">ثبت تیکت</button>
-    <div id="ticketFormMessage" role="status" aria-live="polite"></div>
-   </form>
-  </div>
-
-  <div id="aiTicketsScreen" class="ai-screen">
-   <button type="button" class="ai-action ai-back" data-ai="back">← بازگشت به گفتگو</button>
-   <h3>تیکت‌های من</h3>
-   <p>فقط تیکت‌های متعلق به حساب واردشده در این فهرست نمایش داده می‌شوند.</p>
-   <div id="aiTicketList"><div class="ai-empty">برای دریافت تیکت‌ها، ابتدا وارد حساب شو.</div></div>
-   <button type="button" class="ai-action" id="refreshTickets">به‌روزرسانی فهرست</button>
-  </div>
-
-  <div id="aiConversationScreen" class="ai-screen">
-   <button type="button" class="ai-action ai-back" data-ai="back">← بازگشت</button>
-   <h3 id="aiConversationTitle">گفت‌وگوی تیکت</h3>
-   <p id="aiConversationInfo"></p>
-   <div id="aiConversationMessages"></div>
-   <form id="aiReplyForm">
-    <label for="aiReplyText">پاسخ شما</label>
-    <textarea class="field" id="aiReplyText" rows="3" maxlength="5000" required placeholder="پیام خود را بنویس..."></textarea>
-    <button class="btn" id="aiReplySubmit" type="submit">ارسال پیام</button>
-    <div id="aiReplyMessage" role="status" aria-live="polite"></div>
-   </form>
-  </div>
- </div>
-
- <form class="ai-compose" id="aiChatForm">
-  <input id="aiInput" maxlength="1000" autocomplete="off" placeholder="سؤالت رو بنویس..." aria-label="پیام برای STARK AI">
-  <button class="ai-send" id="aiSend" type="submit" aria-label="ارسال پیام">➤</button>
- </form>
-</section>
 
 <script>
 (() => {
 'use strict';
 
-const SUPABASE_URL='https://jmdoxofcyoxdrtxvvuiu.supabase.co';
-const SUPABASE_KEY='sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74';
-const SUPPORT_TELEGRAM='https://t.me/Hadi_2006IR';
+/* تنظیمات Supabase */
+const SUPABASE_URL = 'https://jmdoxofcyoxdrtxvvuiu.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74';
+const CART_KEY = 'persian-stark-cart-v1';
 
-const $=id=>document.getElementById(id);
-const grid=$('productGrid'),count=$('resultCount'),modal=$('orderModal');
-const rulesModal=$('rulesModal'),submitButton=$('submitOrder');
-const aiPanel=$('starkPanel'),aiBody=$('aiBody'),aiMessages=$('aiMessages');
-const aiInput=$('aiInput');
+const $ = id => document.getElementById(id);
+const grid = $('productGrid');
+const count = $('resultCount');
+const modal = $('orderModal');
+const rulesModal = $('rulesModal');
+const submitButton = $('submitOrder');
 
-let db=null,listings=[],selectedListing=null,busy=false,alreadySubmitted=false;
-let ticketBusy=false,replyBusy=false,currentTicket=null;
+let db = null;
+let listings = [];
+let currentUser = null;
+let selectedListing = null;
+let cart = loadCart();
+let busy = false;
+let alreadySubmitted = false;
+let ticketBusy = false;
+let openedTicketId = null;
+let openedTicketNumber = null;
+let orderBatch = [];
+let batchIndex = 0;
+let batchSucceeded = 0;
 
-const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({
- '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
 }[c]));
 
-function setState(message,isError=false){
- grid.innerHTML=`<div class="state ${isError?'error':''}">${escapeHtml(message)}</div>`;
- count.textContent='۰ اسکین';
+function setMessage(element, message, type = '') {
+  element.className = 'message' + (type ? ' ' + type : '');
+  element.textContent = message || '';
 }
 
-function formatPrice(price,currency){
- const n=Number(price);
- if(!Number.isFinite(n))return 'قیمت نامشخص';
- const unit=String(currency||'تومان').trim();
- return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:2}).format(n)+' '+unit;
+function friendlyError(error) {
+  const message = String(error?.message || '');
+  const code = String(error?.code || '');
+  if (code === '42501') return 'دسترسی این عملیات در سیاست‌های RLS مجاز نیست.';
+  if (code === '23502') return 'یکی از فیلدهای اجباری دیتابیس خالی است.';
+  if (code === '23503') return 'رکورد مرتبط پیدا نشد؛ ممکن است اسکین حذف یا غیرفعال شده باشد.';
+  if (code === '23505') return 'این رکورد تکراری است.';
+  if (/column .* does not exist/i.test(message)) return 'ستون موردنیاز در جدول وجود ندارد؛ ساختار جدول Supabase را بررسی کن.';
+  if (/relation .* does not exist/i.test(message)) return 'جدول موردنیاز در Supabase پیدا نشد.';
+  if (/row-level security|permission denied|not allowed/i.test(message)) return 'دسترسی دیتابیس مجاز نیست؛ سیاست‌های RLS باید بررسی شوند.';
+  return message || 'عملیات انجام نشد. اتصال و دسترسی دیتابیس را بررسی کن.';
 }
 
-function safeUrl(value){
- try{
-  const u=new URL(value);
-  return ['https:','http:'].includes(u.protocol)?u.href:'';
- }catch{return '';}
-}
-
-function render(){
- const q=$('searchInput').value.trim().toLocaleLowerCase();
- const wear=$('wearFilter').value,source=$('sourceFilter').value,sort=$('sortFilter').value;
-
- let items=listings.filter(p=>
-  `${p.title||''} ${p.weapon||''} ${p.skin_name||''} ${p.rarity||''}`
-   .toLocaleLowerCase().includes(q)&&
-  (!wear||p.wear===wear)&&(!source||p.source===source)
- );
-
- if(sort==='price-asc')items.sort((a,b)=>Number(a.price)-Number(b.price));
- else if(sort==='price-desc')items.sort((a,b)=>Number(b.price)-Number(a.price));
- else if(sort==='name')items.sort((a,b)=>String(a.title||'').localeCompare(String(b.title||'')));
- else items.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
-
- count.textContent=`${items.length.toLocaleString('fa-IR')} اسکین`;
-
- if(!items.length){
-  grid.innerHTML=`<div class="state">${listings.length?'اسکینی با این فیلترها پیدا نشد.':'هنوز اسکین فعالی در فروشگاه ثبت نشده است.'}</div>`;
-  return;
- }
-
- grid.innerHTML=items.map(p=>{
-  const image=safeUrl(p.image_url);
-  return `<article class="card">
-   <div class="image-wrap">${image
-    ?`<img class="product-image" src="${escapeHtml(image)}" alt="${escapeHtml(p.title)}" loading="lazy" referrerpolicy="no-referrer">`
-    :'<div class="image-placeholder">تصویر اسکین ثبت نشده</div>'}</div>
-   <div class="card-body">
-    <div class="badges">
-     <span class="badge ${p.source==='site'?'site':'user'}">${p.source==='site'?'موجودی سایت':'فروشنده کاربر'}</span>
-     <span class="badge">${escapeHtml(p.wear||'وضعیت نامشخص')}</span>
-     ${p.stattrak?'<span class="badge">StatTrak™</span>':''}
-    </div>
-    <h3>${escapeHtml(p.title||p.skin_name||'اسکین')}</h3>
-    <div class="details">${escapeHtml(p.weapon||'')} · ${escapeHtml(p.rarity||'')}${p.float_value!=null?' · Float: '+escapeHtml(p.float_value):''}</div>
-    <div class="price">${escapeHtml(formatPrice(p.price,p.currency))}</div>
-    <button class="btn" type="button" data-order-id="${escapeHtml(p.id)}">درخواست خرید</button>
-   </div>
-  </article>`;
- }).join('');
-}
-
-async function loadListings(){
- setState('در حال دریافت اسکین‌ها...');
- try{
-  const {data,error}=await db.from('store_listings')
-   .select('id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,created_at')
-   .eq('status','active').order('created_at',{ascending:false}).limit(100);
-  if(error)throw error;
-  listings=data||[];
-  render();
- }catch(e){
-  console.error('load listings',e);
-  setState('دریافت فروشگاه انجام نشد. اتصال Supabase و سیاست‌های RLS را بررسی کن.',true);
- }
-}
-
-async function updateAccountLink(){
- try{
-  const {data,error}=await db.auth.getSession();
-  if(error)throw error;
-  const user=data.session?.user;
-  $('accountLink').textContent=user?'حساب کاربری':'ورود / ثبت‌نام';
-  $('accountLink').href='./index.html';
- }catch(e){
-  console.error('account status',e);
-  $('accountLink').textContent='ورود / ثبت‌نام';
-  $('accountLink').href='./index.html';
- }
-}
-
-function openOrder(id){
- selectedListing=listings.find(p=>String(p.id)===String(id));
- if(!selectedListing)return;
- alreadySubmitted=false;
- $('selectedProduct').textContent=`${selectedListing.title||selectedListing.skin_name} — ${formatPrice(selectedListing.price,selectedListing.currency)}`;
- $('orderForm').reset();
- $('modalMessage').textContent='';
- submitButton.disabled=false;
- submitButton.textContent='ثبت درخواست';
- modal.classList.add('open');
-}
-
-function closeOrder(){
- if(busy)return;
- modal.classList.remove('open');
- selectedListing=null;
-}
-
-function isSteamTradeUrl(value){
- try{
-  const u=new URL(value);
-  return u.protocol==='https:'&&u.hostname.toLowerCase()==='steamcommunity.com'&&u.pathname.startsWith('/tradeoffer/new/');
- }catch{return false;}
-}
-
-function validTelegram(value){
- return /^@?[A-Za-z0-9_]{3,32}$/.test(value.trim());
-}
-
-async function sendOrder(event){
- event.preventDefault();
- if(busy||alreadySubmitted||!selectedListing)return;
-
- const fields={
-  buyer_full_name:$('buyerName').value.trim(),
-  buyer_phone:$('buyerPhone').value.trim(),
-  buyer_telegram:$('buyerTelegram').value.trim(),
-  buyer_steam_name:$('buyerSteam').value.trim(),
-  buyer_trade_url:$('buyerTrade').value.trim()
- };
- const note=$('orderNote').value.trim();
-
- if(Object.values(fields).some(v=>!v)||!$('acceptRules').checked){
-  $('modalMessage').textContent='تمام فیلدهای الزامی را تکمیل کن و قوانین را بپذیر.';
-  return;
- }
- if(!validTelegram(fields.buyer_telegram)){
-  $('modalMessage').textContent='آیدی تلگرام معتبر وارد کن (۳ تا ۳۲ حرف، عدد یا زیرخط).';
-  return;
- }
- if(!isSteamTradeUrl(fields.buyer_trade_url)){
-  $('modalMessage').textContent='لینک ترید باید از نوع لینک معتبر Steam Trade Offer باشد.';
-  return;
- }
- if(fields.buyer_phone.replace(/[\s()+.-]/g,'').length<7){
-  $('modalMessage').textContent='شماره تلفن معتبر وارد کن.';
-  return;
- }
-
- busy=true;
- submitButton.disabled=true;
- $('modalMessage').textContent='در حال بررسی ورود و ثبت درخواست...';
-
- try{
-  const {data:authData,error:authError}=await db.auth.getUser();
-  if(authError||!authData.user){
-   $('modalMessage').textContent='برای ثبت درخواست ابتدا از صفحه ورود سایت وارد حساب کاربری شو.';
-   return;
-  }
-
-  const {data:listing,error:listingError}=await db.from('store_listings')
-   .select('id,title,price,currency,status')
-   .eq('id',selectedListing.id).eq('status','active').maybeSingle();
-
-  if(listingError)throw listingError;
-  if(!listing){
-   $('modalMessage').textContent='این اسکین دیگر فعال نیست. فروشگاه را تازه‌سازی کن.';
-   await loadListings();
-   return;
-  }
-
-  const payload={
-   listing_id:listing.id,
-   buyer_id:authData.user.id,
-   note:note||null,
-   status:'requested',
-   ...fields,
-   rules_accepted:true,
-   rules_accepted_at:new Date().toISOString()
+function statusLabel(status) {
+  const s = String(status || '').toLowerCase();
+  const map = {
+    requested:'درخواست ثبت شده',
+    pending:'در انتظار بررسی',
+    reviewing:'در حال بررسی',
+    approved:'تأیید شده',
+    confirmed:'تأیید شده',
+    processing:'در حال پردازش',
+    paid:'پرداخت تأیید شده',
+    completed:'تکمیل شده',
+    delivered:'تحویل داده شده',
+    rejected:'رد شده',
+    cancelled:'لغو شده',
+    canceled:'لغو شده',
+    failed:'ناموفق',
+    waiting:'در انتظار پاسخ',
+    open:'باز',
+    answered:'پاسخ داده شده',
+    closed:'بسته شده'
   };
-
-  const {error}=await db.from('store_orders').insert(payload);
-  if(error)throw error;
-
-  alreadySubmitted=true;
-  submitButton.textContent='ثبت شد';
-  $('modalMessage').textContent='درخواست ثبت شد. این درخواست پرداخت یا انتقال اسکین را انجام نمی‌دهد.';
- }catch(e){
-  console.error('send order',e);
-  $('modalMessage').textContent=e?.code==='23505'
-   ?'این درخواست قبلاً ثبت شده است.'
-   :`ثبت درخواست ناموفق بود. خطا: ${e?.message||'خطای نامشخص'}`;
- }finally{
-  busy=false;
-  if(modal.classList.contains('open')&&!alreadySubmitted)submitButton.disabled=false;
- }
+  return map[s] || (status ? String(status) : 'وضعیت نامشخص');
 }
 
-/* ---------------- STARK AI: رابط گفتگو ---------------- */
-
-function aiShowScreen(screenId){
- ['aiChatScreen','aiTicketScreen','aiTicketsScreen','aiConversationScreen'].forEach(id=>{
-  $(id).classList.toggle('active',id===screenId);
- });
- $('aiChatForm').style.display=screenId==='aiChatScreen'?'flex':'none';
- aiBody.scrollTop=0;
+function statusClass(status) {
+  const s = String(status || '').toLowerCase();
+  if (['completed','delivered','approved','confirmed','paid'].includes(s)) return 'green';
+  if (['rejected','cancelled','canceled','failed'].includes(s)) return 'red';
+  if (['processing','reviewing','pending','requested','waiting','open'].includes(s)) return 'orange';
+  return '';
 }
 
-function aiOpen(){
- aiPanel.classList.add('open');
- aiPanel.setAttribute('aria-hidden','false');
- $('aiLauncher').setAttribute('aria-expanded','true');
- setTimeout(()=>aiInput.focus(),100);
+function formatPrice(price, currency) {
+  const n = Number(price);
+  if (!Number.isFinite(n)) return 'قیمت نامشخص';
+  const value = new Intl.NumberFormat('fa-IR', {maximumFractionDigits:2}).format(n);
+  const unit = String(currency || '').trim() || 'تومان';
+  return value + ' ' + unit;
 }
 
-function aiClose(){
- aiPanel.classList.remove('open');
- aiPanel.setAttribute('aria-hidden','true');
- $('aiLauncher').setAttribute('aria-expanded','false');
-}
-
-function addAiMessage(text,role='bot'){
- const div=document.createElement('div');
- div.className=`ai-message ${role}`;
- div.textContent=text;
- aiMessages.appendChild(div);
- aiBody.scrollTop=aiBody.scrollHeight;
-}
-
-function addAiLinkMessage(text,url,label){
- const div=document.createElement('div');
- div.className='ai-message bot';
- div.textContent=text+' ';
- const a=document.createElement('a');
- a.href=url;
- a.target='_blank';
- a.rel='noopener noreferrer';
- a.textContent=label;
- div.appendChild(a);
- aiMessages.appendChild(div);
- aiBody.scrollTop=aiBody.scrollHeight;
-}
-
-function normalizeText(text){
- return String(text||'').toLocaleLowerCase('fa').replace(/\u200c/g,' ').trim();
-}
-
-function aiReply(text){
- const t=normalizeText(text);
-
- if(/سلام|درود|خسته نباشید|hi\b|hello\b/.test(t)){
-  return 'سلام! خوش اومدی به PERSIAN STARK 🎮 چطور می‌تونم کمکت کنم؟ می‌تونی درباره سفارش، پرداخت، قوانین یا پشتیبانی سؤال کنی.';
- }
-
- if(/چرا.*(سفارش|درخواست).*(بررسی|جواب|تایید|تأیید)|بررسی نشده|جواب نداده|هنوز.*سفارش/.test(t)){
-  return 'ثبت درخواست به معنی تأیید معامله نیست. ممکنه درخواست هنوز در صف بررسی باشه یا مدیر هنوز وضعیتش رو تغییر نداده باشه. برای پیگیری، وارد همون حسابی شو که باهاش سفارش دادی و بخش «وضعیت سفارش من» رو انتخاب کن. اگر همچنان نامشخص بود، می‌تونی تیکت پشتیبانی ثبت کنی.';
- }
-
- if(/وضعیت.*سفارش|سفارشم کجاست|پیگیری سفارش|سفارش.*کجا/.test(t)){
-  return 'برای بررسی سفارش واقعی، باید با همان حسابی وارد شوی که سفارش را ثبت کرده‌ای. این دستیار به‌تنهایی اطلاعات سفارش را حدس نمی‌زند. وضعیت‌های رایج شامل در انتظار بررسی، تماس پشتیبانی، تأیید یا رد است. از گزینه «وضعیت سفارش من» یا «ثبت تیکت پشتیبانی» استفاده کن.';
- }
-
- if(/پرداخت|واریز|کارت به کارت|درگاه|پول|قیمت نهایی/.test(t)){
-  return 'در نسخه فعلی فروشگاه، پرداخت آنلاین فعال نیست. ثبت درخواست فقط برای بررسی اولیه است؛ به‌تنهایی خرید را نهایی نمی‌کند. تا زمانی که مدیریت از مسیر رسمی شرایط را تأیید نکرده، پولی واریز نکن و اسکینی منتقل نکن.';
- }
-
- if(/انتقال.*اسکین|تحویل|ترید|trade offer|اسکین.*نرسیده/.test(t)){
-  return 'ثبت درخواست به معنی انجام انتقال اسکین نیست و انتقال خودکار در این نسخه فعال نیست. اگر درخواستت تأیید شده اما درباره تحویل سؤال داری، یک تیکت با دسته‌بندی «تحویل اسکین» ثبت کن و شماره تیکت را نگه دار. رمز استیم یا کد Steam Guard را هیچ‌وقت ارسال نکن.';
- }
-
- if(/ورود|ثبت نام|ثبت‌نام|حساب کاربری|اکانت|رمز عبور|رمز/.test(t)){
-  return 'برای ثبت سفارش و استفاده از تیکت‌ها باید با حساب سایت وارد شوی. از لینک «ورود / ثبت‌نام» بالای صفحه استفاده کن. اگر ورود انجام نمی‌شود، ابتدا مشکل حساب را از صفحه اصلی بررسی کن. رمز عبور و کد تأییدت را اینجا یا برای پشتیبانی نفرست.';
- }
-
- if(/قانون|قوانین|شرایط خرید|شرایط فروش/.test(t)){
-  return 'چند نکته مهم: درخواست خرید فقط برای بررسی است؛ پرداخت آنلاین و انتقال خودکار اسکین فعال نیست؛ اطلاعات تماس باید صحیح باشد؛ و هرگز رمز، کد Steam Guard یا کد تأیید را به کسی نده. دکمه «درخواست خرید» را بزن و برای دیدن متن قوانین، پیوند «قوانین» را باز کن.';
- }
-
- if(/فروشنده|ثبت آگهی|آگهی|اسکین خودم|فروش اسکین/.test(t)){
-  return 'برای فروش اسکین یا ثبت آگهی، ابتدا باید مشخص شود قابلیت ثبت آگهی برای حساب و فروشگاهت فعال است یا نه. من از داخل چت نمی‌توانم آگهی بسازم یا موجودی را تغییر بدهم. اگر گزینه ثبت آگهی را نمی‌بینی، تیکت با دسته‌بندی «سؤال عمومی» ثبت کن.';
- }
-
- if(/امنیت|هک|کلاهبردار|دزدیده|steam guard|استیم گارد/.test(t)){
-  return 'امنیت حساب خیلی مهم است. رمز، کد Steam Guard، کد یک‌بارمصرف یا اطلاعات بازیابی را برای هیچ‌کس ارسال نکن. اگر فکر می‌کنی حسابت در خطر است، از وب‌سایت رسمی Steam تنظیمات امنیتی را بررسی کن و برای پیگیری فروشگاه تیکت ثبت کن.';
- }
-
- if(/پشتیبانی|تیکت|تماس با مدیر|مدیر فروشگاه/.test(t)){
-  return 'می‌تونی از همین دستیار تیکت ثبت کنی و بعد پیام‌ها و پاسخ‌های ثبت‌شده را از بخش «تیکت‌های من» ببینی. اگر مسئله فوری است، از لینک رسمی تلگرام پشتیبانی هم می‌توانی استفاده کنی.';
- }
-
- if(/سلامت|کار می.?کنی|هوش مصنوعی|کی هستی|اسمت/.test(t)){
-  return 'من STARK AI هستم؛ دستیار خودکار راهنمای فروشگاه PERSIAN STARK. به پرسش‌های رایج پاسخ می‌دهم و برای پیگیری انسانی به ثبت تیکت کمک می‌کنم. پاسخ‌هایم خودکارند و تصمیم مدیر یا وضعیت واقعی سفارش را جایگزین نمی‌کنند.';
- }
-
- return 'برای اینکه درست راهنمایی‌ات کنم، لطفاً موضوع را مشخص‌تر بگو. می‌تونی از گزینه‌های «چرا سفارشم بررسی نشده؟»، «وضعیت سفارش من»، «پرداخت و خرید» یا «ثبت تیکت پشتیبانی» استفاده کنی. اگر پاسخ خودکار کافی نیست، تیکت ثبت کن تا موضوع برای بررسی انسانی ثبت شود.';
-}
-
-function processAiText(text){
- const value=String(text||'').trim();
- if(!value)return;
- addAiMessage(value,'user');
- const reply=aiReply(value);
- addAiMessage(reply,'bot');
-}
-
-/* ---------------- احراز هویت ---------------- */
-
-async function getSignedInUser(){
- const {data,error}=await db.auth.getUser();
- if(error)throw error;
- return data.user||null;
-}
-
-async function requireSignedIn(){
- const user=await getSignedInUser();
- if(!user){
-  addAiMessage('برای این قابلیت ابتدا وارد حساب کاربری سایت شو. بعد دوباره همین گزینه را انتخاب کن.','bot');
-  const actions=document.createElement('div');
-  actions.className='ai-quick';
-  const a=document.createElement('a');
-  a.className='ai-action primary';
-  a.href='./index.html';
-  a.textContent='رفتن به صفحه ورود';
-  actions.appendChild(a);
-  aiMessages.appendChild(actions);
-  aiBody.scrollTop=aiBody.scrollHeight;
-  return null;
- }
- return user;
-}
-
-/* ---------------- ثبت تیکت ---------------- */
-
-function openTicketForm(){
- aiShowScreen('aiTicketScreen');
- $('ticketFormMessage').textContent='';
- $('aiTicketForm').reset();
-}
-
-async function createTicket(event){
- event.preventDefault();
- if(ticketBusy)return;
-
- const subject=$('ticketSubject').value.trim();
- const category=$('ticketCategory').value;
- const message=$('ticketMessage').value.trim();
- const output=$('ticketFormMessage');
-
- if(subject.length<3||subject.length>150||message.length<3||message.length>5000){
-  output.className='ai-error';
-  output.textContent='موضوع باید بین ۳ تا ۱۵۰ نویسه و شرح مشکل بین ۳ تا ۵۰۰۰ نویسه باشد.';
-  return;
- }
-
- ticketBusy=true;
- $('ticketSubmit').disabled=true;
- output.className='';
- output.textContent='در حال ثبت تیکت...';
-
- let createdTicket=null;
-
- try{
-  const user=await requireSignedIn();
-  if(!user){
-   output.className='ai-error';
-   output.textContent='ابتدا وارد حساب کاربری شو.';
-   return;
+function safeUrl(value) {
+  try {
+    const u = new URL(value);
+    return ['https:', 'http:'].includes(u.protocol) ? u.href : '';
+  } catch {
+    return '';
   }
-
-  const {data:ticket,error:ticketError}=await db
-   .from('store_support_tickets')
-   .insert({
-    user_id:user.id,
-    subject,
-    category,
-    status:'open'
-   })
-   .select('id,ticket_number,subject,category,status,created_at,updated_at')
-   .single();
-
-  if(ticketError)throw ticketError;
-  createdTicket=ticket;
-
-  const {error:messageError}=await db
-   .from('store_support_messages')
-   .insert({
-    ticket_id:ticket.id,
-    sender_id:user.id,
-    sender_role:'user',
-    message
-   });
-
-  if(messageError){
-   console.error('initial ticket message failed',messageError);
-   output.className='ai-error';
-   output.textContent=`تیکت ${ticket.ticket_number} ساخته شد، اما پیام اولیه ذخیره نشد. از بخش «تیکت‌های من» آن را باز کن و پیام را دوباره ارسال کن.`;
-   await loadTickets();
-   return;
-  }
-
-  output.className='ai-success';
-  output.textContent=`تیکت با موفقیت ثبت شد. شماره پیگیری: ${ticket.ticket_number}`;
-  $('ticketMessage').value='';
-  $('ticketSubject').value='';
-  await loadTickets();
-
- }catch(e){
-  console.error('create support ticket',e);
-  output.className='ai-error';
-  output.textContent=`ثبت تیکت ناموفق بود: ${e?.message||'خطای نامشخص'}`;
- }finally{
-  ticketBusy=false;
-  $('ticketSubmit').disabled=false;
- }
 }
 
-/* ---------------- فهرست تیکت‌های کاربر ---------------- */
-
-function statusLabel(status){
- const labels={
-  open:'باز',
-  in_progress:'در حال بررسی',
-  answered:'پاسخ داده شده',
-  closed:'بسته'
- };
- return labels[status]||'نامشخص';
+function formatDate(value) {
+  if (!value) return 'نامشخص';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return 'نامشخص';
+  try {
+    return new Intl.DateTimeFormat('fa-IR', {
+      year:'numeric',month:'short',day:'numeric',
+      hour:'2-digit',minute:'2-digit'
+    }).format(d);
+  } catch {
+    return d.toLocaleString();
+  }
 }
 
-function statusClass(status){
- if(status==='closed')return 'closed';
- if(status==='answered')return '';
- return 'other';
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    const value = raw ? JSON.parse(raw) : [];
+    return Array.isArray(value) ? value.filter(x => x && x.id != null).slice(0,100) : [];
+  } catch {
+    return [];
+  }
 }
 
-async function loadTickets(){
- const list=$('aiTicketList');
- list.innerHTML='<div class="ai-empty">در حال دریافت تیکت‌ها...</div>';
-
- try{
-  const user=await getSignedInUser();
-  if(!user){
-   list.innerHTML='<div class="ai-empty">برای دیدن تیکت‌ها ابتدا وارد حساب کاربری شو.</div>';
-   return;
+function saveCart() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  } catch (e) {
+    console.warn('Cart storage unavailable', e);
   }
-
-  const {data,error}=await db.from('store_support_tickets')
-   .select('id,ticket_number,subject,category,status,created_at,updated_at')
-   .eq('user_id',user.id)
-   .order('created_at',{ascending:false})
-   .limit(50);
-
-  if(error)throw error;
-
-  if(!data?.length){
-   list.innerHTML='<div class="ai-empty">هنوز تیکتی ثبت نکرده‌ای.</div>';
-   return;
-  }
-
-  list.innerHTML=data.map(ticket=>`
-   <article class="ai-ticket">
-    <strong>${escapeHtml(ticket.subject)}</strong>
-    <p>شماره پیگیری: ${escapeHtml(ticket.ticket_number||'ثبت نشده')}</p>
-    <p>تاریخ ثبت: ${escapeHtml(ticket.created_at?new Date(ticket.created_at).toLocaleString('fa-IR'):'نامشخص')}</p>
-    <span class="ai-status ${statusClass(ticket.status)}">${escapeHtml(statusLabel(ticket.status))}</span>
-    <button class="ai-action" type="button" data-ticket-id="${escapeHtml(ticket.id)}">مشاهده گفتگو</button>
-   </article>
-  `).join('');
-
- }catch(e){
-  console.error('load support tickets',e);
-  list.innerHTML=`<div class="ai-empty ai-error">دریافت تیکت‌ها ناموفق بود: ${escapeHtml(e?.message||'خطای نامشخص')}</div>`;
- }
+  renderCartCount();
 }
 
-/* ---------------- مشاهده و پاسخ تیکت ---------------- */
-
-async function openTicketConversation(ticketId){
- try{
-  const user=await getSignedInUser();
-  if(!user){
-   addAiMessage('برای مشاهده تیکت ابتدا وارد حساب کاربری شو.','bot');
-   return;
-  }
-
-  const {data:ticket,error:ticketError}=await db.from('store_support_tickets')
-   .select('id,ticket_number,subject,category,status,created_at')
-   .eq('id',ticketId)
-   .eq('user_id',user.id)
-   .maybeSingle();
-
-  if(ticketError)throw ticketError;
-  if(!ticket){
-   alert('این تیکت پیدا نشد یا متعلق به حساب فعلی نیست.');
-   return;
-  }
-
-  currentTicket=ticket;
-  $('aiConversationTitle').textContent=ticket.subject;
-  $('aiConversationInfo').textContent=`شماره پیگیری: ${ticket.ticket_number||'نامشخص'} · وضعیت: ${statusLabel(ticket.status)}`;
-  $('aiConversationMessages').innerHTML='<div class="ai-empty">در حال دریافت پیام‌ها...</div>';
-  $('aiReplyMessage').textContent='';
-  $('aiReplyText').value='';
-  $('aiReplyForm').style.display=ticket.status==='closed'?'none':'block';
-  aiShowScreen('aiConversationScreen');
-
-  const {data:messages,error:messagesError}=await db.from('store_support_messages')
-   .select('id,ticket_id,sender_id,sender_role,message,created_at')
-   .eq('ticket_id',ticket.id)
-   .order('created_at',{ascending:true})
-   .limit(200);
-
-  if(messagesError)throw messagesError;
-
-  const container=$('aiConversationMessages');
-
-  if(!messages?.length){
-   container.innerHTML='<div class="ai-empty">هنوز پیامی در این تیکت وجود ندارد.</div>';
-   return;
-  }
-
-  container.innerHTML=messages.map(m=>{
-   const own=m.sender_id===user.id;
-   const who=own?'شما':m.sender_role==='admin'?'پشتیبانی':'دستیار';
-   return `<div class="ai-ticket">
-    <strong>${escapeHtml(who)}</strong>
-    <p>${escapeHtml(m.message)}</p>
-    <p class="ai-small">${escapeHtml(m.created_at?new Date(m.created_at).toLocaleString('fa-IR'):'')}</p>
-   </div>`;
-  }).join('');
-
-  aiBody.scrollTop=aiBody.scrollHeight;
-
- }catch(e){
-  console.error('open support ticket',e);
-  $('aiConversationMessages').innerHTML=`<div class="ai-empty ai-error">دریافت پیام‌ها ناموفق بود: ${escapeHtml(e?.message||'خطای نامشخص')}</div>`;
- }
+function renderCartCount() {
+  $('cartCount').textContent = cart.length.toLocaleString('fa-IR');
 }
 
-async function sendTicketReply(event){
- event.preventDefault();
- if(replyBusy||!currentTicket)return;
+function showSection(id) {
+  ['cartSection','ordersSection','supportSection','aiSection'].forEach(sectionId => {
+    $(sectionId).classList.toggle('hidden', sectionId !== id);
+  });
+  $(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
 
- const message=$('aiReplyText').value.trim();
- const output=$('aiReplyMessage');
+function hideSections() {
+  ['cartSection','ordersSection','supportSection','aiSection'].forEach(id => $(id).classList.add('hidden'));
+}
 
- if(!message||message.length>5000){
-  output.className='ai-error';
-  output.textContent='پیام را وارد کن. حداکثر طول پیام ۵۰۰۰ نویسه است.';
-  return;
- }
+function setState(message, isError = false) {
+  grid.innerHTML = `<div class="state ${isError ? 'error' : ''}">${escapeHtml(message)}</div>`;
+  count.textContent = '۰ اسکین';
+}
 
- replyBusy=true;
- $('aiReplySubmit').disabled=true;
- output.className='';
- output.textContent='در حال ارسال پیام...';
+function renderProducts() {
+  const q = $('searchInput').value.trim().toLocaleLowerCase();
+  const wear = $('wearFilter').value;
+  const source = $('sourceFilter').value;
+  const sort = $('sortFilter').value;
 
- try{
-  const user=await getSignedInUser();
-  if(!user)throw new Error('ابتدا وارد حساب کاربری شو.');
-
-  // وضعیت تیکت را دوباره بررسی می‌کنیم تا پاسخ به تیکت بسته ارسال نشود.
-  const {data:ticket,error:ticketError}=await db.from('store_support_tickets')
-   .select('id,status')
-   .eq('id',currentTicket.id)
-   .eq('user_id',user.id)
-   .maybeSingle();
-
-  if(ticketError)throw ticketError;
-  if(!ticket)throw new Error('تیکت پیدا نشد یا متعلق به این حساب نیست.');
-  if(ticket.status==='closed')throw new Error('این تیکت بسته شده است و امکان ارسال پاسخ ندارد.');
-
-  const {error}=await db.from('store_support_messages').insert({
-   ticket_id:ticket.id,
-   sender_id:user.id,
-   sender_role:'user',
-   message
+  let items = listings.filter(p => {
+    const text = `${p.title || ''} ${p.weapon || ''} ${p.skin_name || ''} ${p.rarity || ''}`.toLocaleLowerCase();
+    return text.includes(q) && (!wear || p.wear === wear) && (!source || p.source === source);
   });
 
-  if(error)throw error;
+  if (sort === 'price-asc') items.sort((a,b) => Number(a.price) - Number(b.price));
+  else if (sort === 'price-desc') items.sort((a,b) => Number(b.price) - Number(a.price));
+  else if (sort === 'name') items.sort((a,b) => String(a.title || '').localeCompare(String(b.title || '')));
+  else items.sort((a,b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
 
-  $('aiReplyText').value='';
-  output.className='ai-success';
-  output.textContent='پیام ارسال شد.';
-  await openTicketConversation(ticket.id);
+  count.textContent = `${items.length.toLocaleString('fa-IR')} اسکین`;
 
- }catch(e){
-  console.error('send ticket reply',e);
-  output.className='ai-error';
-  output.textContent=`ارسال پیام ناموفق بود: ${e?.message||'خطای نامشخص'}`;
- }finally{
-  replyBusy=false;
-  $('aiReplySubmit').disabled=false;
- }
+  if (!items.length) {
+    grid.innerHTML = `<div class="state">${listings.length ? 'اسکینی با این فیلترها پیدا نشد.' : 'هنوز اسکین فعالی در فروشگاه ثبت نشده است.'}</div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(p => {
+    const image = safeUrl(p.image_url);
+    const title = p.title || p.skin_name || 'اسکین';
+    const inCart = cart.some(x => String(x.id) === String(p.id));
+    return `
+      <article class="card">
+        <div class="image-wrap">
+          ${image
+            ? `<img class="product-image" src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy" referrerpolicy="no-referrer">`
+            : '<div class="image-placeholder">تصویر اسکین ثبت نشده</div>'}
+        </div>
+        <div class="card-body">
+          <div class="badges">
+            <span class="badge ${p.source === 'site' ? 'site' : 'user'}">${p.source === 'site' ? 'موجودی سایت' : 'فروشنده کاربر'}</span>
+            <span class="badge">${escapeHtml(p.wear || 'وضعیت نامشخص')}</span>
+            ${p.stattrak ? '<span class="badge">StatTrak™</span>' : ''}
+          </div>
+          <h3>${escapeHtml(title)}</h3>
+          <div class="details">${escapeHtml(p.weapon || '')}${p.rarity ? ' · ' + escapeHtml(p.rarity) : ''}${p.float_value != null ? ' · Float: ' + escapeHtml(p.float_value) : ''}</div>
+          <div class="price">${escapeHtml(formatPrice(p.price,p.currency))}</div>
+          <div class="btn-row">
+            <button class="btn" type="button" data-cart-id="${escapeHtml(p.id)}">${inCart ? '✓ در سبد' : 'افزودن به سبد'}</button>
+            <button class="btn secondary" type="button" data-order-id="${escapeHtml(p.id)}">درخواست مستقیم</button>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
 }
 
-/* ---------------- رویدادهای فروشگاه ---------------- */
+async function loadListings() {
+  setState('در حال دریافت اسکین‌ها...');
+  try {
+    const {data,error} = await db
+      .from('store_listings')
+      .select('id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,created_at')
+      .eq('status','active')
+      .order('created_at',{ascending:false})
+      .limit(200);
 
-$('searchInput').addEventListener('input',render);
-$('wearFilter').addEventListener('change',render);
-$('sourceFilter').addEventListener('change',render);
-$('sortFilter').addEventListener('change',render);
-grid.addEventListener('click',e=>{
- const b=e.target.closest('[data-order-id]');
- if(b)openOrder(b.dataset.orderId);
+    if (error) throw error;
+    listings = data || [];
+    renderProducts();
+    renderCart();
+  } catch (e) {
+    console.error('load listings:',e);
+    setState('دریافت فروشگاه انجام نشد. اتصال Supabase و سیاست‌های RLS را بررسی کن. جزئیات: ' + friendlyError(e),true);
+  }
+}
+
+async function updateAccountLink() {
+  try {
+    const {data,error} = await db.auth.getSession();
+    if (error) throw error;
+    currentUser = data.session?.user || null;
+    $('accountLink').textContent = currentUser ? 'حساب کاربری' : 'ورود / ثبت‌نام';
+    $('accountLink').href = './index.html';
+    $('accountLink').classList.toggle('signed-in',!!currentUser);
+  } catch (e) {
+    console.warn('get session:',e);
+    currentUser = null;
+    $('accountLink').textContent = 'ورود / ثبت‌نام';
+    $('accountLink').href = './index.html';
+  }
+}
+
+async function getCurrentUser() {
+  const {data,error} = await db.auth.getUser();
+  if (error) throw error;
+  if (!data.user) throw new Error('برای این عملیات ابتدا از حساب کاربری سایت وارد شو.');
+  currentUser = data.user;
+  return data.user;
+}
+
+function addToCart(id) {
+  const p = listings.find(x => String(x.id) === String(id));
+  if (!p) return;
+  if (cart.some(x => String(x.id) === String(id))) {
+    $('cartMessage').textContent = 'این اسکین از قبل در سبد خرید قرار دارد.';
+    showSection('cartSection');
+    return;
+  }
+  cart.push({
+    id:p.id,
+    title:p.title || p.skin_name || 'اسکین',
+    price:Number(p.price) || 0,
+    currency:p.currency || 'تومان',
+    image_url:p.image_url || '',
+    added_at:new Date().toISOString()
+  });
+  saveCart();
+  renderProducts();
+  renderCart();
+  $('cartMessage').textContent = 'اسکین به سبد خرید اضافه شد.';
+  $('cartMessage').className = 'message success';
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => String(x.id) !== String(id));
+  saveCart();
+  renderProducts();
+  renderCart();
+}
+
+function renderCart() {
+  const list = $('cartList');
+  if (!cart.length) {
+    list.innerHTML = '<div class="empty-note">سبد خرید خالی است. از فهرست اسکین‌ها موارد دلخواهت را اضافه کن.</div>';
+    $('cartTotal').textContent = '۰ تومان';
+    renderCartCount();
+    return;
+  }
+
+  let total = 0;
+  list.innerHTML = cart.map(item => {
+    total += Number(item.price) || 0;
+    const image = safeUrl(item.image_url);
+    return `
+      <div class="cart-item">
+        <div class="cart-top">
+          <div>
+            <div class="order-title">${escapeHtml(item.title)}</div>
+            <div class="order-meta">${escapeHtml(formatPrice(item.price,item.currency))}</div>
+          </div>
+          <button class="btn danger small-btn" type="button" data-remove-cart="${escapeHtml(item.id)}">حذف</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const currency = cart[0]?.currency || 'تومان';
+  $('cartTotal').textContent = formatPrice(total,currency);
+  renderCartCount();
+}
+
+function openOrder(id) {
+  selectedListing = listings.find(p => String(p.id) === String(id));
+  if (!selectedListing) return;
+  orderBatch = [selectedListing];
+  batchIndex = 0;
+  batchSucceeded = 0;
+  alreadySubmitted = false;
+  $('selectedProduct').textContent = `${selectedListing.title || selectedListing.skin_name} — ${formatPrice(selectedListing.price,selectedListing.currency)}`;
+  $('orderForm').reset();
+  $('modalMessage').textContent = '';
+  submitButton.disabled = false;
+  submitButton.textContent = 'ثبت درخواست';
+  modal.classList.add('open');
+}
+
+function openCartCheckout() {
+  if (!cart.length) {
+    $('cartMessage').textContent = 'سبد خرید خالی است.';
+    $('cartMessage').className = 'message error';
+    return;
+  }
+
+  orderBatch = cart.map(item => listings.find(p => String(p.id) === String(item.id))).filter(Boolean);
+  if (!orderBatch.length) {
+    $('cartMessage').textContent = 'اسکین‌های سبد دیگر در فهرست فعال فروشگاه نیستند. فروشگاه را تازه‌سازی کن.';
+    $('cartMessage').className = 'message error';
+    return;
+  }
+
+  batchIndex = 0;
+  batchSucceeded = 0;
+  selectedListing = orderBatch[0];
+  alreadySubmitted = false;
+  $('selectedProduct').textContent = orderBatch.length === 1
+    ? `${orderBatch[0].title || orderBatch[0].skin_name} — ${formatPrice(orderBatch[0].price,orderBatch[0].currency)}`
+    : `${orderBatch.length.toLocaleString('fa-IR')} اسکین در سبد خرید — برای هر اسکین یک سفارش مستقل ثبت می‌شود.`;
+  $('orderForm').reset();
+  $('modalMessage').textContent = '';
+  submitButton.disabled = false;
+  submitButton.textContent = 'ثبت درخواست‌ها';
+  modal.classList.add('open');
+}
+
+function closeOrder() {
+  if (busy) return;
+  modal.classList.remove('open');
+  selectedListing = null;
+  orderBatch = [];
+}
+
+function isSteamTradeUrl(value) {
+  try {
+    const u = new URL(value);
+    return u.protocol === 'https:' &&
+      u.hostname.toLowerCase() === 'steamcommunity.com' &&
+      u.pathname.startsWith('/tradeoffer/new/');
+  } catch {
+    return false;
+  }
+}
+
+function validTelegram(value) {
+  return /^@?[A-Za-z0-9_]{3,32}$/.test(value.trim());
+}
+
+async function sendOrder(event) {
+  event.preventDefault();
+  if (busy || alreadySubmitted) return;
+
+  if (!orderBatch.length && selectedListing) orderBatch = [selectedListing];
+  if (!orderBatch.length) {
+    setMessage($('modalMessage'),'اسکینی برای ثبت درخواست انتخاب نشده است.','error');
+    return;
+  }
+
+  const fields = {
+    buyer_full_name:$('buyerName').value.trim(),
+    buyer_phone:$('buyerPhone').value.trim(),
+    buyer_telegram:$('buyerTelegram').value.trim(),
+    buyer_steam_name:$('buyerSteam').value.trim(),
+    buyer_trade_url:$('buyerTrade').value.trim()
+  };
+  const note = $('orderNote').value.trim();
+
+  if (Object.values(fields).some(v => !v) || !$('acceptRules').checked) {
+    setMessage($('modalMessage'),'تمام فیلدهای ستاره‌دار را پر کن و قوانین را بپذیر.','error');
+    return;
+  }
+  if (!validTelegram(fields.buyer_telegram)) {
+    setMessage($('modalMessage'),'آیدی تلگرام معتبر وارد کن (۳ تا ۳۲ حرف، عدد یا زیرخط).','error');
+    return;
+  }
+  if (!isSteamTradeUrl(fields.buyer_trade_url)) {
+    setMessage($('modalMessage'),'لینک ترید باید لینک معتبر Steam Trade Offer باشد.','error');
+    return;
+  }
+  if (fields.buyer_phone.replace(/[\s()+.-]/g,'').length < 7) {
+    setMessage($('modalMessage'),'شماره تلفن معتبر وارد کن.','error');
+    return;
+  }
+
+  busy = true;
+  submitButton.disabled = true;
+  let createdIds = [];
+
+  try {
+    setMessage($('modalMessage'),'در حال بررسی ورود و اطلاعات اسکین‌ها...');
+    const user = await getCurrentUser();
+
+    for (let i = 0; i < orderBatch.length; i++) {
+      const item = orderBatch[i];
+      setMessage($('modalMessage'),`در حال ثبت درخواست ${ (i+1).toLocaleString('fa-IR') } از ${orderBatch.length.toLocaleString('fa-IR')}...`);
+
+      const {data:listing,error:listingError} = await db
+        .from('store_listings')
+        .select('id,status')
+        .eq('id',item.id)
+        .eq('status','active')
+        .maybeSingle();
+
+      if (listingError) throw listingError;
+      if (!listing) {
+        console.warn('Listing no longer active:',item.id);
+        continue;
+      }
+
+      const payload = {
+        listing_id:listing.id,
+        buyer_id:user.id,
+        note:note || null,
+        status:'requested',
+        ...fields,
+        rules_accepted:true,
+        rules_accepted_at:new Date().toISOString()
+      };
+
+      const {data,error} = await db
+        .from('store_orders')
+        .insert(payload)
+        .select('id')
+        .maybeSingle();
+
+      if (error) throw error;
+      if (data?.id) createdIds.push(data.id);
+      batchSucceeded++;
+    }
+
+    if (batchSucceeded === 0) {
+      throw new Error('هیچ‌کدام از اسکین‌های انتخابی فعال نبودند یا درخواست‌ها ثبت نشدند.');
+    }
+
+    alreadySubmitted = true;
+    submitButton.textContent = 'ثبت شد';
+    submitButton.disabled = true;
+
+    if (orderBatch.length > 1) {
+      const successIds = new Set(orderBatch.slice(0,batchSucceeded).map(x => String(x.id)));
+      cart = cart.filter(x => !successIds.has(String(x.id)));
+      saveCart();
+      renderCart();
+      renderProducts();
+    } else {
+      cart = cart.filter(x => String(x.id) !== String(orderBatch[0].id));
+      saveCart();
+      renderCart();
+      renderProducts();
+    }
+
+    setMessage(
+      $('modalMessage'),
+      `${batchSucceeded.toLocaleString('fa-IR')} درخواست ثبت شد. پرداخت یا انتقال اسکین انجام نشده است. برای دیدن وضعیت، بخش «سفارش‌های من» را باز کن.`,
+      'success'
+    );
+    await loadMyOrders(true);
+  } catch (e) {
+    console.error('send order:',e);
+    const extra = batchSucceeded > 0
+      ? ` تا این لحظه ${batchSucceeded.toLocaleString('fa-IR')} درخواست ثبت شده است؛ پیش از ارسال دوباره، سفارش‌های من را بررسی کن تا سفارش تکراری ایجاد نشود.`
+      : '';
+    setMessage($('modalMessage'),friendlyError(e) + extra,'error');
+  } finally {
+    busy = false;
+    if (modal.classList.contains('open') && !alreadySubmitted) submitButton.disabled = false;
+  }
+}
+
+function renderOrders(orders) {
+  const container = $('ordersList');
+  if (!orders.length) {
+    container.innerHTML = '<div class="empty-note">هنوز سفارشی در حساب تو ثبت نشده است.</div>';
+    return;
+  }
+
+  container.innerHTML = orders.map(order => {
+    const listing = listings.find(p => String(p.id) === String(order.listing_id));
+    const title = listing?.title || listing?.skin_name || `سفارش #${order.id ?? ''}`;
+    const status = order.status || 'requested';
+    return `
+      <article class="order-card">
+        <div class="order-top">
+          <div class="order-title">${escapeHtml(title)}</div>
+          <span class="status-pill ${statusClass(status)}">${escapeHtml(statusLabel(status))}</span>
+        </div>
+        <div class="order-meta">
+          شماره سفارش: ${escapeHtml(order.id ?? '—')}<br>
+          تاریخ ثبت: ${escapeHtml(formatDate(order.created_at))}<br>
+          ${listing ? 'قیمت هنگام مشاهده: ' + escapeHtml(formatPrice(listing.price,listing.currency)) + '<br>' : ''}
+          ${order.note ? 'توضیحات: ' + escapeHtml(order.note) : ''}
+        </div>
+      </article>`;
+  }).join('');
+}
+
+async function loadMyOrders(silent = false) {
+  if (!db) return [];
+  const container = $('ordersList');
+  if (!silent) container.innerHTML = '<div class="empty-note">در حال دریافت سفارش‌ها...</div>';
+
+  try {
+    const user = await getCurrentUser();
+    const {data,error} = await db
+      .from('store_orders')
+      .select('id,listing_id,buyer_id,status,created_at,note')
+      .eq('buyer_id',user.id)
+      .order('created_at',{ascending:false})
+      .limit(100);
+
+    if (error) throw error;
+    const orders = data || [];
+    renderOrders(orders);
+    return orders;
+  } catch (e) {
+    console.error('load orders:',e);
+    if (!silent) container.innerHTML = `<div class="empty-note error">${escapeHtml(friendlyError(e))}</div>`;
+    return [];
+  }
+}
+
+/* STARK AI: وضعیت سفارش از دیتابیس خوانده می‌شود */
+function addChatMessage(text, who = 'assistant') {
+  const box = $('aiChat');
+  const el = document.createElement('div');
+  el.className = 'chat-msg' + (who === 'user' ? ' user' : '');
+  el.textContent = text;
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+}
+
+async function aiShowOrders() {
+  addChatMessage('در حال بررسی سفارش‌های ثبت‌شده در حساب فعلی...');
+  const orders = await loadMyOrders(true);
+  if (!orders.length) {
+    addChatMessage(currentUser
+      ? 'سفارشی برای حساب فعلی پیدا نکردم؛ اگر تازه سفارشی ثبت کرده‌ای، چند لحظه بعد دوباره بررسی کن.'
+      : 'برای بررسی سفارش‌ها ابتدا از حساب کاربری سایت وارد شو.');
+    return;
+  }
+
+  const summary = orders.slice(0,10).map((order,index) => {
+    const listing = listings.find(p => String(p.id) === String(order.listing_id));
+    const title = listing?.title || listing?.skin_name || `سفارش #${order.id}`;
+    return `${index+1}) ${title}\nوضعیت: ${statusLabel(order.status)}\nتاریخ ثبت: ${formatDate(order.created_at)}\nشماره: ${order.id}`;
+  }).join('\n\n');
+
+  addChatMessage(`این‌ها آخرین سفارش‌های حساب تو هستند:\n\n${summary}`);
+  showSection('ordersSection');
+}
+
+function aiReply(text) {
+  const q = text.toLocaleLowerCase();
+
+  if (/وضعیت سفارش|سفارشم|سفارش من|پیگیری سفارش|سفارشام/.test(q)) {
+    return aiShowOrders();
+  }
+
+  if (/سبد خرید|سبدم|داخل سبد|کارت/.test(q)) {
+    addChatMessage(cart.length
+      ? `در حال حاضر ${cart.length.toLocaleString('fa-IR')} اسکین در سبد خرید داری. جمع مبلغ: ${$('cartTotal').textContent}. برای دیدن جزئیات بخش سبد خرید را باز کن.`
+      : 'سبد خریدت خالی است. از فهرست اسکین‌ها موارد دلخواهت را اضافه کن.');
+    showSection('cartSection');
+    return;
+  }
+
+  if (/پرداخت|پول|کارت به کارت|درگاه/.test(q)) {
+    addChatMessage('پرداخت آنلاین در این نسخه فعال نیست. ثبت درخواست فقط برای پیگیری اولیه است؛ تا دریافت تأیید رسمی از مدیریت، پرداخت یا انتقال اسکین انجام نده.');
+    return;
+  }
+
+  if (/تیکت|پشتیبانی|مشکل سفارش|کمک/.test(q)) {
+    addChatMessage('برای ارتباط با پشتیبانی، بخش «پشتیبانی» را باز کن و عنوان و متن تیکت را ثبت کن. از همان بخش می‌توانی تیکت‌های قبلی‌ات را هم ببینی.');
+    showSection('supportSection');
+    return;
+  }
+
+  if (/قیمت|ارزان|گران|هزینه/.test(q)) {
+    addChatMessage(`قیمت هر اسکین در کارت خودش نمایش داده می‌شود. در قسمت فیلتر می‌توانی اسکین‌ها را از ارزان‌ترین یا گران‌ترین مرتب کنی. در حال حاضر ${listings.length.toLocaleString('fa-IR')} اسکین فعال دریافت شده است.`);
+    return;
+  }
+
+  if (/سلام|درود|خسته نباش/.test(q)) {
+    addChatMessage('سلام! خوش اومدی به PERSIAN STARK. می‌تونی اسکین‌ها رو جست‌وجو کنی، به سبد خرید اضافه کنی یا از من بخوای وضعیت سفارش‌هات رو از حساب کاربریت بررسی کنم.');
+    return;
+  }
+
+  if (/سفارش|خرید/.test(q)) {
+    addChatMessage('برای خرید، اسکین را به سبد اضافه کن یا «درخواست مستقیم» را بزن. پس از تکمیل فرم، یک درخواست در دیتابیس ثبت می‌شود. وضعیت آن را از بخش «سفارش‌های من» می‌بینی.');
+    return;
+  }
+
+  addChatMessage('می‌تونم در این نسخه وضعیت سفارش‌های ثبت‌شده، سبد خرید، نحوه ثبت درخواست، قیمت اسکین‌ها و پشتیبانی رو راهنمایی کنم. برای شروع روی «وضعیت سفارش من» بزن یا سؤال مشخص‌تری بپرس.');
+}
+
+async function submitAi(event) {
+  event.preventDefault();
+  const input = $('aiInput');
+  const value = input.value.trim();
+  if (!value) return;
+  input.value = '';
+  addChatMessage(value,'user');
+  await aiReply(value);
+}
+
+/* پشتیبانی */
+async function loadMyTickets() {
+  const container = $('ticketsList');
+  container.innerHTML = '<div class="empty-note">در حال دریافت تیکت‌ها...</div>';
+
+  try {
+    const user = await getCurrentUser();
+    const {data,error} = await db
+      .from('store_support_tickets')
+      .select('id,ticket_number,subject,category,status,created_at,updated_at,user_id')
+      .eq('user_id',user.id)
+      .order('created_at',{ascending:false})
+      .limit(50);
+
+    if (error) throw error;
+    const tickets = data || [];
+
+    if (!tickets.length) {
+      container.innerHTML = '<div class="empty-note">هنوز تیکتی ثبت نکرده‌ای.</div>';
+      return;
+    }
+
+    container.innerHTML = tickets.map(ticket => `
+      <article class="ticket-card">
+        <div class="order-top">
+          <div class="order-title">${escapeHtml(ticket.subject || 'بدون عنوان')}</div>
+          <span class="status-pill ${statusClass(ticket.status)}">${escapeHtml(statusLabel(ticket.status))}</span>
+        </div>
+        <div class="order-meta">
+          شماره تیکت: ${escapeHtml(ticket.ticket_number ?? ticket.id)}<br>
+          دسته‌بندی: ${escapeHtml(ticket.category || 'سایر موارد')}<br>
+          تاریخ ثبت: ${escapeHtml(formatDate(ticket.created_at))}
+        </div>
+        <div class="toolbar-buttons">
+          <button class="btn secondary" type="button" data-ticket-open="${escapeHtml(ticket.id)}" data-ticket-number="${escapeHtml(ticket.ticket_number ?? ticket.id)}">نمایش گفتگو</button>
+        </div>
+        <div class="ticket-detail" id="ticket-detail-${escapeHtml(ticket.id)}">
+          <div class="chat-box" id="ticket-chat-${escapeHtml(ticket.id)}"></div>
+          <form class="chat-form" data-ticket-reply="${escapeHtml(ticket.id)}">
+            <input class="field" name="message" maxlength="3000" required placeholder="پاسخ خودت را بنویس...">
+            <button class="btn" type="submit">ارسال</button>
+          </form>
+          <div class="message" id="ticket-msg-${escapeHtml(ticket.id)}"></div>
+        </div>
+      </article>
+    `).join('');
+  } catch (e) {
+    console.error('load tickets:',e);
+    container.innerHTML = `<div class="empty-note error">${escapeHtml(friendlyError(e))}</div>`;
+  }
+}
+
+async function createTicket(event) {
+  event.preventDefault();
+  if (ticketBusy) return;
+
+  const subject = $('ticketSubject').value.trim();
+  const category = $('ticketCategory').value;
+  const message = $('ticketMessage').value.trim();
+
+  if (!subject || !message) {
+    setMessage($('ticketFormMessage'),'عنوان و متن تیکت را وارد کن.','error');
+    return;
+  }
+
+  ticketBusy = true;
+  $('createTicketBtn').disabled = true;
+
+  try {
+    const user = await getCurrentUser();
+
+    const {data:ticket,error:ticketError} = await db
+      .from('store_support_tickets')
+      .insert({
+        user_id:user.id,
+        subject,
+        category,
+        status:'open'
+      })
+      .select('id,ticket_number')
+      .single();
+
+    if (ticketError) throw ticketError;
+
+    const {error:messageError} = await db
+      .from('store_support_messages')
+      .insert({
+        ticket_id:ticket.id,
+        sender_id:user.id,
+        sender_role:'user',
+        message
+      });
+
+    if (messageError) {
+      console.error('ticket message insert:',messageError);
+      setMessage(
+        $('ticketFormMessage'),
+        'تیکت ساخته شد، اما ذخیره پیام اولیه ناموفق بود. تیکت‌ها را تازه‌سازی کن و در صورت نیاز پیام را در همان تیکت ارسال کن. ' + friendlyError(messageError),
+        'error'
+      );
+    } else {
+      setMessage($('ticketFormMessage'),`تیکت ثبت شد. شماره پیگیری: ${ticket.ticket_number ?? ticket.id}`,'success');
+      $('ticketForm').reset();
+    }
+
+    await loadMyTickets();
+  } catch (e) {
+    console.error('create ticket:',e);
+    setMessage($('ticketFormMessage'),friendlyError(e),'error');
+  } finally {
+    ticketBusy = false;
+    $('createTicketBtn').disabled = false;
+  }
+}
+
+async function openTicket(ticketId,ticketNumber) {
+  openedTicketId = ticketId;
+  openedTicketNumber = ticketNumber;
+
+  const detail = $('ticket-detail-' + ticketId);
+  if (!detail) return;
+
+  detail.classList.toggle('open');
+  if (!detail.classList.contains('open')) return;
+
+  const chat = $('ticket-chat-' + ticketId);
+  chat.innerHTML = '<div class="chat-msg">در حال دریافت پیام‌ها...</div>';
+
+  try {
+    const user = await getCurrentUser();
+
+    /* بررسی مالکیت تیکت؛ RLS باید همین محدودیت را سمت دیتابیس نیز اعمال کند. */
+    const {data:ticket,error:ticketError} = await db
+      .from('store_support_tickets')
+      .select('id,user_id')
+      .eq('id',ticketId)
+      .eq('user_id',user.id)
+      .maybeSingle();
+
+    if (ticketError) throw ticketError;
+    if (!ticket) {
+      chat.innerHTML = '<div class="chat-msg">این تیکت در حساب فعلی پیدا نشد.</div>';
+      return;
+    }
+
+    const {data:messages,error} = await db
+      .from('store_support_messages')
+      .select('id,ticket_id,sender_id,sender_role,message,created_at')
+      .eq('ticket_id',ticketId)
+      .order('created_at',{ascending:true})
+      .limit(200);
+
+    if (error) throw error;
+
+    if (!messages?.length) {
+      chat.innerHTML = '<div class="chat-msg">هنوز پیامی برای این تیکت ثبت نشده است.</div>';
+      return;
+    }
+
+    chat.innerHTML = messages.map(m => `
+      <div class="chat-msg ${m.sender_id === user.id ? 'user' : ''}">
+        ${escapeHtml(m.message)}
+        <div class="small muted">${escapeHtml(m.sender_role === 'admin' ? 'پشتیبانی' : 'کاربر')} · ${escapeHtml(formatDate(m.created_at))}</div>
+      </div>
+    `).join('');
+    chat.scrollTop = chat.scrollHeight;
+  } catch (e) {
+    console.error('open ticket:',e);
+    chat.innerHTML = `<div class="chat-msg">${escapeHtml(friendlyError(e))}</div>`;
+  }
+}
+
+async function replyTicket(event) {
+  event.preventDefault();
+  const form = event.target.closest('form[data-ticket-reply]');
+  if (!form) return;
+
+  const ticketId = form.dataset.ticketReply;
+  const input = form.elements.message;
+  const message = input.value.trim();
+  const msgBox = $('ticket-msg-' + ticketId);
+  if (!message) return;
+
+  const button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
+
+  try {
+    const user = await getCurrentUser();
+
+    const {data:ticket,error:ticketError} = await db
+      .from('store_support_tickets')
+      .select('id,user_id,status')
+      .eq('id',ticketId)
+      .eq('user_id',user.id)
+      .maybeSingle();
+
+    if (ticketError) throw ticketError;
+    if (!ticket) throw new Error('این تیکت در حساب فعلی پیدا نشد.');
+
+    const {error} = await db
+      .from('store_support_messages')
+      .insert({
+        ticket_id:ticket.id,
+        sender_id:user.id,
+        sender_role:'user',
+        message
+      });
+
+    if (error) throw error;
+
+    /*
+      وضعیت تیکت عمداً از سمت مرورگر تغییر داده نمی‌شود؛
+      این کار باید با سیاست و منطق امن سمت سرور/پنل مدیریت انجام شود.
+    */
+    input.value = '';
+    setMessage(msgBox,'پیام ارسال شد.','success');
+    await openTicket(ticketId,openedTicketNumber);
+  } catch (e) {
+    console.error('reply ticket:',e);
+    setMessage(msgBox,friendlyError(e),'error');
+  } finally {
+    button.disabled = false;
+  }
+}
+
+/* رویدادها */
+$('searchInput').addEventListener('input',renderProducts);
+$('wearFilter').addEventListener('change',renderProducts);
+$('sourceFilter').addEventListener('change',renderProducts);
+$('sortFilter').addEventListener('change',renderProducts);
+
+grid.addEventListener('click',event => {
+  const cartButton = event.target.closest('[data-cart-id]');
+  const orderButton = event.target.closest('[data-order-id]');
+  if (cartButton) addToCart(cartButton.dataset.cartId);
+  if (orderButton) openOrder(orderButton.dataset.orderId);
 });
+
+$('cartList').addEventListener('click',event => {
+  const button = event.target.closest('[data-remove-cart]');
+  if (button) removeFromCart(button.dataset.removeCart);
+});
+
+$('ordersList').addEventListener('click',event => {
+  const button = event.target.closest('[data-order-id]');
+  if (button) openOrder(button.dataset.orderId);
+});
+
+$('ticketsList').addEventListener('click',event => {
+  const button = event.target.closest('[data-ticket-open]');
+  if (button) openTicket(button.dataset.ticketOpen,button.dataset.ticketNumber);
+});
+
+$('ticketsList').addEventListener('submit',event => {
+  if (event.target.matches('form[data-ticket-reply]')) replyTicket(event);
+});
+
 $('orderForm').addEventListener('submit',sendOrder);
 $('closeModal').addEventListener('click',closeOrder);
-modal.addEventListener('click',e=>{if(e.target===modal)closeOrder();});
-$('openRules').addEventListener('click',()=>rulesModal.classList.add('open'));
-$('closeRules').addEventListener('click',()=>rulesModal.classList.remove('open'));
-rulesModal.addEventListener('click',e=>{if(e.target===rulesModal)rulesModal.classList.remove('open');});
-
-/* ---------------- رویدادهای STARK AI ---------------- */
-
-$('aiLauncher').addEventListener('click',()=>{
- if(aiPanel.classList.contains('open'))aiClose();
- else aiOpen();
-});
-$('aiClose').addEventListener('click',aiClose);
-
-$('aiChatForm').addEventListener('submit',e=>{
- e.preventDefault();
- const text=aiInput.value.trim();
- if(!text)return;
- aiInput.value='';
- processAiText(text);
+modal.addEventListener('click',event => {
+  if (event.target === modal) closeOrder();
 });
 
-$('aiQuick').addEventListener('click',async e=>{
- const b=e.target.closest('[data-ai]');
- if(!b)return;
- const action=b.dataset.ai;
-
- if(action==='order-help'){
-  addAiMessage('چرا سفارشم بررسی نشده؟','user');
-  addAiMessage(aiReply('چرا سفارشم بررسی نشده؟'),'bot');
- }else if(action==='order-status'){
-  addAiMessage('وضعیت سفارش من','user');
-  addAiMessage('برای حفظ حریم خصوصی، باید با حسابی که سفارش را ثبت کرده‌ای وارد شوی. این دستیار هنوز فهرست سفارش‌های خرید را مستقیماً نمایش نمی‌دهد؛ برای پیگیری دقیق، تیکت ثبت کن یا با پشتیبانی تماس بگیر.','bot');
- }else if(action==='payment'){
-  addAiMessage(aiReply('پرداخت و خرید'),'bot');
- }else if(action==='account'){
-  addAiMessage(aiReply('ورود به حساب کاربری'),'bot');
- }else if(action==='rules'){
-  addAiMessage(aiReply('قوانین فروشگاه'),'bot');
-  rulesModal.classList.add('open');
- }else if(action==='new-ticket'){
-  openTicketForm();
- }else if(action==='my-tickets'){
-  aiShowScreen('aiTicketsScreen');
-  await loadTickets();
- }
+$('openRules').addEventListener('click',() => rulesModal.classList.add('open'));
+$('closeRules').addEventListener('click',() => rulesModal.classList.remove('open'));
+rulesModal.addEventListener('click',event => {
+  if (event.target === rulesModal) rulesModal.classList.remove('open');
 });
 
-$('aiTicketForm').addEventListener('submit',createTicket);
-$('refreshTickets').addEventListener('click',loadTickets);
-$('aiTicketList').addEventListener('click',async e=>{
- const b=e.target.closest('[data-ticket-id]');
- if(b)await openTicketConversation(b.dataset.ticketId);
+$('openCartBtn').addEventListener('click',() => {
+  renderCart();
+  showSection('cartSection');
 });
-$('aiReplyForm').addEventListener('submit',sendTicketReply);
+$('openOrdersBtn').addEventListener('click',async () => {
+  showSection('ordersSection');
+  await loadMyOrders();
+});
+$('openSupportBtn').addEventListener('click',async () => {
+  showSection('supportSection');
+  await loadMyTickets();
+});
+$('openAiBtn').addEventListener('click',() => showSection('aiSection'));
 
-aiPanel.addEventListener('click',async e=>{
- const b=e.target.closest('[data-ai="back"]');
- if(!b)return;
- currentTicket=null;
- aiShowScreen('aiChatScreen');
+$('refreshOrdersBtn').addEventListener('click',() => loadMyOrders());
+$('clearCartBtn').addEventListener('click',() => {
+  cart = [];
+  saveCart();
+  renderCart();
+  renderProducts();
+  $('cartMessage').textContent = 'سبد خرید خالی شد.';
+  $('cartMessage').className = 'message success';
+});
+$('checkoutBtn').addEventListener('click',openCartCheckout);
+$('continueShoppingBtn').addEventListener('click',() => {
+  hideSections();
+  $('searchInput').focus();
+  window.scrollTo({top:0,behavior:'smooth'});
 });
 
-document.addEventListener('keydown',e=>{
- if(e.key==='Escape'){
-  rulesModal.classList.remove('open');
-  closeOrder();
-  aiClose();
- }
+$('ticketForm').addEventListener('submit',createTicket);
+$('refreshTicketsBtn').addEventListener('click',loadMyTickets);
+
+$('aiForm').addEventListener('submit',submitAi);
+$('aiOrdersBtn').addEventListener('click',aiShowOrders);
+$('aiCartBtn').addEventListener('click',() => {
+  addChatMessage(cart.length
+    ? `در سبد خریدت ${cart.length.toLocaleString('fa-IR')} اسکین وجود دارد. جمع مبلغ: ${$('cartTotal').textContent}.`
+    : 'سبد خریدت خالی است.');
+  showSection('cartSection');
+});
+$('aiSupportBtn').addEventListener('click',() => {
+  addChatMessage('برای تماس با پشتیبانی بخش پشتیبانی را باز کن، عنوان و پیام را بنویس و تیکت را ثبت کن.');
+  showSection('supportSection');
 });
 
-/* ---------------- راه‌اندازی ---------------- */
+document.addEventListener('keydown',event => {
+  if (event.key === 'Escape') {
+    rulesModal.classList.remove('open');
+    closeOrder();
+  }
+});
 
-if(!window.supabase?.createClient){
- setState('کتابخانه Supabase بارگذاری نشد. اینترنت یا CDN را بررسی کن.',true);
- $('aiLauncher').disabled=true;
- return;
+/* راه‌اندازی */
+if (!window.supabase?.createClient) {
+  setState('کتابخانه Supabase بارگذاری نشد. اینترنت یا CDN را بررسی کن.',true);
+  return;
 }
 
-db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
- auth:{
-  persistSession:true,
-  autoRefreshToken:true,
-  detectSessionInUrl:true,
-  storageKey:'persian-stark-auth'
- }
+db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+  auth:{
+    persistSession:true,
+    autoRefreshToken:true,
+    detectSessionInUrl:true,
+    storageKey:'persian-stark-auth'
+  }
 });
 
-db.auth.onAuthStateChange(()=>{
- // عملیات شبکه‌ای را خارج از callback احراز هویت انجام می‌دهیم.
- setTimeout(()=>{updateAccountLink();},0);
+db.auth.onAuthStateChange(() => {
+  updateAccountLink();
 });
 
+renderCartCount();
+renderCart();
 updateAccountLink();
 loadListings();
 
