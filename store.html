@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -6,6 +7,7 @@
 <meta name="theme-color" content="#0c0d12">
 <title>فروشگاه اسکین CS2 | PERSIAN STARK</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root{
   color-scheme:dark;
@@ -21,7 +23,7 @@
   --orange:#ffd17c
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:85px}
+html{scroll-behavior:smooth}
 body{
   margin:0;
   background:radial-gradient(ellipse at top,#1b2434 0,transparent 55%),var(--bg);
@@ -32,9 +34,6 @@ body{
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit}
 button{touch-action:manipulation}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--lime);outline-offset:3px
-}
 .container{width:min(1180px,92%);margin:auto}
 header{
   position:sticky;top:0;z-index:10;
@@ -137,7 +136,7 @@ footer{
   color:var(--muted);text-align:center;font-size:11px;line-height:2.2
 }
 .modal-backdrop{
-  position:fixed;inset:0;z-index:50;background:#000c;
+  position:fixed;inset:0;z-index:30;background:#000c;
   display:none;align-items:center;justify-content:center;padding:16px
 }
 .modal-backdrop.open{display:flex}
@@ -163,6 +162,12 @@ footer{
 .message{font-size:12px;line-height:2;min-height:20px;overflow-wrap:anywhere}
 .rules-list{font-size:12px;line-height:2.2;color:#d5dbe6;padding-right:20px}
 .rules-modal{width:min(600px,100%)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.tab{
+  background:#171d28;color:var(--muted);border:1px solid var(--line);
+  padding:10px 13px;border-radius:9px;font-size:12px;cursor:pointer
+}
+.tab.active{background:#26321b;color:var(--lime);border-color:#526b30}
 .toolbar-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .toolbar-buttons .btn{width:auto;flex:1}
 .count-bubble{
@@ -179,7 +184,7 @@ footer{
   display:flex;justify-content:space-between;gap:10px;
   align-items:flex-start;flex-wrap:wrap
 }
-.order-title{font-size:13px;font-weight:bold;line-height:1.9;overflow-wrap:anywhere}
+.order-title{font-size:13px;font-weight:bold;line-height:1.9}
 .order-meta{font-size:11px;color:var(--muted);line-height:2;margin-top:7px;overflow-wrap:anywhere}
 .status-pill{
   display:inline-block;border-radius:7px;padding:6px 9px;
@@ -200,7 +205,7 @@ footer{
 }
 .chat-box{
   display:flex;flex-direction:column;gap:10px;
-  max-height:360px;overflow:auto;padding:10px;
+  overflow:auto;padding:10px;
   background:#0c1018;border:1px solid var(--line);border-radius:12px
 }
 .chat-msg{
@@ -216,86 +221,184 @@ footer{
 hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 .hidden{display:none!important}
 
-/* دستیار شناور STARK AI */
+/* ===== دستیار شناور STARK AI ===== */
 .ai-launcher{
-  position:fixed;right:20px;bottom:20px;z-index:40;
-  width:58px;height:58px;border-radius:50%;
-  border:1px solid #d5ff8a;background:var(--lime);color:#12170b;
-  box-shadow:0 8px 35px #0008;display:flex;align-items:center;
-  justify-content:center;cursor:pointer;font-size:25px;
-  transition:transform .2s,box-shadow .2s
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:100;
+  width:65px;
+  height:65px;
+  border:1px solid #e0ffad;
+  border-radius:50%;
+  background:linear-gradient(145deg,#d8ff91,#a6df42);
+  color:#10150b;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  box-shadow:0 8px 28px #0009,0 0 0 5px #bdf45a12;
+  cursor:pointer;
+  transition:transform .25s ease,box-shadow .25s ease
 }
-.ai-launcher:hover{transform:translateY(-3px);box-shadow:0 12px 38px #000a}
-.ai-launcher .ai-unread{
-  position:absolute;top:-3px;left:-3px;width:12px;height:12px;
-  background:#ff7474;border:2px solid var(--bg);border-radius:50%;
-  display:none
+.ai-launcher:hover{
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 12px 34px #000b,0 0 0 7px #bdf45a19
 }
-.ai-launcher .ai-unread.show{display:block}
-.ai-greeting{
-  position:fixed;right:24px;bottom:89px;z-index:39;
-  width:min(310px,calc(100vw - 42px));padding:13px 15px;
-  border:1px solid #465239;border-radius:14px;
-  background:#182119;color:#efffdf;box-shadow:0 12px 35px #0008;
-  font-size:12px;line-height:2;cursor:pointer;
-  opacity:0;transform:translateY(10px) scale(.98);pointer-events:none;
-  transition:opacity .25s,transform .25s
+.ai-launcher .ai-icon{font-size:25px;line-height:1.1}
+.ai-launcher .ai-mini-label{font-size:9px;font-weight:900;letter-spacing:.3px}
+.ai-launcher::after{
+  content:"";
+  position:absolute;
+  inset:-5px;
+  border:1px solid #bdf45a66;
+  border-radius:50%;
+  animation:aiPulse 2.8s infinite;
+  pointer-events:none
 }
-.ai-greeting.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
-.ai-greeting:after{
-  content:"";position:absolute;right:27px;bottom:-7px;width:12px;height:12px;
-  background:#182119;border-left:1px solid #465239;border-bottom:1px solid #465239;
-  transform:rotate(-45deg)
+@keyframes aiPulse{
+  0%{transform:scale(.92);opacity:.7}
+  75%,100%{transform:scale(1.22);opacity:0}
 }
-.ai-popup{
-  position:fixed;right:20px;bottom:90px;z-index:45;
-  width:min(380px,calc(100vw - 28px));height:min(540px,calc(100dvh - 120px));
-  min-height:340px;display:flex;flex-direction:column;overflow:hidden;
-  border:1px solid #394253;border-radius:19px;
-  background:#111620;box-shadow:0 20px 75px #000b;
-  opacity:0;visibility:hidden;pointer-events:none;
-  transform:translateY(16px) scale(.97);transform-origin:bottom right;
-  transition:opacity .22s,transform .22s,visibility .22s
+.ai-widget{
+  position:fixed;
+  right:22px;
+  bottom:100px;
+  z-index:101;
+  width:min(390px,calc(100vw - 28px));
+  height:min(570px,calc(100dvh - 125px));
+  min-height:340px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid #414b5e;
+  border-radius:19px;
+  background:#111620;
+  box-shadow:0 24px 80px #000b,0 0 0 1px #ffffff05;
+  opacity:0;
+  transform:translateY(14px) scale(.97);
+  transform-origin:bottom right;
+  pointer-events:none;
+  visibility:hidden;
+  transition:opacity .22s ease,transform .22s ease,visibility .22s
 }
-.ai-popup.open{
-  opacity:1;visibility:visible;pointer-events:auto;
-  transform:translateY(0) scale(1)
+.ai-widget.open{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+  visibility:visible
 }
-.ai-popup-head{
-  display:flex;align-items:center;gap:10px;padding:13px 14px;
+.ai-widget-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px;
+  background:linear-gradient(120deg,#222d3d,#171d28);
   border-bottom:1px solid var(--line);
-  background:linear-gradient(110deg,#202b1c,#171d28)
+  flex-shrink:0
 }
+.ai-widget-brand{display:flex;align-items:center;gap:10px;min-width:0}
 .ai-avatar{
-  width:40px;height:40px;border-radius:13px;background:var(--lime);
-  color:#141a0d;display:grid;place-items:center;font-size:21px;flex-shrink:0
+  width:42px;height:42px;display:grid;place-items:center;
+  border-radius:13px;background:#bdf45a18;
+  border:1px solid #bdf45a50;font-size:23px;flex-shrink:0
 }
-.ai-head-copy{min-width:0;flex:1}
-.ai-head-copy strong{display:block;font-size:13px;line-height:1.8}
-.ai-head-copy span{display:block;font-size:10px;color:var(--muted);line-height:1.8}
-.ai-online{display:inline-block;width:7px;height:7px;border-radius:50%;background:#80e5a2;margin-left:4px}
+.ai-widget-title{font-size:13px;font-weight:900;line-height:1.8}
+.ai-widget-status{display:flex;align-items:center;gap:5px;font-size:10px;color:#aab6c8}
+.ai-status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#80e5a2;box-shadow:0 0 8px #80e5a266
+}
 .ai-close{
-  width:34px;height:34px;border-radius:9px;border:1px solid var(--line);
-  background:#151b26;color:var(--text);cursor:pointer;font-size:20px;flex-shrink:0
+  width:34px;height:34px;flex-shrink:0;
+  border:1px solid var(--line);border-radius:10px;
+  background:#11151e;color:#e7ebf4;font-size:19px;cursor:pointer
 }
-.ai-popup .ai-quick-actions{
-  display:flex;gap:6px;padding:10px 10px 0;flex-wrap:wrap
+.ai-welcome{
+  padding:10px 13px;
+  background:#171d28;
+  border-bottom:1px solid #303747;
+  font-size:11px;
+  color:#c5cddd;
+  line-height:2
+}
+.ai-widget .chat-box{
+  flex:1;
+  min-height:0;
+  max-height:none;
+  border:0;
+  border-radius:0;
+  padding:13px;
+  background:#0c1018
+}
+.ai-widget .chat-msg{max-width:94%}
+.ai-widget-footer{
+  padding:10px;
+  border-top:1px solid var(--line);
+  background:#111620;
+  flex-shrink:0
+}
+.ai-widget .chat-form{margin:0}
+.ai-widget .chat-form .field{font-size:12px;min-width:0}
+.ai-quick-actions{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding-bottom:9px;
+  scrollbar-width:thin
 }
 .ai-quick-actions button{
-  flex:1;min-width:95px;background:#1b2330;border:1px solid #30394a;
-  color:#e3e9f3;border-radius:9px;padding:8px 6px;font-size:10px;cursor:pointer
+  flex-shrink:0;
+  border:1px solid #354052;
+  border-radius:9px;
+  background:#1b2230;
+  color:#dbe2ef;
+  padding:8px 9px;
+  font-size:10px;
+  cursor:pointer
 }
-.ai-quick-actions button:hover{border-color:#657b43;color:var(--lime)}
-.ai-popup .chat-box{
-  flex:1;min-height:0;max-height:none;margin:10px;
-  border-radius:11px;overscroll-behavior:contain
+.ai-quick-actions button:hover{
+  border-color:#bdf45a88;
+  color:var(--lime)
 }
-.ai-popup .chat-form{padding:0 10px 10px;margin:0}
-.ai-popup .chat-form .field{font-size:12px;min-width:0}
-.ai-popup .chat-form .btn{padding:10px 13px}
-.ai-disclaimer{
-  text-align:center;font-size:9px;color:#8792a4;padding:0 10px 9px;line-height:1.8
+.ai-toast{
+  position:fixed;
+  right:22px;
+  bottom:99px;
+  z-index:99;
+  width:min(320px,calc(100vw - 28px));
+  padding:14px 15px;
+  background:#171e29;
+  color:#f4f6fb;
+  border:1px solid #46523b;
+  border-radius:14px;
+  box-shadow:0 12px 35px #0009;
+  font-size:12px;
+  line-height:2;
+  cursor:pointer;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+  transition:opacity .25s ease,transform .25s ease,visibility .25s
 }
+.ai-toast.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0)
+}
+.ai-toast strong{color:var(--lime)}
+.ai-toast-close{
+  float:left;
+  border:0;
+  background:transparent;
+  color:#a4adbd;
+  cursor:pointer;
+  font-size:17px;
+  padding:0 0 0 5px
+}
+.ai-toast small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
 @media(max-width:1000px){
   .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -319,9 +422,9 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
   .full{grid-column:auto}
   .toolbar-buttons .btn{font-size:11px;padding:10px 8px}
   .section-head h2{font-size:15px}
-  .ai-launcher{right:14px;bottom:14px;width:54px;height:54px}
-  .ai-popup{right:14px;bottom:78px;width:calc(100vw - 28px);height:min(560px,calc(100dvh - 98px))}
-  .ai-greeting{right:17px;bottom:78px}
+  .ai-launcher{right:14px;bottom:15px;width:59px;height:59px}
+  .ai-widget{right:10px;bottom:85px;width:calc(100vw - 20px);height:min(570px,calc(100dvh - 105px))}
+  .ai-toast{right:12px;bottom:84px}
 }
 @media(max-width:390px){
   .nav-links a:nth-child(2){display:none}
@@ -329,10 +432,11 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
   .hero h1{font-size:24px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
+
 <body>
 <header>
   <div class="container nav">
@@ -429,9 +533,7 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
   </section>
 
   <section id="supportSection" class="panel hidden">
-    <div class="section-head">
-      <h2>🎧 پشتیبانی فروشگاه</h2>
-    </div>
+    <div class="section-head"><h2>🎧 پشتیبانی فروشگاه</h2></div>
     <p class="small muted">برای پیگیری مشکل سفارش یا سؤال درباره فروشگاه تیکت ثبت کن. پیام‌ها فقط برای حساب صاحب تیکت و مدیران مجاز باید قابل مشاهده باشند.</p>
     <form id="ticketForm">
       <div class="form-grid">
@@ -472,36 +574,55 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
   </div>
 </footer>
 
-<!-- دستیار شناور -->
-<button class="ai-launcher" id="aiLauncher" type="button" aria-label="باز کردن دستیار هوشمند STARK AI" aria-controls="aiPopup" aria-expanded="false">
-  🤖 <span class="ai-unread" id="aiUnread" aria-hidden="true"></span>
+<!-- دستیار شناور STARK AI -->
+<button id="aiLauncher" class="ai-launcher" type="button" aria-label="باز کردن دستیار هوشمند PERSIAN STARK" aria-expanded="false" aria-controls="aiWidget">
+  <span class="ai-icon">🤖</span>
+  <span class="ai-mini-label">STARK AI</span>
 </button>
-<div class="ai-greeting" id="aiGreeting" role="button" tabindex="0" aria-label="باز کردن دستیار STARK AI">
-  سلام! من دستیار هوشمند PERSIAN STARK هستم. اگه کمک لازم داری، روی من کلیک کن تا راهنمایی‌ات کنم 🎮
+
+<div id="aiToast" class="ai-toast" role="status" aria-live="polite">
+  <button id="aiToastClose" class="ai-toast-close" type="button" aria-label="بستن پیام">×</button>
+  <strong>STARK AI</strong>
+  <div>سلام من دستیار هوشمند PERSIAN STARK هستم اگه کمک لازم داری روی من کلیک کن تا راهنمایی کنم</div>
+  <small>برای شروع روی این پیام یا دکمه ربات کلیک کن.</small>
 </div>
-<section class="ai-popup" id="aiPopup" role="dialog" aria-label="دستیار فروشگاه STARK AI" aria-hidden="true">
-  <div class="ai-popup-head">
-    <div class="ai-avatar" aria-hidden="true">🤖</div>
-    <div class="ai-head-copy">
-      <strong>STARK AI</strong>
-      <span><i class="ai-online"></i>دستیار فروشگاه PERSIAN STARK</span>
+
+<aside id="aiWidget" class="ai-widget" aria-label="گفت‌وگوی STARK AI" aria-hidden="true">
+  <div class="ai-widget-header">
+    <div class="ai-widget-brand">
+      <div class="ai-avatar">🤖</div>
+      <div>
+        <div class="ai-widget-title">STARK AI</div>
+        <div class="ai-widget-status"><span class="ai-status-dot"></span> دستیار فروشگاه PERSIAN STARK</div>
+      </div>
     </div>
-    <button class="ai-close" id="closeAiBtn" type="button" aria-label="بستن دستیار">×</button>
+    <button id="aiCloseBtn" class="ai-close" type="button" aria-label="بستن دستیار">×</button>
   </div>
-  <div class="ai-quick-actions">
-    <button type="button" id="aiOrdersBtn">📦 وضعیت سفارش من</button>
-    <button type="button" id="aiCartBtn">🛒 سبد خرید من</button>
-    <button type="button" id="aiSupportBtn">🎧 راهنمای پشتیبانی</button>
+
+  <div class="ai-welcome">
+    سلام! 👋 من دستیار هوشمند فروشگاه هستم. برای راهنمایی خرید، سبد خرید، پشتیبانی یا پیگیری سفارش‌هات در خدمتم.
   </div>
-  <div id="aiChat" class="chat-box" aria-live="polite" aria-label="گفتگوی دستیار">
-    <div class="chat-msg">سلام! من STARK AI فروشگاه هستم. می‌توانم سفارش‌های ثبت‌شده در حساب فعلی‌ات را بررسی کنم یا درباره خرید و پشتیبانی راهنمایی‌ات کنم.</div>
+
+  <div id="aiChat" class="chat-box" aria-live="polite">
+    <div class="chat-msg">سلام! خوش اومدی به PERSIAN STARK 🎮
+
+می‌تونم وضعیت سفارش‌های ثبت‌شده در حساب فعلی‌ات رو از دیتابیس بررسی کنم یا برای خرید و پشتیبانی راهنمایی‌ات کنم.
+
+از دکمه‌های پایین شروع کن.</div>
   </div>
-  <form id="aiForm" class="chat-form">
-    <input id="aiInput" class="field" maxlength="500" placeholder="سؤالت را بنویس..." autocomplete="off" aria-label="پیام برای دستیار" required>
-    <button class="btn" type="submit">ارسال</button>
-  </form>
-  <div class="ai-disclaimer">پاسخ‌ها بر اساس امکانات همین فروشگاه تولید می‌شوند؛ این دستیار به مدل ابری متصل نیست.</div>
-</section>
+
+  <div class="ai-widget-footer">
+    <div class="ai-quick-actions">
+      <button type="button" id="aiOrdersBtn">📦 وضعیت سفارش من</button>
+      <button type="button" id="aiCartBtn">🛒 سبد خرید من</button>
+      <button type="button" id="aiSupportBtn">🎧 پشتیبانی</button>
+    </div>
+    <form id="aiForm" class="chat-form">
+      <input id="aiInput" class="field" maxlength="500" placeholder="سؤالت را بنویس..." autocomplete="off" required>
+      <button class="btn" type="submit">ارسال</button>
+    </form>
+  </div>
+</aside>
 
 <!-- پنجره اطلاعات خریدار -->
 <div id="orderModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -574,8 +695,8 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 const SUPABASE_URL = 'https://jmdoxofcyoxdrtxvvuiu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74';
 const CART_KEY = 'persian-stark-cart-v1';
-const GREETING_KEY = 'persian-stark-ai-greeting-time-v1';
-const GREETING_COOLDOWN = 4 * 60 * 60 * 1000;
+const AI_LAST_GREETING_KEY = 'persian-stark-ai-last-greeting-v1';
+const AI_GREETING_INTERVAL = 4 * 60 * 1000;
 
 const $ = id => document.getElementById(id);
 const grid = $('productGrid');
@@ -583,6 +704,9 @@ const count = $('resultCount');
 const modal = $('orderModal');
 const rulesModal = $('rulesModal');
 const submitButton = $('submitOrder');
+const aiWidget = $('aiWidget');
+const aiLauncher = $('aiLauncher');
+const aiToast = $('aiToast');
 
 let db = null;
 let listings = [];
@@ -592,12 +716,12 @@ let cart = loadCart();
 let busy = false;
 let alreadySubmitted = false;
 let ticketBusy = false;
-let ticketReplyBusy = false;
+let openedTicketId = null;
+let openedTicketNumber = null;
 let orderBatch = [];
-let batchSucceededIds = [];
-let greetingTimer = null;
-let greetingHideTimer = null;
-let sessionInitialized = false;
+let batchSucceeded = 0;
+let aiGreetingTimer = null;
+let aiToastTimer = null;
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({
   '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -657,8 +781,7 @@ function formatPrice(price, currency) {
   const n = Number(price);
   if (!Number.isFinite(n)) return 'قیمت نامشخص';
   const value = new Intl.NumberFormat('fa-IR', {maximumFractionDigits:2}).format(n);
-  const rawUnit = String(currency || '').trim();
-  const unit = !rawUnit || /^(irr| toman|toman|تومان)$/i.test(rawUnit.trim()) ? 'تومان' : rawUnit;
+  const unit = String(currency || '').trim() || 'تومان';
   return value + ' ' + unit;
 }
 
@@ -689,15 +812,7 @@ function loadCart() {
   try {
     const raw = localStorage.getItem(CART_KEY);
     const value = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(value)) return [];
-    const seen = new Set();
-    return value.filter(item => {
-      if (!item || item.id == null) return false;
-      const id = String(item.id);
-      if (seen.has(id)) return false;
-      seen.add(id);
-      return true;
-    }).slice(0,100);
+    return Array.isArray(value) ? value.filter(x => x && x.id != null).slice(0,100) : [];
   } catch {
     return [];
   }
@@ -717,12 +832,11 @@ function renderCartCount() {
 }
 
 function showSection(id) {
-  const allowed = ['cartSection','ordersSection','supportSection'];
-  if (!allowed.includes(id)) return;
-  allowed.forEach(sectionId => {
+  ['cartSection','ordersSection','supportSection'].forEach(sectionId => {
     $(sectionId).classList.toggle('hidden', sectionId !== id);
   });
-  $(id).scrollIntoView({behavior:'smooth',block:'start'});
+  const section = $(id);
+  if (section) section.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function hideSections() {
@@ -747,7 +861,7 @@ function renderProducts() {
 
   if (sort === 'price-asc') items.sort((a,b) => Number(a.price) - Number(b.price));
   else if (sort === 'price-desc') items.sort((a,b) => Number(b.price) - Number(a.price));
-  else if (sort === 'name') items.sort((a,b) => String(a.title || a.skin_name || '').localeCompare(String(b.title || b.skin_name || '')));
+  else if (sort === 'name') items.sort((a,b) => String(a.title || '').localeCompare(String(b.title || '')));
   else items.sort((a,b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
 
   count.textContent = `${items.length.toLocaleString('fa-IR')} اسکین`;
@@ -765,7 +879,7 @@ function renderProducts() {
       <article class="card">
         <div class="image-wrap">
           ${image
-            ? `<img class="product-image" src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'image-placeholder',textContent:'تصویر در دسترس نیست'}))">`
+            ? `<img class="product-image" src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy" referrerpolicy="no-referrer">`
             : '<div class="image-placeholder">تصویر اسکین ثبت نشده</div>'}
         </div>
         <div class="card-body">
@@ -833,19 +947,11 @@ async function getCurrentUser() {
 function addToCart(id) {
   const p = listings.find(x => String(x.id) === String(id));
   if (!p) return;
-
   if (cart.some(x => String(x.id) === String(id))) {
-    setMessage($('cartMessage'),'این اسکین از قبل در سبد خرید قرار دارد.');
+    $('cartMessage').textContent = 'این اسکین از قبل در سبد خرید قرار دارد.';
     showSection('cartSection');
     return;
   }
-
-  if (cart.length >= 100) {
-    setMessage($('cartMessage'),'سبد خرید به حداکثر ۱۰۰ اسکین رسیده است. ابتدا تعدادی از سبد را حذف کن.','error');
-    showSection('cartSection');
-    return;
-  }
-
   cart.push({
     id:p.id,
     title:p.title || p.skin_name || 'اسکین',
@@ -857,7 +963,8 @@ function addToCart(id) {
   saveCart();
   renderProducts();
   renderCart();
-  setMessage($('cartMessage'),'اسکین به سبد خرید اضافه شد.','success');
+  $('cartMessage').textContent = 'اسکین به سبد خرید اضافه شد.';
+  $('cartMessage').className = 'message success';
 }
 
 function removeFromCart(id) {
@@ -865,7 +972,6 @@ function removeFromCart(id) {
   saveCart();
   renderProducts();
   renderCart();
-  setMessage($('cartMessage'),'اسکین از سبد حذف شد.','success');
 }
 
 function renderCart() {
@@ -892,63 +998,50 @@ function renderCart() {
       </div>`;
   }).join('');
 
-  const currencies = [...new Set(cart.map(item => String(item.currency || 'تومان').trim()))];
-  $('cartTotal').textContent = currencies.length === 1
-    ? formatPrice(total,currencies[0])
-    : 'مبالغ با واحدهای ارزی متفاوت';
+  const currency = cart[0]?.currency || 'تومان';
+  $('cartTotal').textContent = formatPrice(total,currency);
   renderCartCount();
 }
 
-function resetOrderModal() {
+function openOrder(id) {
+  selectedListing = listings.find(p => String(p.id) === String(id));
+  if (!selectedListing) return;
+  orderBatch = [selectedListing];
+  batchSucceeded = 0;
+  alreadySubmitted = false;
+  $('selectedProduct').textContent = `${selectedListing.title || selectedListing.skin_name} — ${formatPrice(selectedListing.price,selectedListing.currency)}`;
   $('orderForm').reset();
-  setMessage($('modalMessage'),'');
+  $('modalMessage').textContent = '';
   submitButton.disabled = false;
   submitButton.textContent = 'ثبت درخواست';
-  alreadySubmitted = false;
-  batchSucceededIds = [];
-}
-
-function openOrder(id) {
-  const listing = listings.find(p => String(p.id) === String(id));
-  if (!listing) return;
-
-  selectedListing = listing;
-  orderBatch = [listing];
-  batchSucceededIds = [];
-  resetOrderModal();
-  $('selectedProduct').textContent = `${listing.title || listing.skin_name || 'اسکین'} — ${formatPrice(listing.price,listing.currency)}`;
-  submitButton.textContent = 'ثبت درخواست';
   modal.classList.add('open');
-  $('buyerName').focus({preventScroll:true});
 }
 
 function openCartCheckout() {
   if (!cart.length) {
-    setMessage($('cartMessage'),'سبد خرید خالی است.','error');
+    $('cartMessage').textContent = 'سبد خرید خالی است.';
+    $('cartMessage').className = 'message error';
     return;
   }
 
-  const cartIds = new Set(cart.map(item => String(item.id)));
-  orderBatch = cart
-    .map(item => listings.find(p => String(p.id) === String(item.id)))
-    .filter(Boolean);
-
+  orderBatch = cart.map(item => listings.find(p => String(p.id) === String(item.id))).filter(Boolean);
   if (!orderBatch.length) {
-    setMessage($('cartMessage'),'هیچ‌کدام از اسکین‌های سبد در فهرست فعال فروشگاه نیستند. فروشگاه را تازه‌سازی کن.','error');
+    $('cartMessage').textContent = 'اسکین‌های سبد دیگر در فهرست فعال فروشگاه نیستند. فروشگاه را تازه‌سازی کن.';
+    $('cartMessage').className = 'message error';
     return;
   }
 
+  batchSucceeded = 0;
   selectedListing = orderBatch[0];
-  batchSucceededIds = [];
-  resetOrderModal();
-
-  const missingCount = cartIds.size - orderBatch.length;
+  alreadySubmitted = false;
   $('selectedProduct').textContent = orderBatch.length === 1
     ? `${orderBatch[0].title || orderBatch[0].skin_name} — ${formatPrice(orderBatch[0].price,orderBatch[0].currency)}`
-    : `${orderBatch.length.toLocaleString('fa-IR')} اسکین در سبد خرید — برای هر اسکین یک سفارش مستقل ثبت می‌شود.${missingCount > 0 ? ` ${missingCount.toLocaleString('fa-IR')} اسکین غیرفعال از فرایند ثبت کنار گذاشته شده است.` : ''}`;
+    : `${orderBatch.length.toLocaleString('fa-IR')} اسکین در سبد خرید — برای هر اسکین یک سفارش مستقل ثبت می‌شود.`;
+  $('orderForm').reset();
+  $('modalMessage').textContent = '';
+  submitButton.disabled = false;
   submitButton.textContent = 'ثبت درخواست‌ها';
   modal.classList.add('open');
-  $('buyerName').focus({preventScroll:true});
 }
 
 function closeOrder() {
@@ -956,7 +1049,6 @@ function closeOrder() {
   modal.classList.remove('open');
   selectedListing = null;
   orderBatch = [];
-  batchSucceededIds = [];
 }
 
 function isSteamTradeUrl(value) {
@@ -964,9 +1056,7 @@ function isSteamTradeUrl(value) {
     const u = new URL(value);
     return u.protocol === 'https:' &&
       u.hostname.toLowerCase() === 'steamcommunity.com' &&
-      u.pathname.startsWith('/tradeoffer/new/') &&
-      !!u.searchParams.get('partner') &&
-      !!u.searchParams.get('token');
+      u.pathname.startsWith('/tradeoffer/new/');
   } catch {
     return false;
   }
@@ -1004,7 +1094,7 @@ async function sendOrder(event) {
     return;
   }
   if (!isSteamTradeUrl(fields.buyer_trade_url)) {
-    setMessage($('modalMessage'),'لینک کامل Steam Trade URL را وارد کن؛ لینک باید شامل partner و token باشد.','error');
+    setMessage($('modalMessage'),'لینک ترید باید لینک معتبر Steam Trade Offer باشد.','error');
     return;
   }
   if (fields.buyer_phone.replace(/[\s()+.-]/g,'').length < 7) {
@@ -1014,11 +1104,12 @@ async function sendOrder(event) {
 
   busy = true;
   submitButton.disabled = true;
-  batchSucceededIds = [];
 
   try {
     setMessage($('modalMessage'),'در حال بررسی ورود و اطلاعات اسکین‌ها...');
     const user = await getCurrentUser();
+    let created = 0;
+    let skipped = 0;
 
     for (let i = 0; i < orderBatch.length; i++) {
       const item = orderBatch[i];
@@ -1032,7 +1123,10 @@ async function sendOrder(event) {
         .maybeSingle();
 
       if (listingError) throw listingError;
-      if (!listing) continue;
+      if (!listing) {
+        skipped++;
+        continue;
+      }
 
       const payload = {
         listing_id:listing.id,
@@ -1044,26 +1138,13 @@ async function sendOrder(event) {
         rules_accepted_at:new Date().toISOString()
       };
 
-      const {data,error} = await db
-        .from('store_orders')
-        .insert(payload)
-        .select('id,listing_id')
-        .maybeSingle();
-
+      const {error} = await db.from('store_orders').insert(payload);
       if (error) throw error;
-
-      /*
-       * فقط زمانی سفارش موفق حساب می‌شود که دیتابیس شناسه سفارش برگرداند.
-       * شناسه اسکین موفق نگه داشته می‌شود تا اسکین اشتباهی از سبد حذف نشود.
-       */
-      if (data?.id) {
-        batchSucceededIds.push(String(item.id));
-      } else {
-        throw new Error('درج سفارش انجام شد اما تأیید رکورد از دیتابیس دریافت نشد. قبل از تلاش مجدد، سفارش‌ها را بررسی کن.');
-      }
+      created++;
+      batchSucceeded++;
     }
 
-    if (batchSucceededIds.length === 0) {
+    if (created === 0) {
       throw new Error('هیچ‌کدام از اسکین‌های انتخابی فعال نبودند یا درخواست‌ها ثبت نشدند.');
     }
 
@@ -1071,32 +1152,30 @@ async function sendOrder(event) {
     submitButton.textContent = 'ثبت شد';
     submitButton.disabled = true;
 
-    const succeededSet = new Set(batchSucceededIds);
-    cart = cart.filter(item => !succeededSet.has(String(item.id)));
+    const submittedIds = new Set(
+      orderBatch
+        .filter(item => listings.some(p => String(p.id) === String(item.id)))
+        .slice(0, created)
+        .map(item => String(item.id))
+    );
+
+    cart = cart.filter(item => !submittedIds.has(String(item.id)));
     saveCart();
     renderCart();
     renderProducts();
 
-    const skipped = orderBatch.length - batchSucceededIds.length;
-    const message = `${batchSucceededIds.length.toLocaleString('fa-IR')} درخواست ثبت شد.${skipped > 0 ? ` ${skipped.toLocaleString('fa-IR')} اسکین به دلیل غیرفعال بودن ثبت نشد و در سبد باقی می‌ماند.` : ''} پرداخت یا انتقال اسکین انجام نشده است. برای دیدن وضعیت، بخش «سفارش‌های من» را باز کن.`;
-    setMessage($('modalMessage'),message,'success');
+    let resultMessage = `${created.toLocaleString('fa-IR')} درخواست ثبت شد. پرداخت یا انتقال اسکین انجام نشده است.`;
+    if (skipped) resultMessage += ` ${skipped.toLocaleString('fa-IR')} اسکین فعال نبود و ثبت نشد.`;
+    resultMessage += ' برای دیدن وضعیت، بخش «سفارش‌های من» را باز کن.';
+
+    setMessage($('modalMessage'),resultMessage,'success');
     await loadMyOrders(true);
   } catch (e) {
     console.error('send order:',e);
-
-    if (batchSucceededIds.length) {
-      const succeededSet = new Set(batchSucceededIds);
-      cart = cart.filter(item => !succeededSet.has(String(item.id)));
-      saveCart();
-      renderCart();
-      renderProducts();
-    }
-
-    const extra = batchSucceededIds.length > 0
-      ? ` ${batchSucceededIds.length.toLocaleString('fa-IR')} درخواست با موفقیت ثبت شده است و اسکین‌های ثبت‌شده از سبد حذف شدند. قبل از تلاش دوباره، سفارش‌های من را بررسی کن.`
+    const extra = batchSucceeded > 0
+      ? ` تا این لحظه ${batchSucceeded.toLocaleString('fa-IR')} درخواست ثبت شده است؛ پیش از ارسال دوباره، سفارش‌های من را بررسی کن تا سفارش تکراری ایجاد نشود.`
       : '';
     setMessage($('modalMessage'),friendlyError(e) + extra,'error');
-    await loadMyOrders(true);
   } finally {
     busy = false;
     if (modal.classList.contains('open') && !alreadySubmitted) submitButton.disabled = false;
@@ -1123,7 +1202,7 @@ function renderOrders(orders) {
         <div class="order-meta">
           شماره سفارش: ${escapeHtml(order.id ?? '—')}<br>
           تاریخ ثبت: ${escapeHtml(formatDate(order.created_at))}<br>
-          ${listing ? 'قیمت فعلی اسکین: ' + escapeHtml(formatPrice(listing.price,listing.currency)) + '<br>' : ''}
+          ${listing ? 'قیمت هنگام مشاهده: ' + escapeHtml(formatPrice(listing.price,listing.currency)) + '<br>' : ''}
           ${order.note ? 'توضیحات: ' + escapeHtml(order.note) : ''}
         </div>
       </article>`;
@@ -1155,74 +1234,73 @@ async function loadMyOrders(silent = false) {
   }
 }
 
-/* ابزارهای گفتگوی STARK AI */
+/* ===== STARK AI ===== */
 function addChatMessage(text, who = 'assistant') {
   const box = $('aiChat');
   const el = document.createElement('div');
   el.className = 'chat-msg' + (who === 'user' ? ' user' : '');
   el.textContent = text;
   box.appendChild(el);
-
   while (box.children.length > 80) box.removeChild(box.firstElementChild);
   box.scrollTop = box.scrollHeight;
 }
 
-function openAi() {
-  clearTimeout(greetingHideTimer);
-  $('aiGreeting').classList.remove('show');
-  $('aiPopup').classList.add('open');
-  $('aiPopup').setAttribute('aria-hidden','false');
-  $('aiLauncher').setAttribute('aria-expanded','true');
-  $('aiUnread').classList.remove('show');
-  window.setTimeout(() => $('aiInput').focus({preventScroll:true}),80);
+function openAiWidget() {
+  clearTimeout(aiToastTimer);
+  aiToast.classList.remove('show');
+  aiWidget.classList.add('open');
+  aiWidget.setAttribute('aria-hidden','false');
+  aiLauncher.setAttribute('aria-expanded','true');
+  try { sessionStorage.setItem('persian-stark-ai-chat-open','1'); } catch {}
+  setTimeout(() => $('aiInput').focus(),180);
 }
 
-function closeAi() {
-  $('aiPopup').classList.remove('open');
-  $('aiPopup').setAttribute('aria-hidden','true');
-  $('aiLauncher').setAttribute('aria-expanded','false');
-  $('aiLauncher').focus({preventScroll:true});
+function closeAiWidget() {
+  aiWidget.classList.remove('open');
+  aiWidget.setAttribute('aria-hidden','true');
+  aiLauncher.setAttribute('aria-expanded','false');
+  try { sessionStorage.removeItem('persian-stark-ai-chat-open'); } catch {}
 }
 
-function toggleAi() {
-  if ($('aiPopup').classList.contains('open')) {
-    closeAi();
-  } else {
-    openAi();
-  }
-}
-
-function scheduleGreeting() {
-  clearTimeout(greetingTimer);
-  clearTimeout(greetingHideTimer);
-
-  try {
-    const lastShown = Number(localStorage.getItem(GREETING_KEY) || 0);
-    if (lastShown && Date.now() - lastShown < GREETING_COOLDOWN) return;
-  } catch {}
-
-  greetingTimer = window.setTimeout(() => {
-    if ($('aiPopup').classList.contains('open')) return;
-    $('aiGreeting').classList.add('show');
-    $('aiUnread').classList.add('show');
-
-    try {
-      localStorage.setItem(GREETING_KEY,String(Date.now()));
-    } catch {}
-
-    greetingHideTimer = window.setTimeout(() => {
-      $('aiGreeting').classList.remove('show');
-      $('aiUnread').classList.remove('show');
-    },8000);
+function showAiToast() {
+  if (aiWidget.classList.contains('open')) return;
+  aiToast.classList.add('show');
+  clearTimeout(aiToastTimer);
+  aiToastTimer = setTimeout(() => {
+    aiToast.classList.remove('show');
   },12000);
 }
 
+function scheduleAiGreeting() {
+  clearTimeout(aiGreetingTimer);
+
+  const now = Date.now();
+  let last = 0;
+
+  try {
+    last = Number(localStorage.getItem(AI_LAST_GREETING_KEY)) || 0;
+  } catch {}
+
+  const wait = Math.max(12000,AI_GREETING_INTERVAL - (now - last));
+
+  aiGreetingTimer = setTimeout(() => {
+    if (!aiWidget.classList.contains('open')) {
+      showAiToast();
+      try {
+        localStorage.setItem(AI_LAST_GREETING_KEY,String(Date.now()));
+      } catch {}
+    }
+    scheduleAiGreeting();
+  },wait);
+}
+
 async function aiShowOrders() {
+  openAiWidget();
   addChatMessage('در حال بررسی سفارش‌های ثبت‌شده در حساب فعلی...');
   const orders = await loadMyOrders(true);
 
   if (!currentUser) {
-    addChatMessage('برای بررسی سفارش‌ها ابتدا از حساب کاربری سایت وارد شو.');
+    addChatMessage('برای بررسی سفارش‌ها ابتدا از حساب کاربری سایت وارد شو. بعد از ورود، دوباره روی «وضعیت سفارش من» بزن.');
     return;
   }
 
@@ -1238,7 +1316,6 @@ async function aiShowOrders() {
   }).join('\n\n');
 
   addChatMessage(`این‌ها آخرین سفارش‌های حساب تو هستند:\n\n${summary}`);
-  showSection('ordersSection');
 }
 
 async function aiReply(text) {
@@ -1250,9 +1327,8 @@ async function aiReply(text) {
   }
 
   if (/سبد خرید|سبدم|داخل سبد|کارت/.test(q)) {
-    renderCart();
     addChatMessage(cart.length
-      ? `در حال حاضر ${cart.length.toLocaleString('fa-IR')} اسکین در سبد خرید داری. جمع مبلغ: ${$('cartTotal').textContent}. برای دیدن جزئیات بخش سبد خرید را باز کن.`
+      ? `در حال حاضر ${cart.length.toLocaleString('fa-IR')} اسکین در سبد خرید داری. جمع مبلغ: ${$('cartTotal').textContent}.`
       : 'سبد خریدت خالی است. از فهرست اسکین‌ها موارد دلخواهت را اضافه کن.');
     showSection('cartSection');
     return;
@@ -1275,12 +1351,12 @@ async function aiReply(text) {
   }
 
   if (/سلام|درود|خسته نباش/.test(q)) {
-    addChatMessage('سلام! خوش اومدی به PERSIAN STARK. می‌تونی اسکین‌ها رو جست‌وجو کنی، به سبد خرید اضافه کنی یا از من بخوای وضعیت سفارش‌هات رو از حساب کاربریت بررسی کنم.');
+    addChatMessage('سلام! خوش اومدی به PERSIAN STARK 🎮 می‌تونی اسکین‌ها رو جست‌وجو کنی، به سبد خرید اضافه کنی یا از من بخوای وضعیت سفارش‌هات رو از حساب کاربریت بررسی کنم.');
     return;
   }
 
   if (/سفارش|خرید/.test(q)) {
-    addChatMessage('برای خرید، اسکین را به سبد اضافه کن یا «درخواست مستقیم» را بزن. پس از تکمیل فرم، یک درخواست در دیتابیس ثبت می‌شود. وضعیت آن را از بخش «سفارش‌های من» می‌بینی.');
+    addChatMessage('برای خرید، اسکین را به سبد اضافه کن یا «درخواست مستقیم» را بزن. پس از تکمیل فرم، درخواست در دیتابیس ثبت می‌شود. وضعیت آن را از بخش «سفارش‌های من» می‌بینی.');
     return;
   }
 
@@ -1295,15 +1371,20 @@ async function submitAi(event) {
   input.value = '';
   addChatMessage(value,'user');
 
+  const button = $('aiForm').querySelector('button[type="submit"]');
+  button.disabled = true;
   try {
     await aiReply(value);
-  } catch (error) {
-    console.error('AI reply:',error);
+  } catch (e) {
+    console.error('AI reply:',e);
     addChatMessage('هنگام بررسی اطلاعات مشکلی پیش آمد. لطفاً دوباره تلاش کن.');
+  } finally {
+    button.disabled = false;
+    input.focus();
   }
 }
 
-/* پشتیبانی */
+/* ===== پشتیبانی ===== */
 async function loadMyTickets() {
   const container = $('ticketsList');
   container.innerHTML = '<div class="empty-note">در حال دریافت تیکت‌ها...</div>';
@@ -1376,12 +1457,7 @@ async function createTicket(event) {
 
     const {data:ticket,error:ticketError} = await db
       .from('store_support_tickets')
-      .insert({
-        user_id:user.id,
-        subject,
-        category,
-        status:'open'
-      })
+      .insert({user_id:user.id,subject,category,status:'open'})
       .select('id,ticket_number')
       .single();
 
@@ -1419,6 +1495,9 @@ async function createTicket(event) {
 }
 
 async function openTicket(ticketId,ticketNumber) {
+  openedTicketId = ticketId;
+  openedTicketNumber = ticketNumber;
+
   const detail = $('ticket-detail-' + ticketId);
   if (!detail) return;
 
@@ -1474,7 +1553,7 @@ async function openTicket(ticketId,ticketNumber) {
 async function replyTicket(event) {
   event.preventDefault();
   const form = event.target.closest('form[data-ticket-reply]');
-  if (!form || ticketReplyBusy) return;
+  if (!form) return;
 
   const ticketId = form.dataset.ticketReply;
   const input = form.elements.message;
@@ -1483,7 +1562,6 @@ async function replyTicket(event) {
   if (!message) return;
 
   const button = form.querySelector('button[type="submit"]');
-  ticketReplyBusy = true;
   button.disabled = true;
 
   try {
@@ -1498,9 +1576,6 @@ async function replyTicket(event) {
 
     if (ticketError) throw ticketError;
     if (!ticket) throw new Error('این تیکت در حساب فعلی پیدا نشد.');
-    if (['closed','cancelled','canceled'].includes(String(ticket.status || '').toLowerCase())) {
-      throw new Error('این تیکت بسته شده و امکان ارسال پیام جدید ندارد.');
-    }
 
     const {error} = await db
       .from('store_support_messages')
@@ -1515,50 +1590,19 @@ async function replyTicket(event) {
 
     input.value = '';
     setMessage(msgBox,'پیام ارسال شد.','success');
-    await refreshTicketConversation(ticketId,user.id);
+
+    const detail = $('ticket-detail-' + ticketId);
+    if (detail) detail.classList.remove('open');
+    await openTicket(ticketId,openedTicketNumber);
   } catch (e) {
     console.error('reply ticket:',e);
     setMessage(msgBox,friendlyError(e),'error');
   } finally {
-    ticketReplyBusy = false;
     button.disabled = false;
   }
 }
 
-async function refreshTicketConversation(ticketId,userId) {
-  const chat = $('ticket-chat-' + ticketId);
-  if (!chat) return;
-
-  const {data:ticket,error:ticketError} = await db
-    .from('store_support_tickets')
-    .select('id,user_id')
-    .eq('id',ticketId)
-    .eq('user_id',userId)
-    .maybeSingle();
-
-  if (ticketError) throw ticketError;
-  if (!ticket) throw new Error('این تیکت در حساب فعلی پیدا نشد.');
-
-  const {data:messages,error} = await db
-    .from('store_support_messages')
-    .select('id,ticket_id,sender_id,sender_role,message,created_at')
-    .eq('ticket_id',ticketId)
-    .order('created_at',{ascending:true})
-    .limit(200);
-
-  if (error) throw error;
-
-  chat.innerHTML = messages?.length ? messages.map(m => `
-    <div class="chat-msg ${m.sender_id === userId ? 'user' : ''}">
-      ${escapeHtml(m.message)}
-      <div class="small muted">${escapeHtml(m.sender_role === 'admin' ? 'پشتیبانی' : 'کاربر')} · ${escapeHtml(formatDate(m.created_at))}</div>
-    </div>
-  `).join('') : '<div class="chat-msg">هنوز پیامی برای این تیکت ثبت نشده است.</div>';
-
-  chat.scrollTop = chat.scrollHeight;
-}
-
-/* رویدادهای فروشگاه */
+/* ===== رویدادها ===== */
 $('searchInput').addEventListener('input',renderProducts);
 $('wearFilter').addEventListener('change',renderProducts);
 $('sourceFilter').addEventListener('change',renderProducts);
@@ -1609,46 +1653,42 @@ $('openSupportBtn').addEventListener('click',async () => {
   showSection('supportSection');
   await loadMyTickets();
 });
-$('openAiBtn').addEventListener('click',openAi);
+$('openAiBtn').addEventListener('click',openAiWidget);
 
 $('refreshOrdersBtn').addEventListener('click',() => loadMyOrders());
 $('clearCartBtn').addEventListener('click',() => {
-  if (!cart.length) {
-    setMessage($('cartMessage'),'سبد خرید از قبل خالی است.');
-    return;
-  }
   cart = [];
   saveCart();
   renderCart();
   renderProducts();
-  setMessage($('cartMessage'),'سبد خرید خالی شد.','success');
+  $('cartMessage').textContent = 'سبد خرید خالی شد.';
+  $('cartMessage').className = 'message success';
 });
 $('checkoutBtn').addEventListener('click',openCartCheckout);
 $('continueShoppingBtn').addEventListener('click',() => {
   hideSections();
-  $('searchInput').focus({preventScroll:true});
+  $('searchInput').focus();
   window.scrollTo({top:0,behavior:'smooth'});
 });
 
 $('ticketForm').addEventListener('submit',createTicket);
 $('refreshTicketsBtn').addEventListener('click',loadMyTickets);
 
-$('aiLauncher').addEventListener('click',toggleAi);
-$('closeAiBtn').addEventListener('click',closeAi);
-$('aiGreeting').addEventListener('click',openAi);
-$('aiGreeting').addEventListener('keydown',event => {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    openAi();
-  }
-});
 $('aiForm').addEventListener('submit',submitAi);
-
-$('aiOrdersBtn').addEventListener('click',async () => {
-  await aiShowOrders();
+$('aiLauncher').addEventListener('click',() => {
+  if (aiWidget.classList.contains('open')) closeAiWidget();
+  else openAiWidget();
 });
+$('aiCloseBtn').addEventListener('click',closeAiWidget);
+$('aiToastClose').addEventListener('click',event => {
+  event.stopPropagation();
+  aiToast.classList.remove('show');
+  clearTimeout(aiToastTimer);
+});
+aiToast.addEventListener('click',openAiWidget);
+
+$('aiOrdersBtn').addEventListener('click',aiShowOrders);
 $('aiCartBtn').addEventListener('click',() => {
-  renderCart();
   addChatMessage(cart.length
     ? `در سبد خریدت ${cart.length.toLocaleString('fa-IR')} اسکین وجود دارد. جمع مبلغ: ${$('cartTotal').textContent}.`
     : 'سبد خریدت خالی است.');
@@ -1661,22 +1701,20 @@ $('aiSupportBtn').addEventListener('click',() => {
 
 document.addEventListener('keydown',event => {
   if (event.key === 'Escape') {
-    if (rulesModal.classList.contains('open')) rulesModal.classList.remove('open');
-    if (modal.classList.contains('open')) closeOrder();
-    if ($('aiPopup').classList.contains('open')) closeAi();
+    rulesModal.classList.remove('open');
+    closeOrder();
+    closeAiWidget();
+    aiToast.classList.remove('show');
   }
 });
 
 document.addEventListener('visibilitychange',() => {
-  if (document.hidden) {
-    clearTimeout(greetingTimer);
-    clearTimeout(greetingHideTimer);
-  } else if (!$('aiPopup').classList.contains('open') && !$('aiGreeting').classList.contains('show')) {
-    scheduleGreeting();
+  if (!document.hidden && !aiWidget.classList.contains('open')) {
+    scheduleAiGreeting();
   }
 });
 
-/* راه‌اندازی */
+/* ===== راه‌اندازی ===== */
 if (!window.supabase?.createClient) {
   setState('کتابخانه Supabase بارگذاری نشد. اینترنت یا CDN را بررسی کن.',true);
   return;
@@ -1691,24 +1729,17 @@ db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
   }
 });
 
-db.auth.onAuthStateChange((event,session) => {
+db.auth.onAuthStateChange((_event,session) => {
   currentUser = session?.user || null;
-  if (sessionInitialized) {
-    $('accountLink').textContent = currentUser ? 'حساب کاربری' : 'ورود / ثبت‌نام';
-    $('accountLink').href = './index.html';
-    $('accountLink').classList.toggle('signed-in',!!currentUser);
-  }
+  updateAccountLink();
 });
 
 renderCartCount();
 renderCart();
+updateAccountLink();
+loadListings();
+scheduleAiGreeting();
 
-(async function initializeStore() {
-  await updateAccountLink();
-  sessionInitialized = true;
-  await loadListings();
-  scheduleGreeting();
-})();
 })();
 </script>
 </body>
