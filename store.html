@@ -11,35 +11,18 @@
 
 <style>
 :root{
-  color-scheme:dark;
-  --bg:#090b10;
-  --surface:#10141c;
-  --surface-2:#151b25;
-  --surface-3:#1b2330;
-  --line:#283140;
-  --text:#f4f6fa;
-  --muted:#929caf;
-  --lime:#c3f36b;
-  --lime-soft:#28351d;
-  --blue:#84b7ff;
-  --red:#ff777e;
-  --gold:#e8c783;
-  --radius:18px;
-  --shadow:0 22px 60px #0005;
+  color-scheme:dark;--bg:#090b10;--surface:#10141c;--surface-2:#151b25;
+  --surface-3:#1b2330;--line:#283140;--text:#f4f6fa;--muted:#929caf;
+  --lime:#c3f36b;--lime-soft:#28351d;--blue:#84b7ff;--red:#ff777e;
+  --gold:#e8c783;--radius:18px;--shadow:0 22px 60px #0005
 }
-
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:95px}
 body{
-  margin:0;
-  min-height:100vh;
-  color:var(--text);
-  background:
-    radial-gradient(ellipse at 50% -15%,#26351c 0,transparent 38%),
-    radial-gradient(ellipse at 100% 40%,#10192b 0,transparent 30%),
-    var(--bg);
-  font-family:Tahoma,Arial,sans-serif;
-  line-height:1.7;
+  margin:0;min-height:100vh;color:var(--text);
+  background:radial-gradient(ellipse at 50% -15%,#26351c 0,transparent 38%),
+  radial-gradient(ellipse at 100% 40%,#10192b 0,transparent 30%),var(--bg);
+  font-family:Tahoma,Arial,sans-serif;line-height:1.7
 }
 body.locked{overflow:hidden}
 a{color:inherit;text-decoration:none}
@@ -47,1232 +30,339 @@ button,input,select,textarea{font:inherit}
 button{color:inherit}
 img{max-width:100%}
 button:focus-visible,a:focus-visible,input:focus-visible,
-select:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--lime);
-  outline-offset:3px;
-}
+select:focus-visible,textarea:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
 [hidden]{display:none!important}
 .container{width:min(1320px,93%);margin-inline:auto}
 .muted{color:var(--muted)}
 .accent{color:var(--lime)}
 .small{font-size:11px}
-.eyebrow{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  color:var(--lime);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1.5px;
-}
-.eyebrow:before{
-  content:"";
-  width:22px;
-  height:2px;
-  border-radius:20px;
-  background:var(--lime);
-}
+.eyebrow{display:flex;align-items:center;gap:9px;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:1.5px}
+.eyebrow:before{content:"";width:22px;height:2px;border-radius:20px;background:var(--lime)}
 .btn{
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  gap:9px;
-  min-height:43px;
-  padding:11px 16px;
-  border:1px solid transparent;
-  border-radius:12px;
-  background:var(--lime);
-  color:#12170b;
-  font-weight:900;
-  font-size:12px;
-  text-align:center;
-  cursor:pointer;
-  transition:transform .18s,background .18s,border-color .18s;
+ display:inline-flex;justify-content:center;align-items:center;gap:9px;min-height:43px;
+ padding:11px 16px;border:1px solid transparent;border-radius:12px;
+ background:var(--lime);color:#12170b;font-weight:900;font-size:12px;text-align:center;
+ cursor:pointer;transition:transform .18s,background .18s,border-color .18s
 }
 .btn:hover{background:#d6ff91;transform:translateY(-1px)}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn.secondary{
-  background:var(--surface-3);
-  color:var(--text);
-  border-color:var(--line);
-}
+.btn.secondary{background:var(--surface-3);color:var(--text);border-color:var(--line)}
 .btn.secondary:hover{background:#252e3c}
-.btn.ghost{
-  background:transparent;
-  color:var(--text);
-  border-color:var(--line);
-}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
 .btn.ghost:hover{border-color:#64764a;background:#ffffff06}
-.btn.danger{
-  background:#391d25;
-  color:#ffc1c5;
-  border-color:#68303a;
-}
+.btn.danger{background:#391d25;color:#ffc1c5;border-color:#68303a}
 .btn.full{width:100%}
 .icon-btn{
-  display:inline-grid;
-  place-items:center;
-  width:42px;
-  height:42px;
-  padding:0;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:#ffffff05;
-  color:var(--text);
-  cursor:pointer;
-  transition:.18s;
+ display:inline-grid;place-items:center;width:42px;height:42px;padding:0;
+ border:1px solid var(--line);border-radius:12px;background:#ffffff05;color:var(--text);
+ cursor:pointer;transition:.18s
 }
 .icon-btn:hover{border-color:#657a45;background:#ffffff0a}
 .icon-btn svg,.btn svg{width:17px;height:17px;flex-shrink:0}
 .field{
-  width:100%;
-  min-width:0;
-  padding:13px 14px;
-  border:1px solid #303949;
-  border-radius:12px;
-  outline:none;
-  background:#0b0e14;
-  color:var(--text);
-  font-size:12px;
-  transition:border-color .18s,box-shadow .18s;
+ width:100%;min-width:0;padding:13px 14px;border:1px solid #303949;border-radius:12px;
+ outline:none;background:#0b0e14;color:var(--text);font-size:12px;
+ transition:border-color .18s,box-shadow .18s
 }
-.field:focus{
-  border-color:#9ac454;
-  box-shadow:0 0 0 3px #c3f36b10;
-}
+.field:focus{border-color:#9ac454;box-shadow:0 0 0 3px #c3f36b10}
 .field::placeholder{color:#737f93}
 textarea.field{resize:vertical;min-height:100px}
-label.field-label{
-  display:block;
-  margin-bottom:7px;
-  font-size:11px;
-  font-weight:bold;
-  color:#d8deea;
-}
+label.field-label{display:block;margin-bottom:7px;font-size:11px;font-weight:bold;color:#d8deea}
 
 /* Header */
-
-.site-header{
-  position:sticky;
-  top:0;
-  z-index:30;
-  border-bottom:1px solid #ffffff12;
-  background:#090b10eF;
-  backdrop-filter:blur(22px);
-}
-.nav{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  min-height:76px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  min-width:0;
-}
+.site-header{position:sticky;top:0;z-index:30;border-bottom:1px solid #ffffff12;background:#090b10ef;backdrop-filter:blur(22px)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:76px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
 .brand-mark{
-  display:grid;
-  place-items:center;
-  width:42px;
-  height:42px;
-  flex-shrink:0;
-  border:1px solid #657e40;
-  border-radius:13px;
-  background:linear-gradient(145deg,#293c19,#12180e);
-  color:var(--lime);
-  font-size:16px;
-  font-weight:1000;
-  box-shadow:inset 0 0 20px #c3f36b09;
+ display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;
+ border:1px solid #657e40;border-radius:13px;background:linear-gradient(145deg,#293c19,#12180e);
+ color:var(--lime);font-size:16px;font-weight:1000;box-shadow:inset 0 0 20px #c3f36b09
 }
 .brand-copy{min-width:0}
-.brand-name{
-  display:block;
-  font-size:15px;
-  line-height:1.45;
-  font-weight:1000;
-  letter-spacing:.6px;
-  white-space:nowrap;
-}
+.brand-name{display:block;font-size:15px;line-height:1.45;font-weight:1000;letter-spacing:.6px;white-space:nowrap}
 .brand-name span{color:var(--lime)}
-.brand-sub{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  letter-spacing:1.25px;
-  white-space:nowrap;
-}
-.nav-links{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:25px;
-  color:#aab3c2;
-  font-size:11px;
-}
+.brand-sub{display:block;color:var(--muted);font-size:9px;letter-spacing:1.25px;white-space:nowrap}
+.nav-links{display:flex;align-items:center;justify-content:center;gap:25px;color:#aab3c2;font-size:11px}
 .nav-links a{transition:color .18s}
 .nav-links a:hover,.nav-links a.active{color:var(--lime)}
-.nav-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.nav-account{
-  white-space:nowrap;
-  font-size:11px;
-}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-account{white-space:nowrap;font-size:11px}
 .cart-top{position:relative}
 .cart-count{
-  position:absolute;
-  top:-6px;
-  left:-6px;
-  display:grid;
-  place-items:center;
-  min-width:19px;
-  height:19px;
-  padding-inline:4px;
-  border-radius:20px;
-  background:var(--lime);
-  color:#10150a;
-  font-size:10px;
-  font-weight:1000;
+ position:absolute;top:-6px;left:-6px;display:grid;place-items:center;min-width:19px;height:19px;
+ padding-inline:4px;border-radius:20px;background:var(--lime);color:#10150a;font-size:10px;font-weight:1000
 }
 
 /* Hero */
-
 .hero{padding:35px 0 22px}
 .hero-main{
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);
-  align-items:center;
-  gap:26px;
-  min-height:330px;
-  padding:clamp(25px,5vw,60px);
-  border:1px solid #45513a;
-  border-radius:27px;
-  background:
-    radial-gradient(ellipse at 85% 42%,#526d2727,transparent 40%),
-    linear-gradient(115deg,#151d13,#101620 68%,#11151c);
-  box-shadow:var(--shadow);
+ position:relative;isolation:isolate;overflow:hidden;display:grid;
+ grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);align-items:center;gap:26px;
+ min-height:330px;padding:clamp(25px,5vw,60px);border:1px solid #45513a;border-radius:27px;
+ background:radial-gradient(ellipse at 85% 42%,#526d2727,transparent 40%),
+ linear-gradient(115deg,#151d13,#101620 68%,#11151c);box-shadow:var(--shadow)
 }
 .hero-main:before{
-  content:"";
-  position:absolute;
-  z-index:-1;
-  inset:0;
-  opacity:.18;
-  background-image:
-    linear-gradient(#ffffff0a 1px,transparent 1px),
-    linear-gradient(90deg,#ffffff0a 1px,transparent 1px);
-  background-size:34px 34px;
-  mask-image:linear-gradient(to left,black,transparent);
+ content:"";position:absolute;z-index:-1;inset:0;opacity:.18;
+ background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);
+ background-size:34px 34px;mask-image:linear-gradient(to left,black,transparent)
 }
 .hero-main:after{
-  content:"CS2";
-  position:absolute;
-  z-index:-1;
-  left:2%;
-  bottom:-68px;
-  font-weight:1000;
-  font-size:clamp(120px,22vw,290px);
-  letter-spacing:-15px;
-  line-height:1;
-  color:#ffffff06;
-  pointer-events:none;
+ content:"CS2";position:absolute;z-index:-1;left:2%;bottom:-68px;font-weight:1000;
+ font-size:clamp(120px,22vw,290px);letter-spacing:-15px;line-height:1;color:#ffffff06;pointer-events:none
 }
 .hero-copy{position:relative;z-index:1}
-.hero h1{
-  max-width:760px;
-  margin:18px 0 14px;
-  font-size:clamp(29px,4.3vw,48px);
-  font-weight:1000;
-  line-height:1.6;
-  letter-spacing:-1px;
-}
-.hero p{
-  max-width:630px;
-  margin:0;
-  color:#abb5c5;
-  font-size:12px;
-  line-height:2.4;
-}
-.hero-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:25px;
-}
-.hero-assurance{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:23px;
-}
+.hero h1{max-width:760px;margin:18px 0 14px;font-size:clamp(29px,4.3vw,48px);font-weight:1000;line-height:1.6;letter-spacing:-1px}
+.hero p{max-width:630px;margin:0;color:#abb5c5;font-size:12px;line-height:2.4}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.hero-assurance{display:flex;flex-wrap:wrap;gap:10px;margin-top:23px}
 .assurance-item{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border:1px solid #ffffff10;
-  border-radius:10px;
-  background:#080b0e45;
-  color:#cbd4e1;
-  font-size:10px;
+ display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #ffffff10;
+ border-radius:10px;background:#080b0e45;color:#cbd4e1;font-size:10px
 }
-.assurance-dot{
-  width:7px;height:7px;
-  border-radius:50%;
-  background:var(--lime);
-  box-shadow:0 0 12px #c3f36b70;
-}
-.hero-side{
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:210px;
-}
-.hero-orbit{
-  position:absolute;
-  width:min(270px,100%);
-  aspect-ratio:1;
-  border:1px solid #c3f36b20;
-  border-radius:50%;
-}
-.hero-orbit:before,.hero-orbit:after{
-  content:"";
-  position:absolute;
-  border:1px solid #c3f36b15;
-  border-radius:50%;
-}
-.hero-orbit:before{inset:17px}
-.hero-orbit:after{inset:35px}
+.assurance-dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px #c3f36b70}
+.hero-side{position:relative;display:flex;justify-content:center;align-items:center;min-height:210px}
+.hero-orbit{position:absolute;width:min(270px,100%);aspect-ratio:1;border:1px solid #c3f36b20;border-radius:50%}
+.hero-orbit:before,.hero-orbit:after{content:"";position:absolute;border:1px solid #c3f36b15;border-radius:50%}
+.hero-orbit:before{inset:17px}.hero-orbit:after{inset:35px}
 .hero-emblem{
-  position:relative;
-  display:grid;
-  place-items:center;
-  width:165px;
-  aspect-ratio:1;
-  border:1px solid #718950;
-  border-radius:37px;
-  background:linear-gradient(145deg,#263b1a,#10150d 60%,#202738);
-  box-shadow:0 0 70px #9ad84912,inset 0 0 40px #c3f36b0b;
-  transform:rotate(-5deg);
+ position:relative;display:grid;place-items:center;width:165px;aspect-ratio:1;border:1px solid #718950;
+ border-radius:37px;background:linear-gradient(145deg,#263b1a,#10150d 60%,#202738);
+ box-shadow:0 0 70px #9ad84912,inset 0 0 40px #c3f36b0b;transform:rotate(-5deg)
 }
-.hero-emblem span{
-  color:var(--lime);
-  font-size:58px;
-  font-weight:1000;
-  letter-spacing:-5px;
-  transform:rotate(5deg);
-}
-.hero-float{
-  position:absolute;
-  padding:10px 13px;
-  border:1px solid #ffffff17;
-  border-radius:12px;
-  background:#111720dc;
-  backdrop-filter:blur(12px);
-  font-size:10px;
-  box-shadow:0 12px 30px #0004;
-}
-.hero-float strong{
-  display:block;
-  color:var(--lime);
-  margin-top:3px;
-  font-size:12px;
-}
-.float-one{top:10%;right:0}
-.float-two{bottom:8%;left:0}
+.hero-emblem span{color:var(--lime);font-size:58px;font-weight:1000;letter-spacing:-5px;transform:rotate(5deg)}
+.hero-float{position:absolute;padding:10px 13px;border:1px solid #ffffff17;border-radius:12px;background:#111720dc;backdrop-filter:blur(12px);font-size:10px;box-shadow:0 12px 30px #0004}
+.hero-float strong{display:block;color:var(--lime);margin-top:3px;font-size:12px}
+.float-one{top:10%;right:0}.float-two{bottom:8%;left:0}
 
-/* trust strip */
-
-.trust-strip{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-  margin:18px 0 32px;
-}
-.trust-card{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
-  padding:17px;
-  border:1px solid var(--line);
-  border-radius:15px;
-  background:linear-gradient(140deg,#151a23,#10141b);
-}
-.trust-icon{
-  display:grid;
-  place-items:center;
-  width:40px;height:40px;
-  flex-shrink:0;
-  border:1px solid #c3f36b25;
-  border-radius:12px;
-  background:#c3f36b0b;
-  color:var(--lime);
-  font-size:17px;
-}
+/* Trust strip */
+.trust-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0 32px}
+.trust-card{display:flex;align-items:center;gap:13px;min-width:0;padding:17px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(140deg,#151a23,#10141b)}
+.trust-icon{display:grid;place-items:center;width:40px;height:40px;flex-shrink:0;border:1px solid #c3f36b25;border-radius:12px;background:#c3f36b0b;color:var(--lime);font-size:17px}
 .trust-card strong{display:block;font-size:11px;margin-bottom:4px}
 .trust-card span{display:block;color:var(--muted);font-size:10px;line-height:1.9}
 
 /* Catalog */
-
-.section-title{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:16px;
-}
-.section-title h2{
-  margin:7px 0 4px;
-  font-size:22px;
-  font-weight:1000;
-}
-.section-title p{
-  margin:0;
-  color:var(--muted);
-  font-size:11px;
-  line-height:2;
-}
-.section-link{
-  color:var(--lime);
-  font-size:11px;
-  white-space:nowrap;
-}
+.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:16px}
+.section-title h2{margin:7px 0 4px;font-size:22px;font-weight:1000}
+.section-title p{margin:0;color:var(--muted);font-size:11px;line-height:2}
+.section-link{color:var(--lime);font-size:11px;white-space:nowrap}
 .catalog{padding:6px 0 48px}
-.category-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
-}
-.category-chip{
-  padding:9px 13px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#11151d;
-  color:#c2cad7;
-  font-size:11px;
-  cursor:pointer;
-  transition:.18s;
-}
+.category-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.category-chip{padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#11151d;color:#c2cad7;font-size:11px;cursor:pointer;transition:.18s}
 .category-chip:hover{border-color:#657b45;color:var(--text)}
-.category-chip.active{
-  border-color:#9cbd61;
-  background:#25331a;
-  color:#dcf9b2;
-}
-.filter-box{
-  padding:15px;
-  margin-bottom:24px;
-  border:1px solid var(--line);
-  border-radius:17px;
-  background:linear-gradient(135deg,#141923,#0e1219);
-}
-.filter-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:12px;
-}
-.filter-head strong{font-size:12px}
-.filter-head span{font-size:10px;color:var(--muted)}
-.filter-grid{
-  display:grid;
-  grid-template-columns:minmax(220px,2fr) repeat(3,minmax(130px,1fr));
-  gap:10px;
-}
+.category-chip.active{border-color:#9cbd61;background:#25331a;color:#dcf9b2}
+.filter-box{padding:15px;margin-bottom:24px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(135deg,#141923,#0e1219)}
+.filter-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.filter-head strong{font-size:12px}.filter-head span{font-size:10px;color:var(--muted)}
+.filter-grid{display:grid;grid-template-columns:minmax(220px,2fr) repeat(3,minmax(130px,1fr));gap:10px}
 .search-box{position:relative}
-.search-box svg{
-  position:absolute;
-  top:50%;
-  right:13px;
-  width:17px;height:17px;
-  color:#8390a4;
-  transform:translateY(-50%);
-  pointer-events:none;
-}
+.search-box svg{position:absolute;top:50%;right:13px;width:17px;height:17px;color:#8390a4;transform:translateY(-50%);pointer-events:none}
 .search-box .field{padding-right:40px}
-.filter-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:11px;
-}
+.filter-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:11px}
 .filter-hint{color:var(--muted);font-size:10px}
-.fav-filter{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#ffffff04;
-  color:#d1d8e4;
-  font-size:10px;
-  cursor:pointer;
-}
+.fav-filter{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#ffffff04;color:#d1d8e4;font-size:10px;cursor:pointer}
 .fav-filter.active{border-color:#87515a;color:#ffadb3;background:#ff64720b}
-.results-bar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin:25px 0 14px;
-}
-.results-bar h3{margin:0;font-size:16px}
-.result-count{font-size:11px;color:var(--lime)}
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:15px;
-}
-.product-card{
-  position:relative;
-  min-width:0;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:17px;
-  background:linear-gradient(155deg,#1a202b,#11151d 68%);
-  transition:transform .22s,border-color .22s,box-shadow .22s;
-}
-.product-card:hover{
-  transform:translateY(-4px);
-  border-color:#5e7540;
-  box-shadow:0 18px 40px #0004;
-}
-.product-visual{
-  position:relative;
-  display:grid;
-  place-items:center;
-  height:205px;
-  overflow:hidden;
-  border-bottom:1px solid #ffffff09;
-  background:
-    radial-gradient(ellipse at center,#30394a,#1a202b 55%,#121720);
-}
-.product-visual:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:linear-gradient(180deg,transparent 58%,#0f131a66);
-}
-.product-image{
-  display:block;
-  width:100%;
-  height:100%;
-  padding:13px;
-  object-fit:contain;
-  transition:transform .35s;
-}
+.results-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 0 14px}
+.results-bar h3{margin:0;font-size:16px}.result-count{font-size:11px;color:var(--lime)}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.product-card{position:relative;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:17px;background:linear-gradient(155deg,#1a202b,#11151d 68%);transition:transform .22s,border-color .22s,box-shadow .22s}
+.product-card:hover{transform:translateY(-4px);border-color:#5e7540;box-shadow:0 18px 40px #0004}
+.product-visual{position:relative;display:grid;place-items:center;height:205px;overflow:hidden;border-bottom:1px solid #ffffff09;background:radial-gradient(ellipse at center,#30394a,#1a202b 55%,#121720)}
+.product-visual:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 58%,#0f131a66)}
+.product-image{display:block;width:100%;height:100%;padding:13px;object-fit:contain;transition:transform .35s}
 .product-card:hover .product-image{transform:scale(1.05)}
-.product-fallback{
-  display:grid;
-  place-items:center;
-  width:100%;height:100%;
-  color:#73819a;
-  font-size:11px;
-  text-align:center;
-  line-height:2;
-}
-.product-fallback b{
-  display:block;
-  color:#91ae5c;
-  font-size:37px;
-}
-.product-labels{
-  position:absolute;
-  z-index:2;
-  top:11px;right:11px;
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  max-width:75%;
-}
-.badge{
-  padding:5px 8px;
-  border:1px solid #ffffff15;
-  border-radius:7px;
-  background:#111722d9;
-  color:#d6dce7;
-  font-size:9px;
-  backdrop-filter:blur(8px);
-}
+.product-fallback{display:grid;place-items:center;width:100%;height:100%;color:#73819a;font-size:11px;text-align:center;line-height:2}
+.product-fallback b{display:block;color:#91ae5c;font-size:37px}
+.product-labels{position:absolute;z-index:2;top:11px;right:11px;display:flex;gap:6px;flex-wrap:wrap;max-width:75%}
+.badge{padding:5px 8px;border:1px solid #ffffff15;border-radius:7px;background:#111722d9;color:#d6dce7;font-size:9px;backdrop-filter:blur(8px)}
 .badge.site{color:#d9f9a9;border-color:#a4d26035;background:#1b2919dc}
 .badge.user{color:#b9d7ff;border-color:#78a7e536;background:#152137dc}
-.fav-btn{
-  position:absolute;
-  z-index:3;
-  top:10px;left:10px;
-  display:grid;
-  place-items:center;
-  width:34px;height:34px;
-  border:1px solid #ffffff20;
-  border-radius:10px;
-  background:#10141ccd;
-  color:#c5ccda;
-  font-size:18px;
-  line-height:1;
-  cursor:pointer;
-}
+.fav-btn{position:absolute;z-index:3;top:10px;left:10px;display:grid;place-items:center;width:34px;height:34px;border:1px solid #ffffff20;border-radius:10px;background:#10141ccd;color:#c5ccda;font-size:18px;line-height:1;cursor:pointer}
 .fav-btn.active{color:#ff8692;border-color:#d657694f;background:#411e29d9}
 .fav-btn:hover{transform:scale(1.04)}
 .product-content{padding:14px}
-.product-meta{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  flex-wrap:wrap;
-  min-height:22px;
-  margin-bottom:5px;
-}
-.product-name{
-  margin:0;
-  min-height:48px;
-  font-size:13px;
-  line-height:1.9;
-  font-weight:900;
-  overflow-wrap:anywhere;
-}
-.product-details{
-  min-height:38px;
-  margin-top:4px;
-  color:var(--muted);
-  font-size:10px;
-  line-height:2;
-  overflow-wrap:anywhere;
-}
-.product-price-row{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap:8px;
-  margin:15px 0 13px;
-}
-.product-price{
-  color:var(--lime);
-  font-size:17px;
-  font-weight:1000;
-  overflow-wrap:anywhere;
-}
+.product-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:22px;margin-bottom:5px}
+.product-name{margin:0;min-height:48px;font-size:13px;line-height:1.9;font-weight:900;overflow-wrap:anywhere}
+.product-details{min-height:38px;margin-top:4px;color:var(--muted);font-size:10px;line-height:2;overflow-wrap:anywhere}
+.product-price-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:15px 0 13px}
+.product-price{color:var(--lime);font-size:17px;font-weight:1000;overflow-wrap:anywhere}
 .product-currency{color:#aeb7c6;font-size:10px}
-.product-actions{
-  display:grid;
-  grid-template-columns:1fr 42px;
-  gap:7px;
-}
-.product-actions .btn{padding-inline:8px}
-.product-actions .icon-btn{width:42px;height:42px}
-.empty-state{
-  grid-column:1/-1;
-  padding:45px 20px;
-  border:1px dashed #3a4455;
-  border-radius:16px;
-  color:var(--muted);
-  text-align:center;
-  line-height:2.2;
-  background:#ffffff03;
-}
+.product-actions{display:grid;grid-template-columns:1fr 42px;gap:7px}
+.product-actions .btn{padding-inline:8px}.product-actions .icon-btn{width:42px;height:42px}
+.empty-state{grid-column:1/-1;padding:45px 20px;border:1px dashed #3a4455;border-radius:16px;color:var(--muted);text-align:center;line-height:2.2;background:#ffffff03}
 .empty-state .big{font-size:30px;margin-bottom:7px;color:#728b4d}
-.loading-dot{
-  display:inline-block;
-  width:7px;height:7px;
-  margin-inline:3px;
-  border-radius:50%;
-  background:var(--lime);
-  animation:pulse 1s infinite alternate;
-}
+.loading-dot{display:inline-block;width:7px;height:7px;margin-inline:3px;border-radius:50%;background:var(--lime);animation:pulse 1s infinite alternate}
 @keyframes pulse{to{opacity:.25;transform:scale(.7)}}
 
 /* Account hub */
-
 .account-hub{padding:36px 0 50px;border-top:1px solid #ffffff0c}
-.hub-tabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:18px 0 17px;
-}
-.hub-tab{
-  padding:11px 15px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  background:#11151c;
-  color:#bac3d1;
-  font-size:11px;
-  cursor:pointer;
-}
-.hub-tab.active{
-  border-color:#93b75a;
-  background:#26331d;
-  color:#ddf9b7;
-}
-.hub-panel{
-  padding:20px;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:linear-gradient(145deg,#151a24,#10131a);
-}
-.panel-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:16px;
-}
-.panel-heading h3{margin:0;font-size:15px}
-.panel-heading p{margin:4px 0 0;color:var(--muted);font-size:10px}
+.hub-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 17px}
+.hub-tab{padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:#11151c;color:#bac3d1;font-size:11px;cursor:pointer}
+.hub-tab.active{border-color:#93b75a;background:#26331d;color:#ddf9b7}
+.hub-panel{padding:20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#151a24,#10131a)}
+.panel-heading{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.panel-heading h3{margin:0;font-size:15px}.panel-heading p{margin:4px 0 0;color:var(--muted);font-size:10px}
 .orders-list,.tickets-list{display:grid;gap:10px}
-.order-row,.ticket-row{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;
-  gap:15px;
-  padding:15px;
-  border:1px solid #ffffff0e;
-  border-radius:13px;
-  background:#090c124d;
-}
+.order-row,.ticket-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:15px;padding:15px;border:1px solid #ffffff0e;border-radius:13px;background:#090c124d}
 .order-title{font-size:12px;font-weight:bold;overflow-wrap:anywhere}
 .order-info,.ticket-info{margin-top:5px;color:var(--muted);font-size:10px;line-height:2}
 .order-right{text-align:left}
-.status-pill{
-  display:inline-block;
-  padding:6px 9px;
-  border:1px solid var(--line);
-  border-radius:8px;
-  background:#1a202b;
-  color:#d3dae5;
-  font-size:10px;
-  white-space:nowrap;
-}
+.status-pill{display:inline-block;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:#1a202b;color:#d3dae5;font-size:10px;white-space:nowrap}
 .status-pill.completed{color:#c9f49b;border-color:#719a3e55;background:#24331c}
 .status-pill.rejected,.status-pill.cancelled{color:#ffb0b5;border-color:#8b424d55;background:#351d25}
 .status-pill.approved,.status-pill.reviewing{color:#f3d598;border-color:#93764255;background:#302819}
-.notice{
-  margin-top:12px;
-  padding:11px 13px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  color:#ccd4e1;
-  font-size:11px;
-  line-height:2;
-  overflow-wrap:anywhere;
-}
+.notice{margin-top:12px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;color:#ccd4e1;font-size:11px;line-height:2;overflow-wrap:anywhere}
 .notice.success{border-color:#54753780;background:#192416;color:#d5f4ad}
 .notice.error{border-color:#79424a;background:#29191d;color:#ffb9bd}
-.support-layout{
-  display:grid;
-  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
-  gap:20px;
-}
+.support-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px}
 .support-form{display:grid;gap:12px}
-.support-tips{
-  padding:17px;
-  border:1px solid #39452b;
-  border-radius:14px;
-  background:#192015;
-  color:#cdd7c1;
-  font-size:11px;
-  line-height:2.2;
-}
+.support-tips{padding:17px;border:1px solid #39452b;border-radius:14px;background:#192015;color:#cdd7c1;font-size:11px;line-height:2.2}
 .support-tips strong{display:block;color:var(--lime);margin-bottom:5px}
 
 /* Cart drawer */
-
-.drawer-backdrop{
-  position:fixed;
-  inset:0;
-  z-index:80;
-  display:flex;
-  justify-content:flex-start;
-  background:#000b;
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .2s,visibility .2s;
-}
+.drawer-backdrop{position:fixed;inset:0;z-index:80;display:flex;justify-content:flex-start;background:#000b;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
 .drawer-backdrop.open{opacity:1;visibility:visible}
-.cart-drawer{
-  display:flex;
-  flex-direction:column;
-  width:min(480px,100%);
-  height:100%;
-  border-left:1px solid var(--line);
-  background:#0e1219;
-  box-shadow:var(--shadow);
-  transform:translateX(-100%);
-  transition:transform .25s;
-}
+.cart-drawer{display:flex;flex-direction:column;width:min(480px,100%);height:100%;border-left:1px solid var(--line);background:#0e1219;box-shadow:var(--shadow);transform:translateX(-100%);transition:transform .25s}
 .drawer-backdrop.open .cart-drawer{transform:translateX(0)}
-.drawer-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding:20px;
-  border-bottom:1px solid var(--line);
-}
-.drawer-head h2{margin:0;font-size:18px}
-.drawer-head p{margin:4px 0 0;font-size:10px;color:var(--muted)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px;border-bottom:1px solid var(--line)}
+.drawer-head h2{margin:0;font-size:18px}.drawer-head p{margin:4px 0 0;font-size:10px;color:var(--muted)}
 .drawer-body{flex:1;overflow:auto;padding:14px}
-.cart-row{
-  display:grid;
-  grid-template-columns:68px minmax(0,1fr) auto;
-  align-items:center;
-  gap:11px;
-  padding:11px 0;
-  border-bottom:1px solid #ffffff10;
-}
-.cart-thumb{
-  display:grid;
-  place-items:center;
-  width:68px;height:62px;
-  overflow:hidden;
-  border-radius:10px;
-  background:#1c2330;
-}
+.cart-row{display:grid;grid-template-columns:68px minmax(0,1fr) auto;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #ffffff10}
+.cart-thumb{display:grid;place-items:center;width:68px;height:62px;overflow:hidden;border-radius:10px;background:#1c2330}
 .cart-thumb img{width:100%;height:100%;object-fit:contain;padding:5px}
 .cart-item-name{font-size:11px;font-weight:bold;line-height:1.8;overflow-wrap:anywhere}
 .cart-item-price{margin-top:5px;color:var(--lime);font-size:10px}
-.remove-cart{
-  border:0;
-  background:none;
-  color:#ff9ba3;
-  font-size:10px;
-  cursor:pointer;
-}
-.cart-footer{
-  padding:17px;
-  border-top:1px solid var(--line);
-  background:#11151d;
-}
-.cart-total-row{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:12px;
-  font-size:12px;
-}
+.remove-cart{border:0;background:none;color:#ff9ba3;font-size:10px;cursor:pointer}
+.cart-footer{padding:17px;border-top:1px solid var(--line);background:#11151d}
+.cart-total-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px;font-size:12px}
 .cart-total-row strong{color:var(--lime)}
 .cart-footer .small{margin-bottom:12px;color:var(--muted);line-height:2}
 
 /* Modals */
-
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  z-index:90;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-  background:#000c;
-  backdrop-filter:blur(5px);
-}
+.modal-backdrop{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:16px;background:#000c;backdrop-filter:blur(5px)}
 .modal-backdrop.open{display:flex}
-.modal{
-  width:min(650px,100%);
-  max-height:92vh;
-  overflow:auto;
-  border:1px solid #364154;
-  border-radius:20px;
-  background:#111620;
-  box-shadow:0 30px 100px #000b;
-}
+.modal{width:min(650px,100%);max-height:92vh;overflow:auto;border:1px solid #364154;border-radius:20px;background:#111620;box-shadow:0 30px 100px #000b}
 .modal.wide{width:min(790px,100%)}
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:15px;
-  padding:21px;
-  border-bottom:1px solid var(--line);
-}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding:21px;border-bottom:1px solid var(--line)}
 .modal-header h2{margin:0;font-size:18px}
 .modal-header p{margin:6px 0 0;color:var(--muted);font-size:11px;line-height:2}
 .modal-body{padding:20px}
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.form-field{min-width:0}
-.form-field.full{grid-column:1/-1}
-.check-row{
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  margin:16px 0;
-  color:#cbd3e0;
-  font-size:11px;
-  line-height:2.2;
-}
-.check-row input{
-  margin-top:6px;
-  accent-color:var(--lime);
-  flex-shrink:0;
-}
-.text-button{
-  padding:0;
-  border:0;
-  background:none;
-  color:var(--lime);
-  text-decoration:underline;
-  cursor:pointer;
-  font-size:inherit;
-}
-.modal-actions{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:9px;
-  margin-top:17px;
-}
-.modal-message{
-  margin-top:12px;
-  font-size:11px;
-  line-height:2;
-  overflow-wrap:anywhere;
-}
-.rules-list{
-  padding-right:20px;
-  margin:0;
-  color:#cbd3df;
-  font-size:11px;
-  line-height:2.4;
-}
-.product-detail-layout{
-  display:grid;
-  grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
-  gap:19px;
-}
-.detail-image{
-  display:grid;
-  place-items:center;
-  min-height:220px;
-  border:1px solid #ffffff10;
-  border-radius:14px;
-  background:radial-gradient(ellipse,#30394a,#141923);
-}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.form-field{min-width:0}.form-field.full{grid-column:1/-1}
+.check-row{display:flex;align-items:flex-start;gap:9px;margin:16px 0;color:#cbd3e0;font-size:11px;line-height:2.2}
+.check-row input{margin-top:6px;accent-color:var(--lime);flex-shrink:0}
+.text-button{padding:0;border:0;background:none;color:var(--lime);text-decoration:underline;cursor:pointer;font-size:inherit}
+.modal-actions{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:17px}
+.modal-message{margin-top:12px;font-size:11px;line-height:2;overflow-wrap:anywhere}
+.rules-list{padding-right:20px;margin:0;color:#cbd3df;font-size:11px;line-height:2.4}
+.product-detail-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:19px}
+.detail-image{display:grid;place-items:center;min-height:220px;border:1px solid #ffffff10;border-radius:14px;background:radial-gradient(ellipse,#30394a,#141923)}
 .detail-image img{width:100%;height:230px;object-fit:contain;padding:12px}
 .detail-info h3{margin:0 0 10px;font-size:19px;line-height:1.8}
 .detail-price{color:var(--lime);font-size:20px;font-weight:1000}
 .detail-description{margin-top:13px;color:#aab4c5;font-size:11px;line-height:2.2;white-space:pre-line;overflow-wrap:anywhere}
 .detail-specs{display:grid;gap:8px;margin:15px 0}
-.detail-spec{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  border-bottom:1px solid #ffffff0b;
-  padding-bottom:7px;
-  font-size:10px;
-}
+.detail-spec{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #ffffff0b;padding-bottom:7px;font-size:10px}
 .detail-spec span:first-child{color:var(--muted)}
 
-/* AI widget */
-
+/* STARK AI */
 .ai-launcher{
-  position:fixed;
-  z-index:60;
-  bottom:22px;
-  right:22px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 14px 10px 11px;
-  border:1px solid #8cb653;
-  border-radius:15px;
-  background:linear-gradient(130deg,#d4ff90,#a7d956);
-  color:#11170a;
-  font-size:11px;
-  font-weight:1000;
-  cursor:pointer;
-  box-shadow:0 12px 45px #0006,0 0 30px #b6e96812;
+ position:fixed;z-index:60;bottom:22px;right:22px;display:flex;align-items:center;gap:10px;
+ padding:10px 14px 10px 11px;border:1px solid #8cb653;border-radius:15px;
+ background:linear-gradient(130deg,#d4ff90,#a7d956);color:#11170a;font-size:11px;font-weight:1000;
+ cursor:pointer;box-shadow:0 12px 45px #0006,0 0 30px #b6e96812
 }
-.ai-avatar{
-  display:grid;
-  place-items:center;
-  width:34px;height:34px;
-  border-radius:10px;
-  background:#14200b;
-  color:var(--lime);
-  font-size:15px;
-}
-.ai-launcher small{
-  display:block;
-  margin-top:2px;
-  font-size:9px;
-  font-weight:normal;
-  opacity:.75;
-}
+.ai-avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#14200b;color:var(--lime);font-size:15px}
+.ai-launcher small{display:block;margin-top:2px;font-size:9px;font-weight:normal;opacity:.75}
 .ai-widget{
-  position:fixed;
-  z-index:70;
-  right:22px;
-  bottom:88px;
-  display:none;
-  flex-direction:column;
-  width:min(390px,calc(100vw - 28px));
-  height:min(590px,calc(100dvh - 120px));
-  overflow:hidden;
-  border:1px solid #354154;
-  border-radius:20px;
-  background:#10151e;
-  box-shadow:0 25px 90px #000b;
+ position:fixed;z-index:70;right:22px;bottom:88px;display:none;flex-direction:column;
+ width:min(390px,calc(100vw - 28px));height:min(590px,calc(100dvh - 120px));
+ overflow:hidden;border:1px solid #354154;border-radius:20px;background:#10151e;box-shadow:0 25px 90px #000b
 }
 .ai-widget.open{display:flex}
-.ai-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding:14px;
-  border-bottom:1px solid var(--line);
-  background:linear-gradient(110deg,#1b2717,#141a23);
-}
-.ai-brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.ai-brand-icon{
-  display:grid;
-  place-items:center;
-  width:38px;height:38px;
-  border:1px solid #78964d;
-  border-radius:12px;
-  background:#202d17;
-  color:var(--lime);
-  font-weight:1000;
-}
-.ai-brand strong{display:block;font-size:12px}
-.ai-brand span{display:block;color:var(--muted);font-size:9px;margin-top:3px}
-.ai-status-dot{
-  display:inline-block;
-  width:6px;height:6px;
-  margin-left:5px;
-  border-radius:50%;
-  background:var(--lime);
-}
-.ai-chat{
-  flex:1;
-  overflow:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  padding:14px;
-}
-.ai-message{
-  max-width:91%;
-  padding:11px 12px;
-  border:1px solid var(--line);
-  border-radius:13px;
-  background:#171e29;
-  font-size:11px;
-  line-height:2.2;
-  white-space:normal;
-  overflow-wrap:anywhere;
-}
-.ai-message.user{
-  align-self:flex-start;
-  border-color:#5e75412e;
-  background:#24311b;
-}
+.ai-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--line);background:linear-gradient(110deg,#1b2717,#141a23)}
+.ai-brand{display:flex;align-items:center;gap:10px}
+.ai-brand-icon{display:grid;place-items:center;width:38px;height:38px;border:1px solid #78964d;border-radius:12px;background:#202d17;color:var(--lime);font-weight:1000}
+.ai-brand strong{display:block;font-size:12px}.ai-brand span{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+.ai-status-dot{display:inline-block;width:6px;height:6px;margin-left:5px;border-radius:50%;background:var(--lime)}
+.ai-chat{flex:1;overflow:auto;display:flex;flex-direction:column;gap:12px;padding:14px}
+.ai-message{max-width:91%;padding:11px 12px;border:1px solid var(--line);border-radius:13px;background:#171e29;font-size:11px;line-height:2.2;white-space:pre-wrap;overflow-wrap:anywhere}
+.ai-message.user{align-self:flex-start;border-color:#5e75412e;background:#24311b}
 .ai-message.bot{align-self:flex-end}
-.ai-quick-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  padding:0 13px 12px;
-}
-.ai-quick-actions button{
-  padding:7px 9px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:#ffffff04;
-  color:#c7d0de;
-  font-size:10px;
-  cursor:pointer;
-}
+.ai-quick-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 13px 12px}
+.ai-quick-actions button{padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:#ffffff04;color:#c7d0de;font-size:10px;cursor:pointer}
 .ai-quick-actions button:hover{border-color:#708c46;color:var(--lime)}
-.ai-form{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:12px;
-  border-top:1px solid var(--line);
-  background:#0b0f16;
-}
+.ai-form{display:flex;align-items:center;gap:8px;padding:12px;border-top:1px solid var(--line);background:#0b0f16}
 .ai-form .field{flex:1;min-width:0;padding:12px}
 .ai-send{width:43px;height:43px;flex-shrink:0;padding:0}
 .ai-send svg{width:18px;height:18px}
-.ai-disclaimer{
-  padding:0 12px 10px;
-  background:#0b0f16;
-  color:#748094;
-  text-align:center;
-  font-size:9px;
-}
-
-/* Toast and footer */
-
+.ai-disclaimer{padding:0 12px 10px;background:#0b0f16;color:#748094;text-align:center;font-size:9px}
 .toast{
-  position:fixed;
-  z-index:120;
-  bottom:22px;
-  left:22px;
-  width:min(360px,calc(100vw - 44px));
-  padding:13px 15px;
-  border:1px solid #415034;
-  border-radius:13px;
-  background:#182016;
-  color:#e1f6c4;
-  font-size:11px;
-  line-height:2;
-  box-shadow:var(--shadow);
-  opacity:0;
-  visibility:hidden;
-  transform:translateY(10px);
-  transition:.2s;
+ position:fixed;z-index:120;bottom:22px;left:22px;width:min(360px,calc(100vw - 44px));
+ padding:13px 15px;border:1px solid #415034;border-radius:13px;background:#182016;color:#e1f6c4;
+ font-size:11px;line-height:2;box-shadow:var(--shadow);opacity:0;visibility:hidden;transform:translateY(10px);transition:.2s
 }
 .toast.show{opacity:1;visibility:visible;transform:translateY(0)}
 .toast.error{border-color:#71434b;background:#291b20;color:#ffc1c5}
-.site-footer{
-  margin-top:15px;
-  border-top:1px solid #ffffff10;
-  background:#080a0f;
-}
-.footer-inner{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  padding:27px 0;
-  color:var(--muted);
-  font-size:10px;
-  line-height:2.3;
-}
+.site-footer{margin-top:15px;border-top:1px solid #ffffff10;background:#080a0f}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;padding:27px 0;color:var(--muted);font-size:10px;line-height:2.3}
 .footer-inner strong{color:var(--text)}
 .footer-links{display:flex;flex-wrap:wrap;gap:15px}
 .footer-links a:hover{color:var(--lime)}
-.disclaimer-strip{
-  padding:11px 0;
-  border-top:1px solid #ffffff0a;
-  color:#778397;
-  font-size:9px;
-  line-height:2;
-  text-align:center;
-}
-
-/* Responsive */
+.disclaimer-strip{padding:11px 0;border-top:1px solid #ffffff0a;color:#778397;font-size:9px;line-height:2;text-align:center}
 
 @media(max-width:1050px){
-  .nav-links{gap:14px}
-  .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hero-main{grid-template-columns:minmax(0,1fr) 260px}
+ .nav-links{gap:14px}.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hero-main{grid-template-columns:minmax(0,1fr) 260px}
 }
 @media(max-width:760px){
-  html{scroll-padding-top:75px}
-  .container{width:94%}
-  .nav{min-height:65px;gap:9px}
-  .brand-mark{width:37px;height:37px}
-  .brand-name{font-size:13px}
-  .brand-sub{font-size:8px;letter-spacing:.8px}
-  .nav-links{display:none}
-  .nav-actions{gap:6px}
-  .nav-account{font-size:10px;padding:9px}
-  .icon-btn{width:39px;height:39px}
-  .hero{padding-top:20px}
-  .hero-main{
-    grid-template-columns:minmax(0,1fr);
-    gap:6px;
-    min-height:0;
-    padding:28px 22px;
-    border-radius:20px;
-  }
-  .hero-side{min-height:175px;margin-top:10px}
-  .hero-orbit{width:185px}
-  .hero-emblem{width:115px;border-radius:27px}
-  .hero-emblem span{font-size:45px}
-  .float-one{right:5%;top:8%}
-  .float-two{left:5%;bottom:6%}
-  .hero h1{font-size:29px;line-height:1.8}
-  .hero p{font-size:11px}
-  .trust-strip{grid-template-columns:1fr;gap:8px;margin-bottom:26px}
-  .trust-card{padding:12px}
-  .trust-icon{width:37px;height:37px}
-  .section-title h2{font-size:19px}
-  .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .product-visual{height:155px}
-  .product-content{padding:10px}
-  .product-name{font-size:11px;min-height:46px}
-  .product-details{font-size:9px;min-height:35px}
-  .product-price{font-size:14px}
-  .product-price-row{margin:11px 0}
-  .product-actions{grid-template-columns:1fr 37px;gap:6px}
-  .product-actions .btn{min-height:38px;font-size:10px}
-  .product-actions .icon-btn{width:37px;height:38px}
-  .badge{font-size:8px;padding:4px 6px}
-  .filter-box{padding:11px}
-  .field{font-size:11px;padding:11px}
-  .category-row{gap:6px}
-  .category-chip{padding:8px 10px;font-size:10px}
-  .hub-panel{padding:12px}
-  .support-layout{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr}
-  .form-field.full{grid-column:auto}
-  .product-detail-layout{grid-template-columns:1fr}
-  .detail-image{min-height:160px}
-  .detail-image img{height:185px}
-  .ai-launcher{right:12px;bottom:12px;padding:8px 11px}
-  .ai-widget{right:12px;bottom:75px;height:min(560px,calc(100dvh - 94px))}
-  .toast{bottom:12px;left:12px}
-  .footer-inner{flex-direction:column;gap:10px;padding:20px 0}
+ html{scroll-padding-top:75px}.container{width:94%}
+ .nav{min-height:65px;gap:9px}.brand-mark{width:37px;height:37px}
+ .brand-name{font-size:13px}.brand-sub{font-size:8px;letter-spacing:.8px}
+ .nav-links{display:none}.nav-actions{gap:6px}.nav-account{font-size:10px;padding:9px}
+ .icon-btn{width:39px;height:39px}.hero{padding-top:20px}
+ .hero-main{grid-template-columns:minmax(0,1fr);gap:6px;min-height:0;padding:28px 22px;border-radius:20px}
+ .hero-side{min-height:175px;margin-top:10px}.hero-orbit{width:185px}
+ .hero-emblem{width:115px;border-radius:27px}.hero-emblem span{font-size:45px}
+ .float-one{right:5%;top:8%}.float-two{left:5%;bottom:6%}
+ .hero h1{font-size:29px;line-height:1.8}.hero p{font-size:11px}
+ .trust-strip{grid-template-columns:1fr;gap:8px;margin-bottom:26px}
+ .trust-card{padding:12px}.trust-icon{width:37px;height:37px}
+ .section-title h2{font-size:19px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .product-visual{height:155px}.product-content{padding:10px}
+ .product-name{font-size:11px;min-height:46px}.product-details{font-size:9px;min-height:35px}
+ .product-price{font-size:14px}.product-price-row{margin:11px 0}
+ .product-actions{grid-template-columns:1fr 37px;gap:6px}
+ .product-actions .btn{min-height:38px;font-size:10px}.product-actions .icon-btn{width:37px;height:38px}
+ .badge{font-size:8px;padding:4px 6px}.filter-box{padding:11px}
+ .field{font-size:11px;padding:11px}.category-row{gap:6px}
+ .category-chip{padding:8px 10px;font-size:10px}.hub-panel{padding:12px}
+ .support-layout{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}
+ .form-field.full{grid-column:auto}.product-detail-layout{grid-template-columns:1fr}
+ .detail-image{min-height:160px}.detail-image img{height:185px}
+ .ai-launcher{right:12px;bottom:12px;padding:8px 11px}
+ .ai-widget{right:12px;bottom:75px;height:min(560px,calc(100dvh - 94px))}
+ .toast{bottom:12px;left:12px}.footer-inner{flex-direction:column;gap:10px;padding:20px 0}
 }
 @media(max-width:420px){
-  .brand-name{font-size:11px}
-  .brand-sub{font-size:7px}
-  .nav-actions .nav-account{max-width:80px;overflow:hidden}
-  .nav-actions{gap:5px}
-  .nav-actions .icon-btn{width:35px;height:35px}
-  .hero h1{font-size:25px}
-  .hero-actions .btn{flex:1;padding:10px 11px}
-  .filter-grid{grid-template-columns:1fr}
-  .filter-head{align-items:flex-start}
-  .product-visual{height:132px}
-  .product-fav-label{display:none}
-  .order-row,.ticket-row{grid-template-columns:1fr;gap:9px}
-  .order-right{text-align:right}
-  .modal-actions{grid-template-columns:1fr}
-  .modal-header{padding:16px}
-  .modal-body{padding:15px}
+ .brand-name{font-size:11px}.brand-sub{font-size:7px}
+ .nav-account{max-width:80px;overflow:hidden}.nav-actions{gap:5px}
+ .nav-actions .icon-btn{width:35px;height:35px}
+ .hero h1{font-size:25px}.hero-actions .btn{flex:1;padding:10px 11px}
+ .filter-grid{grid-template-columns:1fr}.filter-head{align-items:flex-start}
+ .product-visual{height:132px}.order-row,.ticket-row{grid-template-columns:1fr;gap:9px}
+ .order-right{text-align:right}.modal-actions{grid-template-columns:1fr}
+ .modal-header{padding:16px}.modal-body{padding:15px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    scroll-behavior:auto!important;
-    transition-duration:.01ms!important;
-  }
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
 
 <body>
-
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="./store.html" aria-label="PERSIAN STARK فروشگاه">
@@ -1282,14 +372,12 @@ label.field-label{
         <span class="brand-sub">CS2 SKIN MARKETPLACE</span>
       </span>
     </a>
-
     <nav class="nav-links" aria-label="ناوبری اصلی">
       <a class="active" href="#top">فروشگاه</a>
       <a href="#catalog">ویترین اسکین‌ها</a>
       <a href="#accountHub" data-open-panel="ordersPanel">درخواست‌های من</a>
       <a href="#accountHub" data-open-panel="supportPanel">پشتیبانی</a>
     </nav>
-
     <div class="nav-actions">
       <a id="accountLink" class="btn secondary nav-account" href="./index.html">ورود / ثبت‌نام</a>
       <button id="cartOpenBtn" class="icon-btn cart-top" type="button" aria-label="باز کردن سبد خرید" title="سبد خرید">
@@ -1304,35 +392,24 @@ label.field-label{
 </header>
 
 <main id="top" class="container">
-
   <section class="hero">
     <div class="hero-main">
       <div class="hero-copy">
         <div class="eyebrow">PERSIAN STARK · COUNTER-STRIKE 2</div>
         <h1>استایلت را بساز.<br><span class="accent">اسکینت را انتخاب کن.</span></h1>
-        <p>
-          به ویترین اسکین‌های PERSIAN STARK خوش آمدی.
-          آیتم‌ها را جست‌وجو و مقایسه کن، علاقه‌مندی‌هایت را ذخیره کن
-          و درخواست خرید را از یک مسیر ساده و مرتب ثبت کن.
-        </p>
-
+        <p>به ویترین اسکین‌های PERSIAN STARK خوش آمدی. آیتم‌ها را جست‌وجو و مقایسه کن، علاقه‌مندی‌هایت را ذخیره کن و درخواست خرید را از یک مسیر ساده و مرتب ثبت کن.</p>
         <div class="hero-actions">
-          <a class="btn" href="#catalog">
-            مشاهده اسکین‌ها
+          <a class="btn" href="#catalog">مشاهده اسکین‌ها
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7 7-7-7 7-7"/></svg>
           </a>
-          <button class="btn secondary" type="button" data-open-panel="ordersPanel">
-            پیگیری درخواست‌ها
-          </button>
+          <button class="btn secondary" type="button" data-open-panel="ordersPanel">پیگیری درخواست‌ها</button>
         </div>
-
         <div class="hero-assurance">
           <span class="assurance-item"><span class="assurance-dot"></span> ویترین به‌روز</span>
           <span class="assurance-item"><span class="assurance-dot"></span> ثبت درخواست در حساب کاربری</span>
           <span class="assurance-item"><span class="assurance-dot"></span> پشتیبانی هوشمند</span>
         </div>
       </div>
-
       <div class="hero-side" aria-hidden="true">
         <div class="hero-orbit"></div>
         <div class="hero-emblem"><span>PS</span></div>
@@ -1343,36 +420,14 @@ label.field-label{
   </section>
 
   <section class="trust-strip" aria-label="ویژگی‌های فروشگاه">
-    <article class="trust-card">
-      <div class="trust-icon">◇</div>
-      <div>
-        <strong>انتخاب دقیق‌تر</strong>
-        <span>جست‌وجو و فیلتر براساس نام، وضعیت و قیمت</span>
-      </div>
-    </article>
-    <article class="trust-card">
-      <div class="trust-icon">▣</div>
-      <div>
-        <strong>مدیریت درخواست‌ها</strong>
-        <span>درخواست‌هایت را در بخش حساب کاربری دنبال کن</span>
-      </div>
-    </article>
-    <article class="trust-card">
-      <div class="trust-icon">✦</div>
-      <div>
-        <strong>راهنمای STARK AI</strong>
-        <span>برای پیدا کردن آیتم و راهنمایی فروشگاه سؤال بپرس</span>
-      </div>
-    </article>
+    <article class="trust-card"><div class="trust-icon">◇</div><div><strong>انتخاب دقیق‌تر</strong><span>جست‌وجو و فیلتر براساس نام، وضعیت و قیمت</span></div></article>
+    <article class="trust-card"><div class="trust-icon">▣</div><div><strong>مدیریت درخواست‌ها</strong><span>درخواست‌هایت را در بخش حساب کاربری دنبال کن</span></div></article>
+    <article class="trust-card"><div class="trust-icon">✦</div><div><strong>راهنمای STARK AI</strong><span>برای پیدا کردن آیتم و راهنمایی فروشگاه سؤال بپرس</span></div></article>
   </section>
 
   <section id="catalog" class="catalog">
     <div class="section-title">
-      <div>
-        <div class="eyebrow">THE COLLECTION</div>
-        <h2>ویترین اسکین‌ها</h2>
-        <p>آیتم موردنظرت را پیدا کن و جزئیاتش را ببین.</p>
-      </div>
+      <div><div class="eyebrow">THE COLLECTION</div><h2>ویترین اسکین‌ها</h2><p>آیتم موردنظرت را پیدا کن و جزئیاتش را ببین.</p></div>
       <a class="section-link" href="#accountHub" data-open-panel="ordersPanel">پیگیری درخواست‌ها ←</a>
     </div>
 
@@ -1386,67 +441,36 @@ label.field-label{
     </div>
 
     <div class="filter-box">
-      <div class="filter-head">
-        <strong>جست‌وجو و فیلتر</strong>
-        <span>فیلترها را برای پیدا کردن آیتم دلخواهت ترکیب کن</span>
-      </div>
-
+      <div class="filter-head"><strong>جست‌وجو و فیلتر</strong><span>فیلترها را برای پیدا کردن آیتم دلخواهت ترکیب کن</span></div>
       <div class="filter-grid">
         <div class="search-box">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>
           <input id="searchInput" class="field" type="search" placeholder="نام اسکین یا سلاح..." aria-label="جست‌وجوی اسکین">
         </div>
-
         <select id="wearFilter" class="field" aria-label="فیلتر وضعیت ظاهری">
-          <option value="">تمام وضعیت‌ها</option>
-          <option value="Factory New">Factory New</option>
-          <option value="Minimal Wear">Minimal Wear</option>
-          <option value="Field-Tested">Field-Tested</option>
-          <option value="Well-Worn">Well-Worn</option>
-          <option value="Battle-Scarred">Battle-Scarred</option>
-          <option value="Not Applicable">Not Applicable</option>
-          <option value="Unknown">Unknown</option>
+          <option value="">تمام وضعیت‌ها</option><option value="Factory New">Factory New</option><option value="Minimal Wear">Minimal Wear</option><option value="Field-Tested">Field-Tested</option><option value="Well-Worn">Well-Worn</option><option value="Battle-Scarred">Battle-Scarred</option><option value="Not Applicable">Not Applicable</option><option value="Unknown">Unknown</option>
         </select>
-
         <select id="sourceFilter" class="field" aria-label="فیلتر فروشنده">
-          <option value="">تمام فروشنده‌ها</option>
-          <option value="site">موجودی سایت</option>
-          <option value="user">فروشنده کاربر</option>
+          <option value="">تمام فروشنده‌ها</option><option value="site">موجودی سایت</option><option value="user">فروشنده کاربر</option>
         </select>
-
         <select id="sortFilter" class="field" aria-label="مرتب‌سازی اسکین‌ها">
-          <option value="newest">جدیدترین</option>
-          <option value="price-asc">قیمت: کم به زیاد</option>
-          <option value="price-desc">قیمت: زیاد به کم</option>
-          <option value="name">نام اسکین</option>
+          <option value="newest">جدیدترین</option><option value="price-asc">قیمت: کم به زیاد</option><option value="price-desc">قیمت: زیاد به کم</option><option value="name">نام اسکین</option>
         </select>
       </div>
-
       <div class="filter-bottom">
         <span class="filter-hint">نتایج با تغییر فیلترها به‌صورت خودکار به‌روزرسانی می‌شوند.</span>
         <button id="favFilterBtn" type="button" class="fav-filter">♡ فقط علاقه‌مندی‌ها</button>
       </div>
     </div>
 
-    <div class="results-bar">
-      <h3>اسکین‌های موجود</h3>
-      <span id="resultCount" class="result-count">در حال بارگذاری…</span>
-    </div>
-
-    <section id="productGrid" class="product-grid" aria-live="polite">
-      <div class="empty-state">در حال آماده‌سازی ویترین فروشگاه <span class="loading-dot"></span></div>
-    </section>
+    <div class="results-bar"><h3>اسکین‌های موجود</h3><span id="resultCount" class="result-count">در حال بارگذاری…</span></div>
+    <section id="productGrid" class="product-grid" aria-live="polite"><div class="empty-state">در حال آماده‌سازی ویترین فروشگاه <span class="loading-dot"></span></div></section>
   </section>
 
   <section id="accountHub" class="account-hub">
     <div class="section-title">
-      <div>
-        <div class="eyebrow">YOUR SPACE</div>
-        <h2>حساب کاربری و پیگیری</h2>
-        <p>درخواست‌ها و پیام‌های پشتیبانی را از همین صفحه مدیریت کن.</p>
-      </div>
+      <div><div class="eyebrow">YOUR SPACE</div><h2>حساب کاربری و پیگیری</h2><p>درخواست‌ها و پیام‌های پشتیبانی را از همین صفحه مدیریت کن.</p></div>
     </div>
-
     <div class="hub-tabs">
       <button class="hub-tab active" type="button" data-panel="ordersPanel">درخواست‌های خرید من</button>
       <button class="hub-tab" type="button" data-panel="supportPanel">پشتیبانی</button>
@@ -1454,61 +478,34 @@ label.field-label{
 
     <section id="ordersPanel" class="hub-panel">
       <div class="panel-heading">
-        <div>
-          <h3>درخواست‌های خرید</h3>
-          <p>وضعیت درخواست‌های ثبت‌شده در حساب کاربری تو</p>
-        </div>
+        <div><h3>درخواست‌های خرید</h3><p>وضعیت درخواست‌های ثبت‌شده در حساب کاربری تو</p></div>
         <button id="refreshOrdersBtn" class="btn secondary" type="button">به‌روزرسانی</button>
       </div>
       <div id="ordersNotice" class="notice" hidden></div>
-      <div id="ordersList" class="orders-list">
-        <div class="empty-state">برای دریافت درخواست‌ها، وضعیت حساب کاربری بررسی می‌شود.</div>
-      </div>
+      <div id="ordersList" class="orders-list"><div class="empty-state">برای دریافت درخواست‌ها، وضعیت حساب کاربری بررسی می‌شود.</div></div>
     </section>
 
     <section id="supportPanel" class="hub-panel" hidden>
       <div class="panel-heading">
-        <div>
-          <h3>مرکز پشتیبانی</h3>
-          <p>موضوع را انتخاب کن و پیام خود را ارسال کن.</p>
-        </div>
+        <div><h3>مرکز پشتیبانی</h3><p>موضوع را انتخاب کن و پیام خود را ارسال کن.</p></div>
         <button id="refreshTicketsBtn" class="btn secondary" type="button">به‌روزرسانی</button>
       </div>
-
       <div class="support-layout">
         <form id="ticketForm" class="support-form">
-          <div>
-            <label for="ticketSubject" class="field-label">موضوع پیام</label>
-            <input id="ticketSubject" class="field" maxlength="120" required placeholder="مثلاً پیگیری درخواست خرید">
-          </div>
-          <div>
-            <label for="ticketCategory" class="field-label">دسته‌بندی</label>
+          <div><label for="ticketSubject" class="field-label">موضوع پیام</label><input id="ticketSubject" class="field" maxlength="120" required placeholder="مثلاً پیگیری درخواست خرید"></div>
+          <div><label for="ticketCategory" class="field-label">دسته‌بندی</label>
             <select id="ticketCategory" class="field" required>
-              <option value="order">پیگیری سفارش</option>
-              <option value="product">سؤال درباره اسکین</option>
-              <option value="account">حساب کاربری</option>
-              <option value="other">سایر موارد</option>
+              <option value="order">پیگیری سفارش</option><option value="product">سؤال درباره اسکین</option><option value="account">حساب کاربری</option><option value="other">سایر موارد</option>
             </select>
           </div>
-          <div>
-            <label for="ticketMessage" class="field-label">متن پیام</label>
-            <textarea id="ticketMessage" class="field" maxlength="2000" required placeholder="توضیح بده چطور می‌تونیم کمکت کنیم..."></textarea>
-          </div>
+          <div><label for="ticketMessage" class="field-label">متن پیام</label><textarea id="ticketMessage" class="field" maxlength="2000" required placeholder="توضیح بده چطور می‌تونیم کمکت کنیم..."></textarea></div>
           <div id="ticketFormMessage" class="notice" hidden></div>
           <button id="createTicketBtn" class="btn full" type="submit">ارسال پیام به پشتیبانی</button>
         </form>
-
         <div>
-          <div class="support-tips">
-            <strong>چند نکته برای پیگیری سریع‌تر</strong>
-            شماره یا شناسه درخواست را در متن پیام بنویس.
-            هیچ‌وقت رمز عبور، کد Steam Guard یا کد تأیید حساب را ارسال نکن.
-            درخواست پشتیبانی به معنی تأیید خودکار خرید نیست.
-          </div>
+          <div class="support-tips"><strong>چند نکته برای پیگیری سریع‌تر</strong>شماره یا شناسه درخواست را در متن پیام بنویس. هیچ‌وقت رمز عبور، کد Steam Guard یا کد تأیید حساب را ارسال نکن. درخواست پشتیبانی به معنی تأیید خودکار خرید نیست.</div>
           <h3 style="font-size:12px;margin:18px 0 10px">پیام‌های اخیر</h3>
-          <div id="ticketsList" class="tickets-list">
-            <div class="empty-state">پیامی برای نمایش بارگذاری نشده است.</div>
-          </div>
+          <div id="ticketsList" class="tickets-list"><div class="empty-state">پیامی برای نمایش بارگذاری نشده است.</div></div>
         </div>
       </div>
     </section>
@@ -1517,35 +514,20 @@ label.field-label{
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <div>
-      <strong>PERSIAN STARK</strong><br>
-      بازار اسکین‌های Counter-Strike 2
-    </div>
+    <div><strong>PERSIAN STARK</strong><br>بازار اسکین‌های Counter-Strike 2</div>
     <div class="footer-links">
-      <a href="#top">بالای صفحه</a>
-      <a href="#catalog">ویترین اسکین‌ها</a>
-      <a href="#accountHub" data-open-panel="ordersPanel">درخواست‌های من</a>
-      <a href="#accountHub" data-open-panel="supportPanel">پشتیبانی</a>
+      <a href="#top">بالای صفحه</a><a href="#catalog">ویترین اسکین‌ها</a>
+      <a href="#accountHub" data-open-panel="ordersPanel">درخواست‌های من</a><a href="#accountHub" data-open-panel="supportPanel">پشتیبانی</a>
     </div>
   </div>
-  <div class="disclaimer-strip">
-    ثبت درخواست به معنی تأیید موجودی یا نهایی‌شدن معامله نیست. پرداخت آنلاین و انتقال خودکار آیتم در این نسخه فعال نیست.
-  </div>
+  <div class="disclaimer-strip">ثبت درخواست به معنی تأیید موجودی یا نهایی‌شدن معامله نیست. پرداخت آنلاین و انتقال خودکار آیتم در این نسخه فعال نیست.</div>
 </footer>
 
 <!-- سبد خرید -->
 <div id="cartDrawerBackdrop" class="drawer-backdrop" aria-hidden="true">
   <aside class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-    <div class="drawer-head">
-      <div>
-        <h2 id="cartTitle">سبد خرید</h2>
-        <p>آیتم‌های انتخاب‌شده برای ثبت درخواست</p>
-      </div>
-      <button id="cartCloseBtn" class="icon-btn" type="button" aria-label="بستن سبد خرید">✕</button>
-    </div>
-    <div id="cartList" class="drawer-body">
-      <div class="empty-state">هنوز آیتمی به سبد اضافه نشده است.</div>
-    </div>
+    <div class="drawer-head"><div><h2 id="cartTitle">سبد خرید</h2><p>آیتم‌های انتخاب‌شده برای ثبت درخواست</p></div><button id="cartCloseBtn" class="icon-btn" type="button" aria-label="بستن سبد خرید">✕</button></div>
+    <div id="cartList" class="drawer-body"><div class="empty-state">هنوز آیتمی به سبد اضافه نشده است.</div></div>
     <div class="cart-footer">
       <div class="cart-total-row"><span>تعداد آیتم‌ها</span><strong id="cartTotalCount">۰</strong></div>
       <div id="cartTotal" class="small">مجموع قیمت براساس واحد پول هر محصول محاسبه می‌شود.</div>
@@ -1559,57 +541,23 @@ label.field-label{
 <div id="orderModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
   <div class="modal">
     <div class="modal-header">
-      <div>
-        <h2 id="orderModalTitle">ثبت درخواست خرید</h2>
-        <p id="selectedProduct">اطلاعات تماس را وارد کن تا درخواست برای بررسی ثبت شود.</p>
-      </div>
+      <div><h2 id="orderModalTitle">ثبت درخواست خرید</h2><p id="selectedProduct">اطلاعات تماس را وارد کن تا درخواست برای بررسی ثبت شود.</p></div>
       <button id="closeModal" class="icon-btn" type="button" aria-label="بستن فرم">✕</button>
     </div>
     <div class="modal-body">
       <form id="orderForm">
         <div class="form-grid">
-          <div class="form-field">
-            <label class="field-label" for="buyerName">نام و نام خانوادگی *</label>
-            <input id="buyerName" class="field" autocomplete="name" maxlength="120" required>
-          </div>
-          <div class="form-field">
-            <label class="field-label" for="buyerPhone">شماره تلفن *</label>
-            <input id="buyerPhone" class="field" type="tel" autocomplete="tel" maxlength="30" required>
-          </div>
-          <div class="form-field">
-            <label class="field-label" for="buyerTelegram">آیدی تلگرام *</label>
-            <input id="buyerTelegram" class="field" maxlength="100" placeholder="@username" required>
-          </div>
-          <div class="form-field">
-            <label class="field-label" for="buyerSteam">نام اکانت استیم *</label>
-            <input id="buyerSteam" class="field" maxlength="120" required>
-          </div>
-          <div class="form-field full">
-            <label class="field-label" for="buyerTrade">لینک ترید استیم *</label>
-            <input id="buyerTrade" class="field" type="url" maxlength="500" placeholder="https://steamcommunity.com/tradeoffer/new/..." required>
-          </div>
-          <div class="form-field full">
-            <label class="field-label" for="orderNote">توضیحات تکمیلی (اختیاری)</label>
-            <textarea id="orderNote" class="field" rows="3" maxlength="1500" placeholder="توضیحات موردنیاز برای بررسی درخواست..."></textarea>
-          </div>
+          <div class="form-field"><label class="field-label" for="buyerName">نام و نام خانوادگی *</label><input id="buyerName" class="field" autocomplete="name" maxlength="120" required></div>
+          <div class="form-field"><label class="field-label" for="buyerPhone">شماره تلفن *</label><input id="buyerPhone" class="field" type="tel" autocomplete="tel" maxlength="30" required></div>
+          <div class="form-field"><label class="field-label" for="buyerTelegram">آیدی تلگرام *</label><input id="buyerTelegram" class="field" maxlength="100" placeholder="@username" required></div>
+          <div class="form-field"><label class="field-label" for="buyerSteam">نام اکانت استیم *</label><input id="buyerSteam" class="field" maxlength="120" required></div>
+          <div class="form-field full"><label class="field-label" for="buyerTrade">لینک ترید استیم *</label><input id="buyerTrade" class="field" type="url" maxlength="500" placeholder="https://steamcommunity.com/tradeoffer/new/..." required></div>
+          <div class="form-field full"><label class="field-label" for="orderNote">توضیحات تکمیلی (اختیاری)</label><textarea id="orderNote" class="field" rows="3" maxlength="1500" placeholder="توضیحات موردنیاز برای بررسی درخواست..."></textarea></div>
         </div>
-
-        <label class="check-row">
-          <input id="acceptRules" type="checkbox" required>
-          <span>
-            قوانین ثبت درخواست را خوانده‌ام و می‌پذیرم.
-            <button id="openRules" class="text-button" type="button">مشاهده قوانین</button>
-          </span>
-        </label>
-
-        <div class="notice">
-          ثبت درخواست، رزرو قطعی یا انجام پرداخت نیست. برای امنیت حساب خود، رمز عبور و کدهای تأیید را در اختیار هیچ‌کس قرار نده.
-        </div>
+        <label class="check-row"><input id="acceptRules" type="checkbox" required><span>قوانین ثبت درخواست را خوانده‌ام و می‌پذیرم. <button id="openRules" class="text-button" type="button">مشاهده قوانین</button></span></label>
+        <div class="notice">ثبت درخواست، رزرو قطعی یا انجام پرداخت نیست. برای امنیت حساب خود، رمز عبور و کدهای تأیید را در اختیار هیچ‌کس قرار نده.</div>
         <div id="modalMessage" class="modal-message" role="status" aria-live="polite"></div>
-        <div class="modal-actions">
-          <button id="submitOrder" class="btn" type="submit">ثبت درخواست</button>
-          <button id="cancelOrderBtn" class="btn secondary" type="button">انصراف</button>
-        </div>
+        <div class="modal-actions"><button id="submitOrder" class="btn" type="submit">ثبت درخواست</button><button id="cancelOrderBtn" class="btn secondary" type="button">انصراف</button></div>
       </form>
     </div>
   </div>
@@ -1618,13 +566,7 @@ label.field-label{
 <!-- جزئیات اسکین -->
 <div id="productModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="detailName">
   <div class="modal wide">
-    <div class="modal-header">
-      <div>
-        <h2>جزئیات اسکین</h2>
-        <p>اطلاعات این آیتم از ویترین فروشگاه دریافت شده است.</p>
-      </div>
-      <button class="icon-btn" type="button" data-close-modal="productModal" aria-label="بستن جزئیات">✕</button>
-    </div>
+    <div class="modal-header"><div><h2>جزئیات اسکین</h2><p>اطلاعات این آیتم از ویترین فروشگاه دریافت شده است.</p></div><button class="icon-btn" type="button" data-close-modal="productModal" aria-label="بستن جزئیات">✕</button></div>
     <div id="productDetailContent" class="modal-body"></div>
   </div>
 </div>
@@ -1632,13 +574,7 @@ label.field-label{
 <!-- قوانین -->
 <div id="rulesModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
   <div class="modal">
-    <div class="modal-header">
-      <div>
-        <h2 id="rulesTitle">قوانین ثبت درخواست</h2>
-        <p>پیش از ارسال اطلاعات، این موارد را مطالعه کن.</p>
-      </div>
-      <button id="closeRules" class="icon-btn" type="button" aria-label="بستن قوانین">✕</button>
-    </div>
+    <div class="modal-header"><div><h2 id="rulesTitle">قوانین ثبت درخواست</h2><p>پیش از ارسال اطلاعات، این موارد را مطالعه کن.</p></div><button id="closeRules" class="icon-btn" type="button" aria-label="بستن قوانین">✕</button></div>
     <div class="modal-body">
       <ul class="rules-list">
         <li>ثبت درخواست فقط برای بررسی اولیه است و به معنی تأیید موجودی یا نهایی‌شدن معامله نیست.</li>
@@ -1648,36 +584,23 @@ label.field-label{
         <li>مدیریت فروشگاه درخواست را بررسی می‌کند و می‌تواند وضعیت آن را تغییر دهد.</li>
         <li>تا پیش از تأیید رسمی شرایط معامله، پرداخت یا انتقال آیتمی انجام نده.</li>
       </ul>
-      <div class="modal-actions">
-        <button id="acceptAndCloseRules" class="btn" type="button">متوجه شدم</button>
-        <button id="closeRulesSecondary" class="btn secondary" type="button">بستن</button>
-      </div>
+      <div class="modal-actions"><button id="acceptAndCloseRules" class="btn" type="button">متوجه شدم</button><button id="closeRulesSecondary" class="btn secondary" type="button">بستن</button></div>
     </div>
   </div>
 </div>
 
 <!-- STARK AI -->
 <button id="aiLauncher" class="ai-launcher" type="button" aria-label="باز کردن دستیار STARK AI">
-  <span class="ai-avatar">✦</span>
-  <span>STARK AI<small>دستیار فروشگاه</small></span>
+  <span class="ai-avatar">✦</span><span>STARK AI<small>دستیار فروشگاه</small></span>
 </button>
 
 <section id="aiWidget" class="ai-widget" aria-label="گفت‌وگو با STARK AI">
   <div class="ai-head">
-    <div class="ai-brand">
-      <div class="ai-brand-icon">PS</div>
-      <div>
-        <strong>STARK AI</strong>
-        <span><i class="ai-status-dot"></i> دستیار فروشگاه PERSIAN STARK</span>
-      </div>
-    </div>
+    <div class="ai-brand"><div class="ai-brand-icon">PS</div><div><strong>STARK AI</strong><span><i class="ai-status-dot"></i> دستیار فروشگاه PERSIAN STARK</span></div></div>
     <button id="aiCloseBtn" class="icon-btn" type="button" aria-label="بستن دستیار">✕</button>
   </div>
   <div id="aiChat" class="ai-chat" aria-live="polite">
-    <div class="ai-message bot">
-      سلام! من STARK AI هستم. 🎮<br>
-      برای پیدا کردن اسکین، راهنمایی درباره فروشگاه یا پیگیری درخواست‌ها سؤالت را بپرس.
-    </div>
+    <div class="ai-message bot">سلام! من STARK AI هستم. 🎮<br>برای پیدا کردن اسکین، راهنمایی درباره فروشگاه یا پیگیری درخواست‌ها سؤالت را بپرس.</div>
   </div>
   <div class="ai-quick-actions">
     <button type="button" data-q="چطور اسکین موردنظرم را پیدا کنم؟">پیدا کردن اسکین</button>
@@ -1686,9 +609,7 @@ label.field-label{
   </div>
   <form id="aiForm" class="ai-form">
     <input id="aiInput" class="field" maxlength="1200" placeholder="پیامت را بنویس..." autocomplete="off" required>
-    <button id="aiSendBtn" class="btn ai-send" type="submit" aria-label="ارسال پیام">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-    </button>
+    <button id="aiSendBtn" class="btn ai-send" type="submit" aria-label="ارسال پیام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
   </form>
   <div class="ai-disclaimer">از ارسال رمز عبور یا کدهای تأیید خودداری کن.</div>
 </section>
@@ -1699,28 +620,19 @@ label.field-label{
 (() => {
   "use strict";
 
-  /* تنظیمات اتصال */
   const SUPABASE_URL = "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
   const SUPABASE_KEY = "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
-  const AI_URL = "https://jmdoxofcyoxdrtxvvuiu.supabase.co/functions/v1/super-service";
+  const AI_FUNCTION_NAME = "super-service";
 
   const CART_KEY = "persian-stark-cart-v2";
   const FAV_KEY = "persian-stark-favorites-v2";
   const AI_HISTORY_KEY = "persian-stark-ai-history-v1";
-
   const $ = id => document.getElementById(id);
 
   const statusLabels = {
-    requested: "ثبت اولیه",
-    pending: "در انتظار بررسی",
-    reviewing: "در حال بررسی",
-    approved: "تأیید شده",
-    confirmed: "تأیید شده",
-    processing: "در حال پردازش",
-    completed: "تکمیل شده",
-    rejected: "رد شده",
-    cancelled: "لغو شده",
-    sold: "فروخته شده"
+    requested:"ثبت اولیه",pending:"در انتظار بررسی",reviewing:"در حال بررسی",
+    approved:"تأیید شده",confirmed:"تأیید شده",processing:"در حال پردازش",
+    completed:"تکمیل شده",rejected:"رد شده",cancelled:"لغو شده",sold:"فروخته شده"
   };
 
   let db = null;
@@ -1737,36 +649,25 @@ label.field-label{
   let ticketBusy = false;
   let aiBusy = false;
   let toastTimer = null;
-  let aiHistory = readStoredArray(AI_HISTORY_KEY).filter(item =>
-    item && typeof item.role === "string" && typeof item.content === "string"
-  ).slice(-16);
-
-  /* ابزارهای عمومی */
+  let aiHistory = readStoredArray(AI_HISTORY_KEY)
+    .filter(item => item && typeof item.role === "string" && typeof item.content === "string")
+    .slice(-16);
 
   function readStoredArray(key) {
     try {
       const data = JSON.parse(localStorage.getItem(key) || "[]");
       return Array.isArray(data) ? data : [];
-    } catch {
-      return [];
-    }
+    } catch { return []; }
   }
 
   function saveArray(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.warn("ذخیره‌سازی مرورگر انجام نشد:", error);
-    }
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (error) { console.warn("ذخیره‌سازی مرورگر انجام نشد:", error); }
   }
 
   function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     })[char]);
   }
 
@@ -1775,21 +676,11 @@ label.field-label{
     try {
       const url = new URL(value);
       return url.protocol === "https:" || url.protocol === "http:" ? url.href : "";
-    } catch {
-      return "";
-    }
+    } catch { return ""; }
   }
 
   function currencyLabel(currency) {
-    const labels = {
-      IRT: "تومان",
-      IRR: "ریال",
-      USD: "دلار",
-      EUR: "یورو",
-      TRY: "لیر",
-      AED: "درهم",
-      GBP: "پوند"
-    };
+    const labels = {IRT:"تومان",IRR:"ریال",USD:"دلار",EUR:"یورو",TRY:"لیر",AED:"درهم",GBP:"پوند"};
     const key = String(currency || "").toUpperCase();
     return labels[key] || String(currency || "واحد نامشخص");
   }
@@ -1797,211 +688,142 @@ label.field-label{
   function formatPrice(price) {
     const amount = Number(price);
     if (!Number.isFinite(amount)) return "نامشخص";
-    try {
-      return new Intl.NumberFormat("fa-IR", {
-        maximumFractionDigits: 2
-      }).format(amount);
-    } catch {
-      return amount.toLocaleString("en-US");
-    }
+    try { return new Intl.NumberFormat("fa-IR",{maximumFractionDigits:2}).format(amount); }
+    catch { return amount.toLocaleString("en-US"); }
   }
 
   function formatDate(value) {
     if (!value) return "—";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return "—";
-    try {
-      return date.toLocaleString("fa-IR", {
-        dateStyle: "medium",
-        timeStyle: "short"
-      });
-    } catch {
-      return date.toLocaleString();
-    }
+    try { return date.toLocaleString("fa-IR",{dateStyle:"medium",timeStyle:"short"}); }
+    catch { return date.toLocaleString(); }
   }
 
-  function toast(message, type = "success") {
-    const element = $("toast");
-    element.textContent = message;
-    element.classList.toggle("error", type === "error");
+  function toast(message,type="success") {
+    const element=$("toast");
+    element.textContent=message;
+    element.classList.toggle("error",type==="error");
     element.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => element.classList.remove("show"), 4200);
+    toastTimer=setTimeout(()=>element.classList.remove("show"),4500);
   }
 
-  function setNotice(id, message, type = "") {
-    const element = $(id);
-    if (!element) return;
-    element.textContent = message || "";
-    element.hidden = !message;
-    element.className = "notice" + (type ? " " + type : "");
+  function setNotice(id,message,type="") {
+    const element=$(id);
+    if(!element)return;
+    element.textContent=message||"";
+    element.hidden=!message;
+    element.className="notice"+(type?" "+type:"");
   }
 
-  function isLoggedIn() {
-    return Boolean(currentUser?.id);
-  }
-
-  function getListing(id) {
-    return listings.find(item => String(item.id) === String(id));
-  }
-
-  function productName(item) {
-    return item?.title || item?.skin_name || item?.weapon || "اسکین";
-  }
-
-  function priceWithCurrency(item) {
-    return `${formatPrice(item?.price)} ${currencyLabel(item?.currency)}`;
-  }
-
-  function labelStatus(status) {
-    return statusLabels[String(status || "").toLowerCase()] || status || "نامشخص";
-  }
+  function isLoggedIn(){return Boolean(currentUser?.id);}
+  function getListing(id){return listings.find(item=>String(item.id)===String(id));}
+  function productName(item){return item?.title||item?.skin_name||item?.weapon||"اسکین";}
+  function priceWithCurrency(item){return `${formatPrice(item?.price)} ${currencyLabel(item?.currency)}`;}
+  function labelStatus(status){return statusLabels[String(status||"").toLowerCase()]||status||"نامشخص";}
 
   function statusClass(status) {
-    const value = String(status || "").toLowerCase();
-    if (value === "completed") return "completed";
-    if (["rejected", "cancelled"].includes(value)) return "rejected";
-    if (["approved", "confirmed", "reviewing", "processing"].includes(value)) {
-      return "reviewing";
-    }
+    const value=String(status||"").toLowerCase();
+    if(value==="completed")return "completed";
+    if(["rejected","cancelled"].includes(value))return "rejected";
+    if(["approved","confirmed","reviewing","processing"].includes(value))return "reviewing";
     return "";
   }
 
-  function categoryMatches(item, category) {
-    if (!category || category === "all") return true;
-
-    const text = `${item.weapon || ""} ${item.title || ""} ${item.skin_name || ""}`.toLowerCase();
-
-    if (category === "awp") return text.includes("awp");
-    if (category === "knife") {
-      return /knife|karambit|bayonet|daggers|dagger|kukri|skeleton|butterfly|چاقو/i.test(text);
-    }
-    if (category === "gloves") {
-      return /glove|gloves|دستکش/i.test(text);
-    }
-    if (category === "pistol") {
-      return /pistol|glock|usp|deagle|desert eagle|p250|tec-9|five-seven|five seven|cz75|dual berettas|revolver/i.test(text);
-    }
-    if (category === "rifle") {
-      return /ak-47|m4a1|m4a4|aug|sg 553|famas|galil|ssg 08|scar-20|g3sg1|rifle/i.test(text);
-    }
+  function categoryMatches(item,category) {
+    if(!category||category==="all")return true;
+    const text=`${item.weapon||""} ${item.title||""} ${item.skin_name||""}`.toLowerCase();
+    if(category==="awp")return text.includes("awp");
+    if(category==="knife")return /knife|karambit|bayonet|daggers|dagger|kukri|skeleton|butterfly|چاقو/i.test(text);
+    if(category==="gloves")return /glove|gloves|دستکش/i.test(text);
+    if(category==="pistol")return /pistol|glock|usp|deagle|desert eagle|p250|tec-9|five-seven|five seven|cz75|dual berettas|revolver/i.test(text);
+    if(category==="rifle")return /ak-47|m4a1|m4a4|aug|sg 553|famas|galil|ssg 08|scar-20|g3sg1|rifle/i.test(text);
     return true;
   }
 
-  /* نوار حساب کاربری */
-
   async function updateAccountLink() {
-    const link = $("accountLink");
-
-    if (currentUser) {
-      link.textContent = "حساب کاربری";
-      link.title = currentUser.email || "وارد حساب شده‌ای";
-      link.classList.add("signed-in");
-      link.href = "./index.html";
-    } else {
-      link.textContent = "ورود / ثبت‌نام";
-      link.title = "";
-      link.classList.remove("signed-in");
-      link.href = "./index.html";
+    const link=$("accountLink");
+    if(currentUser){
+      link.textContent="حساب کاربری";link.title=currentUser.email||"وارد حساب شده‌ای";
+      link.classList.add("signed-in");link.href="./index.html";
+    }else{
+      link.textContent="ورود / ثبت‌نام";link.title="";
+      link.classList.remove("signed-in");link.href="./index.html";
     }
   }
 
   async function refreshCurrentUser() {
-    if (!db) return;
+    if(!db)return;
     try {
-      const { data, error } = await db.auth.getUser();
-      if (error) throw error;
-      currentUser = data?.user || null;
-    } catch (error) {
-      console.warn("بررسی حساب انجام نشد:", error);
-      currentUser = null;
+      const {data,error}=await db.auth.getUser();
+      if(error)throw error;
+      currentUser=data?.user||null;
+    } catch(error) {
+      console.warn("بررسی حساب انجام نشد:",error);
+      currentUser=null;
     }
     await updateAccountLink();
   }
 
-  /* ویترین و فیلترها */
+  /* ویترین */
 
   function renderProducts() {
-    const query = $("searchInput").value.trim().toLocaleLowerCase();
-    const wear = $("wearFilter").value;
-    const source = $("sourceFilter").value;
-    const sort = $("sortFilter").value;
+    const query=$("searchInput").value.trim().toLocaleLowerCase();
+    const wear=$("wearFilter").value;
+    const source=$("sourceFilter").value;
+    const sort=$("sortFilter").value;
 
-    let filtered = listings.filter(item => {
-      const searchText = [
-        item.title, item.weapon, item.skin_name, item.rarity, item.wear
-      ].join(" ").toLocaleLowerCase();
-
-      return (!query || searchText.includes(query)) &&
-        (!wear || item.wear === wear) &&
-        (!source || item.source === source) &&
-        categoryMatches(item, activeCategory) &&
-        (!showFavoritesOnly || favorites.includes(String(item.id)));
+    let filtered=listings.filter(item=>{
+      const text=[item.title,item.weapon,item.skin_name,item.rarity,item.wear].join(" ").toLocaleLowerCase();
+      return (!query||text.includes(query))&&(!wear||item.wear===wear)&&
+        (!source||item.source===source)&&categoryMatches(item,activeCategory)&&
+        (!showFavoritesOnly||favorites.includes(String(item.id)));
     });
 
-    if (sort === "price-asc") {
-      filtered.sort((a, b) => Number(a.price) - Number(b.price));
-    } else if (sort === "price-desc") {
-      filtered.sort((a, b) => Number(b.price) - Number(a.price));
-    } else if (sort === "name") {
-      filtered.sort((a, b) => productName(a).localeCompare(productName(b), "fa"));
-    } else {
-      filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-    }
+    if(sort==="price-asc")filtered.sort((a,b)=>Number(a.price)-Number(b.price));
+    else if(sort==="price-desc")filtered.sort((a,b)=>Number(b.price)-Number(a.price));
+    else if(sort==="name")filtered.sort((a,b)=>productName(a).localeCompare(productName(b),"fa"));
+    else filtered.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
 
-    $("resultCount").textContent = `${filtered.length.toLocaleString("fa-IR")} اسکین`;
+    $("resultCount").textContent=`${filtered.length.toLocaleString("fa-IR")} اسکین`;
 
-    if (!filtered.length) {
-      $("productGrid").innerHTML = `
-        <div class="empty-state">
-          <div class="big">◇</div>
-          <strong>${showFavoritesOnly ? "هنوز علاقه‌مندی‌ای در این فیلتر وجود ندارد." : "اسکینی مطابق این جست‌وجو پیدا نشد."}</strong>
+    if(!filtered.length){
+      $("productGrid").innerHTML=`
+        <div class="empty-state"><div class="big">◇</div>
+          <strong>${showFavoritesOnly?"هنوز علاقه‌مندی‌ای در این فیلتر وجود ندارد.":"اسکینی مطابق این جست‌وجو پیدا نشد."}</strong>
           <div>فیلترها را تغییر بده یا عبارت دیگری جست‌وجو کن.</div>
           <button class="btn secondary" style="margin-top:14px" type="button" id="resetFiltersBtn">پاک کردن فیلترها</button>
         </div>`;
       return;
     }
 
-    $("productGrid").innerHTML = filtered.map(item => {
-      const id = String(item.id);
-      const image = safeURL(item.image_url);
-      const favorite = favorites.includes(id);
-      const sourceBadge = item.source === "site"
-        ? '<span class="badge site">موجودی سایت</span>'
-        : '<span class="badge user">فروشنده کاربر</span>';
-
-      const wearBadge = item.wear
-        ? `<span class="badge">${escapeHTML(item.wear)}</span>`
-        : "";
-
-      const imageHTML = image
-        ? `<img class="product-image" src="${escapeHTML(image)}" alt="${escapeHTML(productName(item))}" loading="lazy" referrerpolicy="no-referrer">`
-        : `<div class="product-fallback"><span><b>◇</b>تصویر اسکین ثبت نشده</span></div>`;
-
-      const details = [
-        item.weapon,
-        item.rarity,
-        item.float_value != null && item.float_value !== "" ? `Float: ${item.float_value}` : ""
-      ].filter(Boolean).join(" · ");
+    $("productGrid").innerHTML=filtered.map(item=>{
+      const id=String(item.id);
+      const image=safeURL(item.image_url);
+      const favorite=favorites.includes(id);
+      const sourceBadge=item.source==="site"
+        ?'<span class="badge site">موجودی سایت</span>'
+        :'<span class="badge user">فروشنده کاربر</span>';
+      const wearBadge=item.wear?`<span class="badge">${escapeHTML(item.wear)}</span>`:"";
+      const imageHTML=image
+        ?`<img class="product-image" src="${escapeHTML(image)}" alt="${escapeHTML(productName(item))}" loading="lazy" referrerpolicy="no-referrer">`
+        :`<div class="product-fallback"><span><b>◇</b>تصویر اسکین ثبت نشده</span></div>`;
+      const details=[item.weapon,item.rarity,item.float_value!=null&&item.float_value!==""?`Float: ${item.float_value}`:""].filter(Boolean).join(" · ");
 
       return `
         <article class="product-card" data-product-card="${escapeHTML(id)}">
           <div class="product-visual">
             ${imageHTML}
-            <div class="product-labels">${sourceBadge}${wearBadge}${item.stattrak ? '<span class="badge">StatTrak™</span>' : ""}</div>
-            <button class="fav-btn ${favorite ? "active" : ""}" type="button"
-              data-fav-id="${escapeHTML(id)}"
-              aria-label="${favorite ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}"
-              title="${favorite ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}">${favorite ? "♥" : "♡"}</button>
+            <div class="product-labels">${sourceBadge}${wearBadge}${item.stattrak?'<span class="badge">StatTrak™</span>':""}</div>
+            <button class="fav-btn ${favorite?"active":""}" type="button" data-fav-id="${escapeHTML(id)}"
+              aria-label="${favorite?"حذف از علاقه‌مندی‌ها":"افزودن به علاقه‌مندی‌ها"}">${favorite?"♥":"♡"}</button>
           </div>
           <div class="product-content">
             <div class="product-meta"><span class="muted small">COUNTER-STRIKE 2</span></div>
             <h3 class="product-name">${escapeHTML(productName(item))}</h3>
-            <div class="product-details">${escapeHTML(details || "اطلاعات تکمیلی ثبت نشده است.")}</div>
-            <div class="product-price-row">
-              <span class="product-price">${escapeHTML(formatPrice(item.price))}</span>
-              <span class="product-currency">${escapeHTML(currencyLabel(item.currency))}</span>
-            </div>
+            <div class="product-details">${escapeHTML(details||"اطلاعات تکمیلی ثبت نشده است.")}</div>
+            <div class="product-price-row"><span class="product-price">${escapeHTML(formatPrice(item.price))}</span><span class="product-currency">${escapeHTML(currencyLabel(item.currency))}</span></div>
             <div class="product-actions">
               <button class="btn" type="button" data-add-cart="${escapeHTML(id)}">افزودن به سبد</button>
               <button class="icon-btn" type="button" data-view-product="${escapeHTML(id)}" title="جزئیات اسکین" aria-label="مشاهده جزئیات">↗</button>
@@ -2012,699 +834,415 @@ label.field-label{
   }
 
   async function loadListings() {
-    $("productGrid").innerHTML = '<div class="empty-state">در حال دریافت اسکین‌ها <span class="loading-dot"></span></div>';
-    $("resultCount").textContent = "در حال بارگذاری…";
-
+    $("productGrid").innerHTML='<div class="empty-state">در حال دریافت اسکین‌ها <span class="loading-dot"></span></div>';
+    $("resultCount").textContent="در حال بارگذاری…";
     try {
-      const { data, error } = await db
-        .from("store_listings")
+      const {data,error}=await db.from("store_listings")
         .select("id,owner_id,title,weapon,skin_name,wear,float_value,rarity,stattrak,price,currency,image_url,description,source,status,steam_inspect_url,created_at,updated_at")
-        .eq("status", "active")
-        .order("created_at", { ascending: false })
-        .limit(300);
-
-      if (error) throw error;
-
-      listings = Array.isArray(data) ? data : [];
-      renderProducts();
-      renderCart();
-    } catch (error) {
-      console.error("دریافت اسکین‌ها ناموفق بود:", error);
-      $("resultCount").textContent = "خطا در دریافت اطلاعات";
-      $("productGrid").innerHTML = `
-        <div class="empty-state">
-          <div class="big">!</div>
-          <strong>دریافت محصولات انجام نشد.</strong>
-          <div>اتصال Supabase، نام ستون‌ها و سیاست‌های دسترسی RLS را بررسی کن.</div>
-          <button class="btn secondary" style="margin-top:14px" id="retryListingsBtn" type="button">تلاش دوباره</button>
-        </div>`;
+        .eq("status","active").order("created_at",{ascending:false}).limit(300);
+      if(error)throw error;
+      listings=Array.isArray(data)?data:[];
+      renderProducts();renderCart();
+    } catch(error) {
+      console.error("دریافت اسکین‌ها ناموفق بود:",error);
+      $("resultCount").textContent="خطا در دریافت اطلاعات";
+      $("productGrid").innerHTML='<div class="empty-state"><strong>دریافت محصولات انجام نشد.</strong><div>اتصال Supabase، نام ستون‌ها و سیاست‌های RLS را بررسی کن.</div><button class="btn secondary" style="margin-top:14px" id="retryListingsBtn" type="button">تلاش دوباره</button></div>';
     }
   }
 
-  $("productGrid").addEventListener("click", event => {
-    const resetButton = event.target.closest("#resetFiltersBtn");
-    if (resetButton) {
-      $("searchInput").value = "";
-      $("wearFilter").value = "";
-      $("sourceFilter").value = "";
-      $("sortFilter").value = "newest";
-      activeCategory = "all";
-      showFavoritesOnly = false;
+  $("productGrid").addEventListener("click",event=>{
+    const resetButton=event.target.closest("#resetFiltersBtn");
+    if(resetButton){
+      $("searchInput").value="";$("wearFilter").value="";$("sourceFilter").value="";
+      $("sortFilter").value="newest";activeCategory="all";showFavoritesOnly=false;
       $("favFilterBtn").classList.remove("active");
-      $("categoryRow").querySelectorAll("[data-category]").forEach(button => {
-        button.classList.toggle("active", button.dataset.category === "all");
-      });
-      renderProducts();
-      return;
+      $("favFilterBtn").textContent="♡ فقط علاقه‌مندی‌ها";
+      $("categoryRow").querySelectorAll("[data-category]").forEach(button=>button.classList.toggle("active",button.dataset.category==="all"));
+      renderProducts();return;
     }
 
-    const retry = event.target.closest("#retryListingsBtn");
-    if (retry) {
-      loadListings();
-      return;
-    }
+    if(event.target.closest("#retryListingsBtn")){loadListings();return;}
 
-    const favoriteButton = event.target.closest("[data-fav-id]");
-    if (favoriteButton) {
-      toggleFavorite(favoriteButton.dataset.favId);
-      return;
-    }
+    const favoriteButton=event.target.closest("[data-fav-id]");
+    if(favoriteButton){toggleFavorite(favoriteButton.dataset.favId);return;}
 
-    const addButton = event.target.closest("[data-add-cart]");
-    if (addButton) {
-      addToCart(addButton.dataset.addCart);
-      return;
-    }
+    const addButton=event.target.closest("[data-add-cart]");
+    if(addButton){addToCart(addButton.dataset.addCart);return;}
 
-    const viewButton = event.target.closest("[data-view-product]");
-    if (viewButton) {
-      openProductDetails(viewButton.dataset.viewProduct);
-    }
+    const viewButton=event.target.closest("[data-view-product]");
+    if(viewButton)openProductDetails(viewButton.dataset.viewProduct);
   });
 
-  $("categoryRow").addEventListener("click", event => {
-    const button = event.target.closest("[data-category]");
-    if (!button) return;
-
-    activeCategory = button.dataset.category;
-    $("categoryRow").querySelectorAll("[data-category]").forEach(item => {
-      item.classList.toggle("active", item === button);
-    });
+  $("categoryRow").addEventListener("click",event=>{
+    const button=event.target.closest("[data-category]");
+    if(!button)return;
+    activeCategory=button.dataset.category;
+    $("categoryRow").querySelectorAll("[data-category]").forEach(item=>item.classList.toggle("active",item===button));
     renderProducts();
   });
 
-  ["searchInput", "wearFilter", "sourceFilter", "sortFilter"].forEach(id => {
-    $(id).addEventListener(id === "searchInput" ? "input" : "change", renderProducts);
+  ["searchInput","wearFilter","sourceFilter","sortFilter"].forEach(id=>{
+    $(id).addEventListener(id==="searchInput"?"input":"change",renderProducts);
   });
 
-  $("favFilterBtn").addEventListener("click", () => {
-    showFavoritesOnly = !showFavoritesOnly;
-    $("favFilterBtn").classList.toggle("active", showFavoritesOnly);
-    $("favFilterBtn").textContent = showFavoritesOnly ? "♥ نمایش همه اسکین‌ها" : "♡ فقط علاقه‌مندی‌ها";
+  $("favFilterBtn").addEventListener("click",()=>{
+    showFavoritesOnly=!showFavoritesOnly;
+    $("favFilterBtn").classList.toggle("active",showFavoritesOnly);
+    $("favFilterBtn").textContent=showFavoritesOnly?"♥ نمایش همه اسکین‌ها":"♡ فقط علاقه‌مندی‌ها";
     renderProducts();
   });
 
   function toggleFavorite(id) {
-    id = String(id);
-    favorites = favorites.includes(id)
-      ? favorites.filter(item => item !== id)
-      : [...favorites, id];
-
-    saveArray(FAV_KEY, favorites);
-    renderProducts();
-    toast(favorites.includes(id) ? "به علاقه‌مندی‌ها اضافه شد." : "از علاقه‌مندی‌ها حذف شد.");
+    id=String(id);
+    favorites=favorites.includes(id)?favorites.filter(item=>item!==id):[...favorites,id];
+    saveArray(FAV_KEY,favorites);renderProducts();
+    toast(favorites.includes(id)?"به علاقه‌مندی‌ها اضافه شد.":"از علاقه‌مندی‌ها حذف شد.");
   }
 
   /* سبد خرید */
 
   function saveCart() {
-    cartIds = [...new Set(cartIds.map(String))];
-    saveArray(CART_KEY, cartIds);
-    $("cartCount").textContent = cartIds.length.toLocaleString("fa-IR");
+    cartIds=[...new Set(cartIds.map(String))];
+    saveArray(CART_KEY,cartIds);
+    $("cartCount").textContent=cartIds.length.toLocaleString("fa-IR");
   }
 
   function addToCart(id) {
-    id = String(id);
-    if (!getListing(id)) {
-      toast("این آیتم دیگر در ویترین فعال نیست.", "error");
-      return;
-    }
-
-    if (cartIds.includes(id)) {
-      toast("این اسکین از قبل در سبد خریدت قرار دارد.");
-      openCart();
-      return;
-    }
-
-    cartIds.push(id);
-    saveCart();
-    renderCart();
-    toast("اسکین به سبد خرید اضافه شد.");
+    id=String(id);
+    if(!getListing(id)){toast("این آیتم دیگر در ویترین فعال نیست.","error");return;}
+    if(cartIds.includes(id)){toast("این اسکین از قبل در سبد خریدت قرار دارد.");openCart();return;}
+    cartIds.push(id);saveCart();renderCart();toast("اسکین به سبد خرید اضافه شد.");
   }
 
   function removeFromCart(id) {
-    cartIds = cartIds.filter(item => String(item) !== String(id));
-    saveCart();
-    renderCart();
+    cartIds=cartIds.filter(item=>String(item)!==String(id));saveCart();renderCart();
   }
 
   function groupedCartTotal(items) {
-    const groups = new Map();
-
-    items.forEach(item => {
-      const currency = String(item.currency || "نامشخص");
-      const amount = Number(item.price);
-      if (!Number.isFinite(amount)) return;
-      groups.set(currency, (groups.get(currency) || 0) + amount);
+    const groups=new Map();
+    items.forEach(item=>{
+      const currency=String(item.currency||"نامشخص"),amount=Number(item.price);
+      if(Number.isFinite(amount))groups.set(currency,(groups.get(currency)||0)+amount);
     });
-
-    if (!groups.size) return "قیمت نهایی پس از بررسی درخواست مشخص می‌شود.";
-
-    return [...groups.entries()]
-      .map(([currency, amount]) => `${formatPrice(amount)} ${currencyLabel(currency)}`)
-      .join(" + ");
+    if(!groups.size)return "قیمت نهایی پس از بررسی درخواست مشخص می‌شود.";
+    return [...groups.entries()].map(([currency,amount])=>`${formatPrice(amount)} ${currencyLabel(currency)}`).join(" + ");
   }
 
   function renderCart() {
     saveCart();
-
-    const items = cartIds.map(getListing).filter(Boolean);
-    $("cartTotalCount").textContent = items.length.toLocaleString("fa-IR");
-    $("cartTotal").textContent = groupedCartTotal(items);
-    $("checkoutBtn").disabled = items.length === 0;
-
-    if (!items.length) {
-      $("cartList").innerHTML = `
-        <div class="empty-state">
-          <div class="big">◇</div>
-          <strong>سبدت هنوز خالیه.</strong>
-          <div>از ویترین اسکین موردنظرت را اضافه کن.</div>
-          <button id="cartBrowseBtn" class="btn secondary" type="button" style="margin-top:14px">رفتن به ویترین</button>
-        </div>`;
+    const items=cartIds.map(getListing).filter(Boolean);
+    $("cartTotalCount").textContent=items.length.toLocaleString("fa-IR");
+    $("cartTotal").textContent=groupedCartTotal(items);
+    $("checkoutBtn").disabled=items.length===0;
+    if(!items.length){
+      $("cartList").innerHTML='<div class="empty-state"><div class="big">◇</div><strong>سبدت هنوز خالیه.</strong><div>از ویترین اسکین موردنظرت را اضافه کن.</div><button id="cartBrowseBtn" class="btn secondary" type="button" style="margin-top:14px">رفتن به ویترین</button></div>';
       return;
     }
-
-    $("cartList").innerHTML = items.map(item => {
-      const image = safeURL(item.image_url);
-      return `
-        <div class="cart-row">
-          <div class="cart-thumb">
-            ${image
-              ? `<img src="${escapeHTML(image)}" alt="" loading="lazy" referrerpolicy="no-referrer">`
-              : '<span class="muted">◇</span>'}
-          </div>
-          <div>
-            <div class="cart-item-name">${escapeHTML(productName(item))}</div>
-            <div class="cart-item-price">${escapeHTML(priceWithCurrency(item))}</div>
-          </div>
-          <button class="remove-cart" type="button" data-remove-cart="${escapeHTML(item.id)}">حذف</button>
-        </div>`;
+    $("cartList").innerHTML=items.map(item=>{
+      const image=safeURL(item.image_url);
+      return `<div class="cart-row"><div class="cart-thumb">${image?`<img src="${escapeHTML(image)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:'<span class="muted">◇</span>'}</div><div><div class="cart-item-name">${escapeHTML(productName(item))}</div><div class="cart-item-price">${escapeHTML(priceWithCurrency(item))}</div></div><button class="remove-cart" type="button" data-remove-cart="${escapeHTML(item.id)}">حذف</button></div>`;
     }).join("");
   }
 
   function openCart() {
     $("cartDrawerBackdrop").classList.add("open");
-    $("cartDrawerBackdrop").setAttribute("aria-hidden", "false");
-    document.body.classList.add("locked");
-    renderCart();
+    $("cartDrawerBackdrop").setAttribute("aria-hidden","false");
+    document.body.classList.add("locked");renderCart();
   }
 
   function closeCart() {
     $("cartDrawerBackdrop").classList.remove("open");
-    $("cartDrawerBackdrop").setAttribute("aria-hidden", "true");
-    document.body.classList.remove("locked");
+    $("cartDrawerBackdrop").setAttribute("aria-hidden","true");
+    if(!document.querySelector(".modal-backdrop.open"))document.body.classList.remove("locked");
   }
 
-  $("cartOpenBtn").addEventListener("click", openCart);
-  $("cartCloseBtn").addEventListener("click", closeCart);
-
-  $("cartDrawerBackdrop").addEventListener("click", event => {
-    if (event.target === $("cartDrawerBackdrop")) closeCart();
-
-    const removeButton = event.target.closest("[data-remove-cart]");
-    if (removeButton) removeFromCart(removeButton.dataset.removeCart);
-
-    if (event.target.closest("#cartBrowseBtn")) {
-      closeCart();
-      $("catalog").scrollIntoView({ behavior: "smooth" });
-    }
+  $("cartOpenBtn").addEventListener("click",openCart);
+  $("cartCloseBtn").addEventListener("click",closeCart);
+  $("cartDrawerBackdrop").addEventListener("click",event=>{
+    if(event.target===$("cartDrawerBackdrop"))closeCart();
+    const removeButton=event.target.closest("[data-remove-cart]");
+    if(removeButton)removeFromCart(removeButton.dataset.removeCart);
+    if(event.target.closest("#cartBrowseBtn")){closeCart();$("catalog").scrollIntoView({behavior:"smooth"});}
   });
 
-  $("clearCartBtn").addEventListener("click", () => {
-    if (!cartIds.length) return;
-    if (!confirm("سبد خرید خالی شود؟")) return;
-    cartIds = [];
-    saveCart();
-    renderCart();
-    toast("سبد خرید خالی شد.");
+  $("clearCartBtn").addEventListener("click",()=>{
+    if(!cartIds.length)return;
+    if(!confirm("سبد خرید خالی شود؟"))return;
+    cartIds=[];saveCart();renderCart();toast("سبد خرید خالی شد.");
   });
 
   /* جزئیات محصول */
 
   function openProductDetails(id) {
-    const item = getListing(id);
-    if (!item) return;
-
-    const image = safeURL(item.image_url);
-    const description = item.description || "توضیحات تکمیلی برای این محصول ثبت نشده است.";
-    const specs = [
-      ["نام سلاح", item.weapon || "—"],
-      ["وضعیت ظاهری", item.wear || "—"],
-      ["کیفیت", item.rarity || "—"],
-      ["Float", item.float_value ?? "—"],
-      ["StatTrak", item.stattrak ? "بله" : "خیر"],
-      ["نوع فروشنده", item.source === "site" ? "موجودی سایت" : "فروشنده کاربر"]
+    const item=getListing(id);
+    if(!item)return;
+    const image=safeURL(item.image_url);
+    const specs=[
+      ["نام سلاح",item.weapon||"—"],["وضعیت ظاهری",item.wear||"—"],
+      ["کیفیت",item.rarity||"—"],["Float",item.float_value??"—"],
+      ["StatTrak",item.stattrak?"بله":"خیر"],["نوع فروشنده",item.source==="site"?"موجودی سایت":"فروشنده کاربر"]
     ];
-
-    $("productDetailContent").innerHTML = `
+    $("productDetailContent").innerHTML=`
       <div class="product-detail-layout">
-        <div class="detail-image">
-          ${image
-            ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(productName(item))}" referrerpolicy="no-referrer">`
-            : '<div class="product-fallback"><span><b>◇</b>تصویر موجود نیست</span></div>'}
-        </div>
+        <div class="detail-image">${image?`<img src="${escapeHTML(image)}" alt="${escapeHTML(productName(item))}" referrerpolicy="no-referrer">`:'<div class="product-fallback"><span><b>◇</b>تصویر موجود نیست</span></div>'}</div>
         <div class="detail-info">
           <h3 id="detailName">${escapeHTML(productName(item))}</h3>
           <div class="detail-price">${escapeHTML(priceWithCurrency(item))}</div>
-          <div class="detail-specs">
-            ${specs.map(([label, value]) => `
-              <div class="detail-spec"><span>${escapeHTML(label)}</span><strong>${escapeHTML(value)}</strong></div>
-            `).join("")}
-          </div>
-          <div class="detail-description">${escapeHTML(description)}</div>
+          <div class="detail-specs">${specs.map(([label,value])=>`<div class="detail-spec"><span>${escapeHTML(label)}</span><strong>${escapeHTML(value)}</strong></div>`).join("")}</div>
+          <div class="detail-description">${escapeHTML(item.description||"توضیحات تکمیلی برای این محصول ثبت نشده است.")}</div>
           <button id="detailAddCartBtn" class="btn full" style="margin-top:16px" type="button" data-add-detail="${escapeHTML(item.id)}">افزودن به سبد خرید</button>
-          ${item.steam_inspect_url && safeURL(item.steam_inspect_url)
-            ? `<a class="btn secondary full" style="margin-top:8px" href="${escapeHTML(safeURL(item.steam_inspect_url))}" target="_blank" rel="noopener noreferrer">باز کردن لینک Inspect</a>`
-            : ""}
+          ${item.steam_inspect_url&&safeURL(item.steam_inspect_url)?`<a class="btn secondary full" style="margin-top:8px" href="${escapeHTML(safeURL(item.steam_inspect_url))}" target="_blank" rel="noopener noreferrer">باز کردن لینک Inspect</a>`:""}
         </div>
       </div>`;
-
-    $("productModal").classList.add("open");
-    document.body.classList.add("locked");
+    $("productModal").classList.add("open");document.body.classList.add("locked");
   }
 
-  $("productDetailContent").addEventListener("click", event => {
-    const button = event.target.closest("[data-add-detail]");
-    if (!button) return;
+  $("productDetailContent").addEventListener("click",event=>{
+    const button=event.target.closest("[data-add-detail]");
+    if(!button)return;
     addToCart(button.dataset.addDetail);
-    $("productModal").classList.remove("open");
-    document.body.classList.remove("locked");
-    openCart();
+    $("productModal").classList.remove("open");document.body.classList.remove("locked");openCart();
   });
 
   /* پنجره‌ها */
 
-  function openModal(id) {
-    $(id).classList.add("open");
-    document.body.classList.add("locked");
-  }
+  function openModal(id){$(id).classList.add("open");document.body.classList.add("locked");}
 
   function closeModal(id) {
-    const element = $(id);
-    if (id === "orderModal" && orderBusy) return;
-    if (id === "rulesModal") {
-      element.classList.remove("open");
-      if (!$("orderModal").classList.contains("open")) document.body.classList.remove("locked");
-      return;
-    }
+    const element=$(id);
+    if(id==="orderModal"&&orderBusy)return;
     element.classList.remove("open");
-
-    if (!document.querySelector(".modal-backdrop.open") && !$("cartDrawerBackdrop").classList.contains("open")) {
+    if(!document.querySelector(".modal-backdrop.open")&&!$("cartDrawerBackdrop").classList.contains("open")){
       document.body.classList.remove("locked");
     }
   }
 
-  document.querySelectorAll("[data-close-modal]").forEach(button => {
-    button.addEventListener("click", () => closeModal(button.dataset.closeModal));
+  document.querySelectorAll("[data-close-modal]").forEach(button=>{
+    button.addEventListener("click",()=>closeModal(button.dataset.closeModal));
   });
 
-  $("productModal").addEventListener("click", event => {
-    if (event.target === $("productModal")) closeModal("productModal");
+  $("productModal").addEventListener("click",event=>{
+    if(event.target===$("productModal"))closeModal("productModal");
   });
 
   /* ثبت درخواست خرید */
 
   function openOrderModal() {
-    const items = cartIds.map(getListing).filter(Boolean);
-    if (!items.length) {
-      toast("ابتدا یک اسکین به سبد خرید اضافه کن.", "error");
-      return;
-    }
-
-    activeListing = items;
-    $("selectedProduct").textContent = items.length === 1
-      ? `${productName(items[0])} — ${priceWithCurrency(items[0])}`
-      : `${items.length.toLocaleString("fa-IR")} آیتم انتخاب شده — ${groupedCartTotal(items)}`;
-
-    $("modalMessage").textContent = "";
-    $("orderForm").reset();
-    $("submitOrder").disabled = false;
-    $("submitOrder").textContent = "ثبت درخواست";
-    closeCart();
-    openModal("orderModal");
+    const items=cartIds.map(getListing).filter(Boolean);
+    if(!items.length){toast("ابتدا یک اسکین به سبد خرید اضافه کن.","error");return;}
+    activeListing=items;
+    $("selectedProduct").textContent=items.length===1
+      ?`${productName(items[0])} — ${priceWithCurrency(items[0])}`
+      :`${items.length.toLocaleString("fa-IR")} آیتم انتخاب شده — ${groupedCartTotal(items)}`;
+    $("modalMessage").textContent="";$("orderForm").reset();
+    $("submitOrder").disabled=false;$("submitOrder").textContent="ثبت درخواست";
+    closeCart();openModal("orderModal");
   }
 
-  $("checkoutBtn").addEventListener("click", openOrderModal);
-  $("closeModal").addEventListener("click", () => closeModal("orderModal"));
-  $("cancelOrderBtn").addEventListener("click", () => closeModal("orderModal"));
+  $("checkoutBtn").addEventListener("click",openOrderModal);
+  $("closeModal").addEventListener("click",()=>closeModal("orderModal"));
+  $("cancelOrderBtn").addEventListener("click",()=>closeModal("orderModal"));
 
   function validTradeURL(value) {
     try {
-      const url = new URL(value);
-      return url.protocol === "https:" &&
-        url.hostname.toLowerCase() === "steamcommunity.com" &&
-        url.pathname.startsWith("/tradeoffer/new/");
-    } catch {
-      return false;
-    }
+      const url=new URL(value);
+      return url.protocol==="https:"&&url.hostname.toLowerCase()==="steamcommunity.com"&&url.pathname.startsWith("/tradeoffer/new/");
+    } catch {return false;}
   }
 
-  function validTelegram(value) {
-    return /^@?[A-Za-z0-9_]{3,32}$/.test(value.trim());
-  }
+  function validTelegram(value){return /^@?[A-Za-z0-9_]{3,32}$/.test(value.trim());}
 
   async function submitOrders(event) {
     event.preventDefault();
-    if (orderBusy || !activeListing?.length) return;
+    if(orderBusy||!activeListing?.length)return;
 
-    const fields = {
-      buyer_full_name: $("buyerName").value.trim(),
-      buyer_phone: $("buyerPhone").value.trim(),
-      buyer_telegram: $("buyerTelegram").value.trim(),
-      buyer_steam_name: $("buyerSteam").value.trim(),
-      buyer_trade_url: $("buyerTrade").value.trim()
+    const fields={
+      buyer_full_name:$("buyerName").value.trim(),
+      buyer_phone:$("buyerPhone").value.trim(),
+      buyer_telegram:$("buyerTelegram").value.trim(),
+      buyer_steam_name:$("buyerSteam").value.trim(),
+      buyer_trade_url:$("buyerTrade").value.trim()
     };
+    const note=$("orderNote").value.trim();
 
-    const note = $("orderNote").value.trim();
+    if(!Object.values(fields).every(Boolean)){$("modalMessage").textContent="لطفاً همه فیلدهای ضروری را کامل کن.";return;}
+    if(!validTelegram(fields.buyer_telegram)){$("modalMessage").textContent="آیدی تلگرام معتبر وارد کن؛ ۳ تا ۳۲ حرف، عدد یا زیرخط.";return;}
+    if(!validTradeURL(fields.buyer_trade_url)){$("modalMessage").textContent="لینک باید یک آدرس معتبر Steam Trade Offer باشد.";return;}
+    if(fields.buyer_phone.replace(/[\s()+.-]/g,"").length<7){$("modalMessage").textContent="شماره تلفن معتبر وارد کن.";return;}
+    if(!$("acceptRules").checked){$("modalMessage").textContent="برای ادامه باید قوانین ثبت درخواست را بپذیری.";return;}
 
-    if (!Object.values(fields).every(Boolean)) {
-      $("modalMessage").textContent = "لطفاً همه فیلدهای ضروری را کامل کن.";
-      return;
-    }
-
-    if (!validTelegram(fields.buyer_telegram)) {
-      $("modalMessage").textContent = "آیدی تلگرام معتبر وارد کن؛ ۳ تا ۳۲ حرف، عدد یا زیرخط.";
-      return;
-    }
-
-    if (!validTradeURL(fields.buyer_trade_url)) {
-      $("modalMessage").textContent = "لینک باید یک آدرس معتبر Steam Trade Offer باشد.";
-      return;
-    }
-
-    if (fields.buyer_phone.replace(/[\s()+.-]/g, "").length < 7) {
-      $("modalMessage").textContent = "شماره تلفن معتبر وارد کن.";
-      return;
-    }
-
-    if (!$("acceptRules").checked) {
-      $("modalMessage").textContent = "برای ادامه باید قوانین ثبت درخواست را بپذیری.";
-      return;
-    }
-
-    orderBusy = true;
-    $("submitOrder").disabled = true;
-    $("submitOrder").textContent = "در حال ثبت…";
-    $("modalMessage").textContent = "در حال بررسی حساب و موجودی آیتم‌ها…";
+    orderBusy=true;$("submitOrder").disabled=true;$("submitOrder").textContent="در حال ثبت…";
+    $("modalMessage").textContent="در حال بررسی حساب و موجودی آیتم‌ها…";
 
     try {
-      const { data: authData, error: authError } = await db.auth.getUser();
-      if (authError || !authData?.user) {
-        $("modalMessage").textContent = "برای ثبت درخواست ابتدا از صفحه اصلی سایت وارد حساب کاربری شو.";
-        return;
+      const {data:authData,error:authError}=await db.auth.getUser();
+      if(authError||!authData?.user){$("modalMessage").textContent="برای ثبت درخواست ابتدا از صفحه اصلی سایت وارد حساب کاربری شو.";return;}
+
+      const uniqueIds=[...new Set(activeListing.map(item=>String(item.id)))];
+      const {data:activeRows,error:activeError}=await db.from("store_listings").select("id,status").in("id",uniqueIds).eq("status","active");
+      if(activeError)throw activeError;
+
+      const activeIds=new Set((activeRows||[]).map(row=>String(row.id)));
+      if(uniqueIds.some(id=>!activeIds.has(id))){
+        $("modalMessage").textContent="حداقل یکی از اسکین‌ها دیگر فعال نیست. ویترین را تازه‌سازی و دوباره بررسی کن.";
+        await loadListings();return;
       }
 
-      const uniqueIds = [...new Set(activeListing.map(item => String(item.id)))];
-
-      const { data: activeRows, error: activeError } = await db
-        .from("store_listings")
-        .select("id,status")
-        .in("id", uniqueIds)
-        .eq("status", "active");
-
-      if (activeError) throw activeError;
-
-      const activeIds = new Set((activeRows || []).map(row => String(row.id)));
-      const unavailable = uniqueIds.filter(id => !activeIds.has(id));
-
-      if (unavailable.length) {
-        $("modalMessage").textContent = "حداقل یکی از اسکین‌ها دیگر فعال نیست. ویترین را تازه‌سازی و دوباره بررسی کن.";
-        await loadListings();
-        return;
-      }
-
-      const payload = uniqueIds.map(id => ({
-        listing_id: getListing(id).id,
-        buyer_id: authData.user.id,
-        note: note || null,
-        status: "requested",
-        buyer_full_name: fields.buyer_full_name,
-        buyer_phone: fields.buyer_phone,
-        buyer_telegram: fields.buyer_telegram,
-        buyer_steam_name: fields.buyer_steam_name,
-        buyer_trade_url: fields.buyer_trade_url,
-        rules_accepted: true,
-        rules_accepted_at: new Date().toISOString()
+      const payload=uniqueIds.map(id=>({
+        listing_id:getListing(id).id,buyer_id:authData.user.id,note:note||null,status:"requested",
+        buyer_full_name:fields.buyer_full_name,buyer_phone:fields.buyer_phone,
+        buyer_telegram:fields.buyer_telegram,buyer_steam_name:fields.buyer_steam_name,
+        buyer_trade_url:fields.buyer_trade_url,rules_accepted:true,
+        rules_accepted_at:new Date().toISOString()
       }));
 
-      const { error } = await db.from("store_orders").insert(payload);
-      if (error) throw error;
+      const {error}=await db.from("store_orders").insert(payload);
+      if(error)throw error;
 
-      cartIds = cartIds.filter(id => !uniqueIds.includes(String(id)));
-      saveCart();
-      renderCart();
-
-      $("modalMessage").textContent = "درخواست‌ها ثبت شدند. این مرحله هیچ پرداخت یا انتقال اسکینی انجام نمی‌دهد.";
-      $("submitOrder").textContent = "ثبت شد";
+      cartIds=cartIds.filter(id=>!uniqueIds.includes(String(id)));
+      saveCart();renderCart();
+      $("modalMessage").textContent="درخواست‌ها ثبت شدند. این مرحله هیچ پرداخت یا انتقال اسکینی انجام نمی‌دهد.";
+      $("submitOrder").textContent="ثبت شد";
       toast("درخواست خرید با موفقیت ثبت شد.");
-
       await loadMyOrders();
-      setTimeout(() => {
-        if ($("orderModal").classList.contains("open")) closeModal("orderModal");
-        activeListing = null;
-      }, 1400);
-    } catch (error) {
-      console.error("ثبت درخواست خرید ناموفق بود:", error);
-      $("modalMessage").textContent =
-        "ثبت درخواست ناموفق بود. اتصال حساب، ساختار جدول store_orders و سیاست‌های RLS را بررسی کن." +
-        (error?.message ? ` جزئیات: ${error.message}` : "");
+
+      setTimeout(()=>{
+        if($("orderModal").classList.contains("open"))closeModal("orderModal");
+        activeListing=null;
+      },1400);
+    } catch(error) {
+      console.error("ثبت درخواست خرید ناموفق بود:",error);
+      $("modalMessage").textContent="ثبت درخواست ناموفق بود. اتصال حساب، ساختار جدول store_orders و سیاست‌های RLS را بررسی کن.";
     } finally {
-      orderBusy = false;
-      if ($("orderModal").classList.contains("open") && $("submitOrder").textContent !== "ثبت شد") {
-        $("submitOrder").disabled = false;
-        $("submitOrder").textContent = "ثبت درخواست";
+      orderBusy=false;
+      if($("orderModal").classList.contains("open")&&$("submitOrder").textContent!=="ثبت شد"){
+        $("submitOrder").disabled=false;$("submitOrder").textContent="ثبت درخواست";
       }
     }
   }
 
-  $("orderForm").addEventListener("submit", submitOrders);
+  $("orderForm").addEventListener("submit",submitOrders);
 
   /* بخش درخواست‌های من */
 
-  function showPanel(panelId, shouldScroll = true) {
-    const valid = ["ordersPanel", "supportPanel"];
-    if (!valid.includes(panelId)) return;
-
-    valid.forEach(id => {
-      $(id).hidden = id !== panelId;
-    });
-
-    document.querySelectorAll("[data-panel]").forEach(button => {
-      button.classList.toggle("active", button.dataset.panel === panelId);
-    });
-
-    if (shouldScroll) {
-      $("accountHub").scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    if (panelId === "ordersPanel") loadMyOrders();
-    if (panelId === "supportPanel") loadMyTickets();
+  function showPanel(panelId,shouldScroll=true) {
+    if(!["ordersPanel","supportPanel"].includes(panelId))return;
+    ["ordersPanel","supportPanel"].forEach(id=>$(id).hidden=id!==panelId);
+    document.querySelectorAll("[data-panel]").forEach(button=>button.classList.toggle("active",button.dataset.panel===panelId));
+    if(shouldScroll)$("accountHub").scrollIntoView({behavior:"smooth",block:"start"});
+    if(panelId==="ordersPanel")loadMyOrders();
+    if(panelId==="supportPanel")loadMyTickets();
   }
 
-  document.querySelectorAll("[data-panel]").forEach(button => {
-    button.addEventListener("click", () => showPanel(button.dataset.panel, false));
-  });
-
-  document.querySelectorAll("[data-open-panel]").forEach(button => {
-    button.addEventListener("click", event => {
-      event.preventDefault();
-      showPanel(button.dataset.openPanel, true);
-    });
-  });
+  document.querySelectorAll("[data-panel]").forEach(button=>button.addEventListener("click",()=>showPanel(button.dataset.panel,false)));
+  document.querySelectorAll("[data-open-panel]").forEach(button=>button.addEventListener("click",event=>{
+    event.preventDefault();showPanel(button.dataset.openPanel,true);
+  }));
 
   async function loadMyOrders() {
-    if (!db) return;
-
-    if (!isLoggedIn()) {
-      myOrders = [];
-      $("ordersList").innerHTML = `
-        <div class="empty-state">
-          <div class="big">♙</div>
-          <strong>برای مشاهده درخواست‌ها وارد حساب کاربری شو.</strong>
-          <div>با همان حسابی وارد شو که هنگام ثبت درخواست استفاده کرده‌ای.</div>
-          <a href="./index.html" class="btn" style="margin-top:14px">ورود / ثبت‌نام</a>
-        </div>`;
+    if(!db)return;
+    if(!isLoggedIn()){
+      myOrders=[];
+      $("ordersList").innerHTML='<div class="empty-state"><div class="big">♙</div><strong>برای مشاهده درخواست‌ها وارد حساب کاربری شو.</strong><div>با همان حسابی وارد شو که هنگام ثبت درخواست استفاده کرده‌ای.</div><a href="./index.html" class="btn" style="margin-top:14px">ورود / ثبت‌نام</a></div>';
       return;
     }
-
-    $("ordersList").innerHTML = '<div class="empty-state">در حال دریافت درخواست‌ها <span class="loading-dot"></span></div>';
-
+    $("ordersList").innerHTML='<div class="empty-state">در حال دریافت درخواست‌ها <span class="loading-dot"></span></div>';
     try {
-      const { data, error } = await db
-        .from("store_orders")
+      const {data,error}=await db.from("store_orders")
         .select("id,listing_id,buyer_id,note,status,created_at,buyer_full_name,buyer_phone,buyer_telegram,buyer_steam_name,buyer_trade_url,rules_accepted,rules_accepted_at")
-        .eq("buyer_id", currentUser.id)
-        .order("created_at", { ascending: false })
-        .limit(100);
-
-      if (error) throw error;
-
-      myOrders = data || [];
-      renderMyOrders();
-    } catch (error) {
-      console.error("دریافت درخواست‌ها ناموفق بود:", error);
-      $("ordersList").innerHTML = `
-        <div class="empty-state">
-          دریافت درخواست‌ها ناموفق بود. سیاست‌های دسترسی کاربران در جدول store_orders را بررسی کن.
-        </div>`;
+        .eq("buyer_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
+      if(error)throw error;
+      myOrders=data||[];renderMyOrders();
+    } catch(error) {
+      console.error("دریافت درخواست‌ها ناموفق بود:",error);
+      $("ordersList").innerHTML='<div class="empty-state">دریافت درخواست‌ها ناموفق بود. سیاست‌های دسترسی کاربران در جدول store_orders را بررسی کن.</div>';
     }
   }
 
   function renderMyOrders() {
-    if (!myOrders.length) {
-      $("ordersList").innerHTML = `
-        <div class="empty-state">
-          <div class="big">◇</div>
-          <strong>هنوز درخواستی ثبت نکرده‌ای.</strong>
-          <div>از ویترین اسکین موردنظرت را به سبد اضافه کن و درخواستت را ثبت کن.</div>
-          <a href="#catalog" class="btn secondary" style="margin-top:14px">رفتن به ویترین</a>
-        </div>`;
+    if(!myOrders.length){
+      $("ordersList").innerHTML='<div class="empty-state"><div class="big">◇</div><strong>هنوز درخواستی ثبت نکرده‌ای.</strong><div>از ویترین اسکین موردنظرت را به سبد اضافه کن و درخواستت را ثبت کن.</div><a href="#catalog" class="btn secondary" style="margin-top:14px">رفتن به ویترین</a></div>';
       return;
     }
-
-    $("ordersList").innerHTML = myOrders.map(order => {
-      const item = getListing(order.listing_id);
-      const title = item ? productName(item) : `درخواست #${String(order.id).slice(0, 8)}`;
-      const status = String(order.status || "").toLowerCase();
-
-      return `
-        <article class="order-row">
-          <div>
-            <div class="order-title">${escapeHTML(title)}</div>
-            <div class="order-info">
-              شناسه: ${escapeHTML(order.id)}<br>
-              تاریخ ثبت: ${escapeHTML(formatDate(order.created_at))}
-              ${order.note ? `<br>توضیحات: ${escapeHTML(order.note)}` : ""}
-            </div>
-          </div>
-          <div class="order-right">
-            <span class="status-pill ${statusClass(status)}">${escapeHTML(labelStatus(status))}</span>
-          </div>
-        </article>`;
+    $("ordersList").innerHTML=myOrders.map(order=>{
+      const item=getListing(order.listing_id);
+      const title=item?productName(item):`درخواست #${String(order.id).slice(0,8)}`;
+      const status=String(order.status||"").toLowerCase();
+      return `<article class="order-row"><div><div class="order-title">${escapeHTML(title)}</div><div class="order-info">شناسه: ${escapeHTML(order.id)}<br>تاریخ ثبت: ${escapeHTML(formatDate(order.created_at))}${order.note?`<br>توضیحات: ${escapeHTML(order.note)}`:""}</div></div><div class="order-right"><span class="status-pill ${statusClass(status)}">${escapeHTML(labelStatus(status))}</span></div></article>`;
     }).join("");
   }
 
-  $("refreshOrdersBtn").addEventListener("click", loadMyOrders);
+  $("refreshOrdersBtn").addEventListener("click",loadMyOrders);
 
   /* پشتیبانی */
 
   async function createTicket(event) {
     event.preventDefault();
-    if (ticketBusy) return;
+    if(ticketBusy)return;
+    if(!isLoggedIn()){setNotice("ticketFormMessage","برای ارسال پیام پشتیبانی ابتدا وارد حساب کاربری شو.","error");return;}
 
-    if (!isLoggedIn()) {
-      setNotice("ticketFormMessage", "برای ارسال پیام پشتیبانی ابتدا وارد حساب کاربری شو.", "error");
-      return;
-    }
+    const subject=$("ticketSubject").value.trim();
+    const category=$("ticketCategory").value;
+    const message=$("ticketMessage").value.trim();
+    if(!subject||!message){setNotice("ticketFormMessage","موضوع و متن پیام را کامل کن.","error");return;}
 
-    const subject = $("ticketSubject").value.trim();
-    const category = $("ticketCategory").value;
-    const message = $("ticketMessage").value.trim();
-
-    if (!subject || !message) {
-      setNotice("ticketFormMessage", "موضوع و متن پیام را کامل کن.", "error");
-      return;
-    }
-
-    ticketBusy = true;
-    $("createTicketBtn").disabled = true;
-    $("createTicketBtn").textContent = "در حال ارسال…";
-    setNotice("ticketFormMessage", "");
+    ticketBusy=true;$("createTicketBtn").disabled=true;$("createTicketBtn").textContent="در حال ارسال…";
+    setNotice("ticketFormMessage","");
 
     try {
-      const { data: authData, error: authError } = await db.auth.getUser();
-      if (authError || !authData?.user) throw new Error("حساب کاربری در دسترس نیست.");
+      const {data:authData,error:authError}=await db.auth.getUser();
+      if(authError||!authData?.user)throw new Error("حساب کاربری در دسترس نیست.");
 
-      let result = await db.from("store_support_tickets").insert({
-        user_id: authData.user.id,
-        subject,
-        category,
-        message,
-        status: "open"
+      const {error}=await db.from("store_support_tickets").insert({
+        user_id:authData.user.id,subject,category,message,status:"open"
       });
-
-      /*
-        سازگاری با ساختار قدیمی جدول:
-        اگر جدول فعلی ستون message یا user_id نداشته باشد، پیام خطا نمایش داده می‌شود؛
-        کد عمداً متن پیام را بی‌صدا حذف نمی‌کند تا کاربر فکر نکند متن ذخیره شده است.
-      */
-      if (result.error) throw result.error;
+      if(error)throw error;
 
       $("ticketForm").reset();
-      setNotice("ticketFormMessage", "پیام پشتیبانی ثبت شد.", "success");
+      setNotice("ticketFormMessage","پیام پشتیبانی ثبت شد.","success");
       toast("پیام پشتیبانی ارسال شد.");
       await loadMyTickets();
-    } catch (error) {
-      console.error("ثبت پیام پشتیبانی ناموفق بود:", error);
-      setNotice(
-        "ticketFormMessage",
-        "ثبت پیام ناموفق بود. ساختار جدول store_support_tickets (ستون‌های user_id، subject، category، message و status) و سیاست‌های RLS را بررسی کن. " +
-          (error?.message || ""),
-        "error"
-      );
+    } catch(error) {
+      console.error("ثبت پیام پشتیبانی ناموفق بود:",error);
+      setNotice("ticketFormMessage","ثبت پیام ناموفق بود. ساختار جدول store_support_tickets و سیاست‌های RLS را بررسی کن. "+(error?.message||""),"error");
     } finally {
-      ticketBusy = false;
-      $("createTicketBtn").disabled = false;
-      $("createTicketBtn").textContent = "ارسال پیام به پشتیبانی";
+      ticketBusy=false;$("createTicketBtn").disabled=false;$("createTicketBtn").textContent="ارسال پیام به پشتیبانی";
     }
   }
 
-  $("ticketForm").addEventListener("submit", createTicket);
+  $("ticketForm").addEventListener("submit",createTicket);
 
   async function loadMyTickets() {
-    if (!db) return;
-
-    if (!isLoggedIn()) {
-      $("ticketsList").innerHTML = `
-        <div class="empty-state">برای مشاهده پیام‌ها وارد حساب کاربری شو.</div>`;
-      return;
-    }
-
-    $("ticketsList").innerHTML = '<div class="empty-state">در حال دریافت پیام‌ها <span class="loading-dot"></span></div>';
+    if(!db)return;
+    if(!isLoggedIn()){$("ticketsList").innerHTML='<div class="empty-state">برای مشاهده پیام‌ها وارد حساب کاربری شو.</div>';return;}
+    $("ticketsList").innerHTML='<div class="empty-state">در حال دریافت پیام‌ها <span class="loading-dot"></span></div>';
 
     try {
-      const { data, error } = await db
-        .from("store_support_tickets")
+      const {data,error}=await db.from("store_support_tickets")
         .select("id,subject,category,status,created_at")
-        .eq("user_id", currentUser.id)
-        .order("created_at", { ascending: false })
-        .limit(30);
-
-      if (error) throw error;
-
-      myTickets = data || [];
-      renderMyTickets();
-    } catch (error) {
-      console.error("دریافت پیام‌های پشتیبانی ناموفق بود:", error);
-      $("ticketsList").innerHTML = `
-        <div class="empty-state">
-          دریافت پیام‌ها ممکن نیست. نام ستون‌های جدول store_support_tickets و RLS را بررسی کن.
-        </div>`;
+        .eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(30);
+      if(error)throw error;
+      myTickets=data||[];renderMyTickets();
+    } catch(error) {
+      console.error("دریافت پیام‌های پشتیبانی ناموفق بود:",error);
+      $("ticketsList").innerHTML='<div class="empty-state">دریافت پیام‌ها ممکن نیست. نام ستون‌های جدول store_support_tickets و RLS را بررسی کن.</div>';
     }
   }
 
   function renderMyTickets() {
-    if (!myTickets.length) {
-      $("ticketsList").innerHTML = '<div class="empty-state">هنوز پیامی ثبت نکرده‌ای.</div>';
-      return;
-    }
-
-    $("ticketsList").innerHTML = myTickets.map(ticket => `
-      <article class="ticket-row">
-        <div>
-          <div class="order-title">${escapeHTML(ticket.subject || "پیام پشتیبانی")}</div>
-          <div class="ticket-info">
-            ${escapeHTML(ticket.category || "سایر موارد")} · ${escapeHTML(formatDate(ticket.created_at))}
-          </div>
-        </div>
-        <span class="status-pill ${statusClass(ticket.status)}">${escapeHTML(labelStatus(ticket.status || "open"))}</span>
-      </article>
+    if(!myTickets.length){$("ticketsList").innerHTML='<div class="empty-state">هنوز پیامی ثبت نکرده‌ای.</div>';return;}
+    $("ticketsList").innerHTML=myTickets.map(ticket=>`
+      <article class="ticket-row"><div><div class="order-title">${escapeHTML(ticket.subject||"پیام پشتیبانی")}</div>
+      <div class="ticket-info">${escapeHTML(ticket.category||"سایر موارد")} · ${escapeHTML(formatDate(ticket.created_at))}</div></div>
+      <span class="status-pill ${statusClass(ticket.status)}">${escapeHTML(labelStatus(ticket.status||"open"))}</span></article>
     `).join("");
   }
 
-  $("refreshTicketsBtn").addEventListener("click", loadMyTickets);
+  $("refreshTicketsBtn").addEventListener("click",loadMyTickets);
 
-  /* STARK AI */
+  /* ==========================================================
+     STARK AI - اتصال رسمی Supabase + مدیریت پاسخ/خطا
+     ========================================================== */
 
   function openAI() {
     $("aiWidget").classList.add("open");
@@ -2715,190 +1253,303 @@ label.field-label{
     $("aiWidget").classList.remove("open");
   }
 
-  $("aiLauncher").addEventListener("click", () => {
-    if ($("aiWidget").classList.contains("open")) closeAI();
-    else openAI();
+  $("aiLauncher").addEventListener("click",()=> {
+    $("aiWidget").classList.contains("open")?closeAI():openAI();
   });
-  $("aiCloseBtn").addEventListener("click", closeAI);
+  $("aiCloseBtn").addEventListener("click",closeAI);
 
-  function addAIMessage(role, message) {
-    const bubble = document.createElement("div");
-    bubble.className = `ai-message ${role === "user" ? "user" : "bot"}`;
-    bubble.textContent = message;
+  function addAIMessage(role,message) {
+    const bubble=document.createElement("div");
+    bubble.className=`ai-message ${role==="user"?"user":"bot"}`;
+    bubble.textContent=message;
     $("aiChat").appendChild(bubble);
-    $("aiChat").scrollTop = $("aiChat").scrollHeight;
+    $("aiChat").scrollTop=$("aiChat").scrollHeight;
     return bubble;
   }
 
-  function extractAIReply(data) {
-    if (typeof data === "string") return data;
-    if (!data || typeof data !== "object") return "";
+  /*
+    پاسخ‌های متنی ساده، JSONهای رایج و ساختار معمول پاسخ Gemini
+    را شناسایی می‌کند. بدین ترتیب پاسخ درست به‌خاطر تفاوت قالب
+    خروجی با پیام «جوابی دریافت نشد» اشتباه گرفته نمی‌شود.
+  */
+  function extractAIReply(data,depth=0) {
+    if(depth>5||data==null)return "";
 
-    if (typeof data.reply === "string") return data.reply;
-    if (typeof data.answer === "string") return data.answer;
-    if (typeof data.response === "string") return data.response;
-    if (typeof data.message === "string") return data.message;
-    if (typeof data.output_text === "string") return data.output_text;
-    if (typeof data.result === "string") return data.result;
-
-    if (Array.isArray(data.choices) && data.choices[0]) {
-      const content = data.choices[0]?.message?.content;
-      if (typeof content === "string") return content;
+    if(typeof data==="string"){
+      const trimmed=data.trim();
+      if(!trimmed)return "";
+      if((trimmed.startsWith("{")&&trimmed.endsWith("}"))||
+         (trimmed.startsWith("[")&&trimmed.endsWith("]"))){
+        try{return extractAIReply(JSON.parse(trimmed),depth+1);}catch{}
+      }
+      return trimmed;
     }
 
-    if (typeof data.data?.reply === "string") return data.data.reply;
-    if (typeof data.data?.answer === "string") return data.data.answer;
+    if(Array.isArray(data)){
+      for(const item of data){
+        const found=extractAIReply(item,depth+1);
+        if(found)return found;
+      }
+      return "";
+    }
+
+    if(typeof data!=="object")return "";
+
+    const directKeys=["reply","answer","response","output_text","text"];
+    for(const key of directKeys){
+      if(typeof data[key]==="string"&&data[key].trim())return data[key].trim();
+    }
+
+    if(typeof data.message==="string"&&data.message.trim())return data.message.trim();
+    if(typeof data.content==="string"&&data.content.trim())return data.content.trim();
+
+    /* قالب معمول Gemini */
+    if(Array.isArray(data.candidates)){
+      for(const candidate of data.candidates){
+        const parts=candidate?.content?.parts;
+        if(Array.isArray(parts)){
+          const joined=parts.map(part=>typeof part?.text==="string"?part.text:"").filter(Boolean).join("\n").trim();
+          if(joined)return joined;
+        }
+        const candidateReply=extractAIReply(candidate,depth+1);
+        if(candidateReply)return candidateReply;
+      }
+    }
+
+    /* قالب معمول OpenAI-compatible */
+    if(Array.isArray(data.choices)){
+      for(const choice of data.choices){
+        const content=choice?.message?.content;
+        if(typeof content==="string"&&content.trim())return content.trim();
+        if(Array.isArray(content)){
+          const joined=content.map(part=>part?.text||"").filter(Boolean).join("\n").trim();
+          if(joined)return joined;
+        }
+        const choiceReply=extractAIReply(choice,depth+1);
+        if(choiceReply)return choiceReply;
+      }
+    }
+
+    /* قالب Responses API */
+    if(Array.isArray(data.output)){
+      const outputReply=extractAIReply(data.output,depth+1);
+      if(outputReply)return outputReply;
+    }
+
+    /* قالب‌های تو‌در‌تو */
+    for(const key of ["data","result","result_data","output","message","response"]){
+      if(data[key]&&typeof data[key]==="object"){
+        const nested=extractAIReply(data[key],depth+1);
+        if(nested)return nested;
+      }
+    }
 
     return "";
   }
 
-  async function sendAIMessage(text) {
-    text = String(text || "").trim();
-    if (!text || aiBusy) return;
-
-    aiBusy = true;
-    $("aiInput").value = "";
-    $("aiSendBtn").disabled = true;
-
-    addAIMessage("user", text);
-
-    const pending = addAIMessage("bot", "در حال بررسی پیام…");
+  /*
+    متن مناسب برای کاربر را از خطا استخراج می‌کند؛
+    جزئیات فنی کامل در Console باقی می‌ماند.
+  */
+  async function describeAIError(error) {
+    let httpStatus=null;
+    let serverBody=null;
+    const context=error?.context;
 
     try {
-      if (!AI_URL) throw new Error("نشانی دستیار تنظیم نشده است.");
+      if(context instanceof Response){
+        httpStatus=context.status;
+        const raw=await context.clone().text();
+        if(raw){
+          try{serverBody=JSON.parse(raw);}
+          catch{serverBody=raw.slice(0,1200);}
+        }
+      } else if(context && typeof context==="object") {
+        serverBody=context;
+        if(Number.isFinite(context.status))httpStatus=context.status;
+      }
+    } catch(parseError) {
+      console.warn("خواندن جزئیات خطای Edge Function ممکن نشد:",parseError);
+    }
 
-      let session = null;
+    const serverMessage=typeof serverBody==="string"
+      ?serverBody
+      :serverBody?.error?.message||serverBody?.error_description||
+       serverBody?.message||serverBody?.error||
+       serverBody?.msg||"";
+
+    if(httpStatus===401||httpStatus===403){
+      return `احراز هویت یا مجوز دسترسی Edge Function رد شد (HTTP ${httpStatus}). جزئیات فنی در Console مرورگر ثبت شده است.`;
+    }
+
+    if(httpStatus===404){
+      return "تابع super-service پیدا نشد (HTTP 404). نام تابع و مسیر Deploy را در Supabase بررسی کن.";
+    }
+
+    if(httpStatus===400){
+      return `Edge Function درخواست را نپذیرفت (HTTP 400). قالب داده‌های ارسالی باید با تابع هماهنگ شود.${serverMessage?` پیام سرویس: ${String(serverMessage).slice(0,220)}`:""}`;
+    }
+
+    if(httpStatus===429){
+      return "سرویس محدودیت تعداد درخواست را اعلام کرد (HTTP 429). کمی بعد دوباره امتحان کن.";
+    }
+
+    if(httpStatus>=500){
+      return `خود Edge Function یا سرویس مدل خطا برگرداند (HTTP ${httpStatus}). لاگ تابع super-service در Supabase را بررسی کن.`;
+    }
+
+    if(httpStatus){
+      return `فراخوانی STARK AI ناموفق بود (HTTP ${httpStatus}). ${serverMessage?String(serverMessage).slice(0,220):"جزئیات فنی در Console ثبت شده است."}`;
+    }
+
+    const msg=String(error?.message||error||"خطای نامشخص");
+    if(/failed to send a request|fetch|network|cors|failed to fetch/i.test(msg)){
+      return "مرورگر نتوانست به Edge Function وصل شود. اتصال اینترنت، CORS و در دسترس بودن تابع super-service را بررسی کن.";
+    }
+
+    return `پاسخ از STARK AI دریافت نشد. علت: ${msg.slice(0,240)}`;
+  }
+
+  async function sendAIMessage(text) {
+    text=String(text||"").trim();
+    if(!text||aiBusy)return;
+
+    if(!db){
+      addAIMessage("bot","اتصال فروشگاه هنوز آماده نشده است. صفحه را تازه‌سازی کن و دوباره تلاش کن.");
+      return;
+    }
+
+    aiBusy=true;
+    $("aiInput").value="";
+    $("aiSendBtn").disabled=true;
+
+    addAIMessage("user",text);
+    const pending=addAIMessage("bot","در حال دریافت پاسخ…");
+
+    try {
+      /*
+        از SDK رسمی Supabase استفاده می‌کنیم تا مدیریت هدرها،
+        احراز هویت نشست فعلی و پاسخ خطای Edge Function انجام شود.
+        نام تابع دقیقاً همان super-service است.
+      */
+      let session=null;
       try {
-        const result = await db.auth.getSession();
-        session = result.data?.session || null;
-      } catch {}
+        const {data}=await db.auth.getSession();
+        session=data?.session||null;
+      } catch(sessionError) {
+        console.warn("خواندن نشست کاربر ممکن نشد:",sessionError);
+      }
 
-      const messages = [
+      const messages=[
         ...aiHistory,
-        { role: "user", content: text }
+        {role:"user",content:text}
       ].slice(-12);
 
-      const response = await fetch(AI_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${session?.access_token || SUPABASE_KEY}`
-        },
-        body: JSON.stringify({
-          message: text,
-          prompt: text,
-          messages,
-          history: messages,
-          context: "PERSIAN STARK CS2 store support assistant",
-          page: "store",
-          userId: currentUser?.id || null,
-          userEmail: currentUser?.email || null
-        })
+      const requestBody={
+        message:text,
+        prompt:text,
+        question:text,
+        query:text,
+        input:text,
+        userMessage:text,
+        messages,
+        history:messages,
+        conversationHistory:messages,
+        context:"PERSIAN STARK CS2 store support assistant",
+        page:"store",
+        userId:currentUser?.id||null,
+        userEmail:currentUser?.email||null
+      };
+
+      const {data,error}=await db.functions.invoke(AI_FUNCTION_NAME,{
+        body:requestBody
       });
 
-      let data;
-      const responseText = await response.text();
-      try {
-        data = JSON.parse(responseText);
-      } catch {
-        data = responseText;
+      if(error){
+        console.error("STARK AI Edge Function error:",{
+          message:error.message,
+          name:error.name,
+          context:error.context,
+          sessionPresent:Boolean(session?.access_token),
+          functionName:AI_FUNCTION_NAME
+        });
+        const userMessage=await describeAIError(error);
+        throw new Error(userMessage);
       }
 
-      if (!response.ok) {
-        const message = typeof data === "object" ? (data?.error || data?.message) : data;
-        throw new Error(message || `خطای سرویس (${response.status})`);
-      }
+      const reply=extractAIReply(data);
 
-      const reply = extractAIReply(data);
-      if (!reply) {
-        throw new Error("پاسخ قابل‌خواندن از سرویس هوش مصنوعی دریافت نشد.");
+      if(!reply){
+        console.error("STARK AI: قالب پاسخ ناشناخته است.",data);
+        throw new Error("تابع پاسخ داده، اما قالب پاسخ قابل شناسایی نیست. ساختار خروجی در Console مرورگر ثبت شده است.");
       }
 
       pending.remove();
-      addAIMessage("bot", reply);
+      addAIMessage("bot",reply);
 
       aiHistory.push(
-        { role: "user", content: text },
-        { role: "assistant", content: reply }
+        {role:"user",content:text},
+        {role:"assistant",content:reply}
       );
-      aiHistory = aiHistory.slice(-16);
-      saveArray(AI_HISTORY_KEY, aiHistory);
-    } catch (error) {
-      console.error("خطای STARK AI:", error);
-      pending.textContent =
-        "فعلاً نتونستم جواب دریافت کنم. کمی بعد دوباره امتحان کن. اگر این مشکل ادامه داشت، تنظیمات Edge Function و قالب درخواست آن باید بررسی شود.";
+      aiHistory=aiHistory.slice(-16);
+      saveArray(AI_HISTORY_KEY,aiHistory);
+
+    } catch(error) {
+      console.error("خطای کامل STARK AI:",error);
+      pending.textContent=String(error?.message||"ارتباط با دستیار برقرار نشد.");
     } finally {
-      aiBusy = false;
-      $("aiSendBtn").disabled = false;
+      aiBusy=false;
+      $("aiSendBtn").disabled=false;
       $("aiInput").focus();
     }
   }
 
-  $("aiForm").addEventListener("submit", event => {
+  $("aiForm").addEventListener("submit",event=>{
     event.preventDefault();
     sendAIMessage($("aiInput").value);
   });
 
-  document.querySelectorAll("[data-q]").forEach(button => {
-    button.addEventListener("click", () => sendAIMessage(button.dataset.q));
+  document.querySelectorAll("[data-q]").forEach(button=>{
+    button.addEventListener("click",()=>sendAIMessage(button.dataset.q));
   });
 
   /* قوانین */
+  $("openRules").addEventListener("click",()=>openModal("rulesModal"));
+  $("closeRules").addEventListener("click",()=>closeModal("rulesModal"));
+  $("closeRulesSecondary").addEventListener("click",()=>closeModal("rulesModal"));
+  $("acceptAndCloseRules").addEventListener("click",()=>closeModal("rulesModal"));
 
-  $("openRules").addEventListener("click", () => openModal("rulesModal"));
-
-  $("closeRules").addEventListener("click", () => closeModal("rulesModal"));
-  $("closeRulesSecondary").addEventListener("click", () => closeModal("rulesModal"));
-  $("acceptAndCloseRules").addEventListener("click", () => closeModal("rulesModal"));
-
-  /* بستن پنجره‌ها با کلیک بیرون یا Escape */
-
-  document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
-    backdrop.addEventListener("click", event => {
-      if (event.target !== backdrop) return;
-      if (backdrop.id === "orderModal" && orderBusy) return;
+  /* بستن پنجره‌ها */
+  document.querySelectorAll(".modal-backdrop").forEach(backdrop=>{
+    backdrop.addEventListener("click",event=>{
+      if(event.target!==backdrop)return;
+      if(backdrop.id==="orderModal"&&orderBusy)return;
       closeModal(backdrop.id);
     });
   });
 
-  document.addEventListener("keydown", event => {
-    if (event.key !== "Escape") return;
-
-    if ($("aiWidget").classList.contains("open")) {
-      closeAI();
-      return;
-    }
-
-    if ($("cartDrawerBackdrop").classList.contains("open")) {
-      closeCart();
-      return;
-    }
-
-    const openedModal = document.querySelector(".modal-backdrop.open");
-    if (openedModal && !(openedModal.id === "orderModal" && orderBusy)) {
-      closeModal(openedModal.id);
-    }
+  document.addEventListener("keydown",event=>{
+    if(event.key!=="Escape")return;
+    if($("aiWidget").classList.contains("open")){closeAI();return;}
+    if($("cartDrawerBackdrop").classList.contains("open")){closeCart();return;}
+    const openedModal=document.querySelector(".modal-backdrop.open");
+    if(openedModal&&!(openedModal.id==="orderModal"&&orderBusy))closeModal(openedModal.id);
   });
 
-  /* شروع برنامه */
-
+  /* شروع فروشگاه */
   async function init() {
-    if (!window.supabase?.createClient) {
-      $("productGrid").innerHTML = `
-        <div class="empty-state">
-          کتابخانه Supabase بارگذاری نشد. اتصال اینترنت یا دسترسی به CDN را بررسی کن.
-        </div>`;
-      $("resultCount").textContent = "خطای اتصال";
+    if(!window.supabase?.createClient){
+      $("productGrid").innerHTML='<div class="empty-state">کتابخانه Supabase بارگذاری نشد. اتصال اینترنت یا دسترسی به CDN را بررسی کن.</div>';
+      $("resultCount").textContent="خطای اتصال";
       return;
     }
 
-    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-        storageKey: "persian-stark-auth"
+    db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true,
+        storageKey:"persian-stark-auth"
       }
     });
 
@@ -2907,18 +1558,15 @@ label.field-label{
     await loadListings();
     await loadMyOrders();
 
-    db.auth.onAuthStateChange((_event, session) => {
-      currentUser = session?.user || null;
+    db.auth.onAuthStateChange((_event,session)=>{
+      currentUser=session?.user||null;
       updateAccountLink();
 
-      if (currentUser) {
+      if(currentUser){
         loadMyOrders();
-        if (!$("supportPanel").hidden) loadMyTickets();
-      } else {
-        myOrders = [];
-        myTickets = [];
-        renderMyOrders();
-        renderMyTickets();
+        if(!$("supportPanel").hidden)loadMyTickets();
+      }else{
+        myOrders=[];myTickets=[];renderMyOrders();renderMyTickets();
       }
     });
   }
@@ -2926,6 +1574,5 @@ label.field-label{
   init();
 })();
 </script>
-
 </body>
 </html>
